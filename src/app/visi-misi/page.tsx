@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
-import PageHeader from "@/components/PageHeader";
 import MobileNav from "@/components/MobileNav";
+import MobileHeader from "@/components/MobileHeader";
 import Footer from "@/components/Footer";
 import AspirasiButton from "@/components/AspirasiButton";
 
@@ -24,10 +24,9 @@ export default function VisiMisiPage() {
     <div className="bg-white text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
+      <MobileHeader />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-24">
-
-        <PageHeader crumbs={[{ label: "Informasi" }, { label: "Visi & Misi" }]} />
+      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
 
         <section className="max-w-3xl mx-auto space-y-14">
 

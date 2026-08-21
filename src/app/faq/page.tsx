@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import PageHeader from "@/components/PageHeader";
 import MobileNav from "@/components/MobileNav";
+import MobileHeader from "@/components/MobileHeader";
 import Footer from "@/components/Footer";
 import FadeInUp from "@/components/FadeInUp";
 import { motion, AnimatePresence } from "framer-motion";
@@ -56,10 +56,9 @@ export default function FAQPage() {
       style={{ background: "linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%)" }}>
       <Navbar />
       <MobileNav />
+      <MobileHeader />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-24">
-
-        <PageHeader crumbs={[{ label: "Informasi" }, { label: "FAQ" }]} />
+      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
 
         <section className="max-w-3xl mx-auto space-y-14">
 

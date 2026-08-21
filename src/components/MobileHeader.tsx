@@ -8,9 +8,9 @@ export default function MobileHeader() {
         <Image
           src="/logojadisatu.svg"
           alt="Logo PMII Rayon Hasyim Asy'ari"
-          width={56}
-          height={56}
-          className="object-contain w-14 h-14"
+          width={76}
+          height={76}
+          className="object-contain w-28 h-14"
         />
       </Link>
     </div>

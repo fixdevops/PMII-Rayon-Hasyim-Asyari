@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import MobileNav from "@/components/MobileNav";
+import MobileHeader from "@/components/MobileHeader";
 import Footer from "@/components/Footer";
 import FadeInUp from "@/components/FadeInUp";
 import ProfileCardAzam from "@/components/ProfileCardAzam";
