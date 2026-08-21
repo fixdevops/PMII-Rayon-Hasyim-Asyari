@@ -117,9 +117,8 @@ export default function BerandaPage() {
           {/* Top bar: logo kiri + hamburger kanan */}
           <div className="flex items-center justify-between px-5 pt-5 pb-0">
             <div className="flex items-center gap-1">
-              {/* ↓ LOGO GABUNGAN — ubah w-10 h-10 untuk ganti ukuran */}
-              <Image src="/logojadisatu.svg" alt="Logo PMII Rayon Hasyim Asy'ari" width={40} height={40} className="object-contain w-10 h-10" />
-              {/* ↑ gap-1 = jarak. gap-0=rapat, gap-1=4px, gap-2=8px */}
+              {/* ↓ LOGO GABUNGAN — ubah w-14 h-14 untuk ganti ukuran */}
+              <Image src="/logojadisatu.svg" alt="Logo PMII Rayon Hasyim Asy'ari" width={76} height={76} className="object-contain w-28 h-14" />
             </div>
             {/* hamburger ada di MobileNav (pojok kanan atas) */}
           </div>

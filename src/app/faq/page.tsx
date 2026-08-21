@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import PageHeader from "@/components/PageHeader";
 import MobileNav from "@/components/MobileNav";
 import Footer from "@/components/Footer";
 import FadeInUp from "@/components/FadeInUp";
@@ -59,15 +59,7 @@ export default function FAQPage() {
 
       <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-24">
 
-        {/* Breadcrumb */}
-        <nav className="bg-white rounded-xl shadow-[6px_6px_12px_rgba(0,30,64,0.15)] max-w-2xl mx-auto mt-2 mb-10">
-          <ol className="flex items-center gap-1 text-[#0f0f0f]/70 font-semibold text-[15px] rounded-xl px-6 py-4 flex-wrap">
-            <li><Link href="/" className="hover:text-[#001e40] transition-colors">Beranda</Link></li>
-            <li className="text-[#0059bb]">›</li>
-            <li className="text-[#0059bb]">Informasi</li>
-            <li><span className="text-[#0059bb]/60"> › FAQ</span></li>
-          </ol>
-        </nav>
+        <PageHeader crumbs={[{ label: "Informasi" }, { label: "FAQ" }]} />
 
         <section className="max-w-3xl mx-auto space-y-14">
 
