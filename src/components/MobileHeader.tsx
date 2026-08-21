@@ -22,7 +22,7 @@ export default function MobileHeader({ crumbs }: MobileHeaderProps) {
       {/* Breadcrumb */}
       {crumbs && crumbs.length > 0 && (
         <div
-          className="bg-white rounded-xl px-5 py-3 inline-flex items-center gap-1 flex-wrap text-[13px] font-semibold"
+          className="bg-white rounded-xl px-5 py-3 flex items-center gap-1 flex-wrap text-[13px] font-semibold w-full"
           style={{ boxShadow: "6px 6px 14px rgba(0,30,64,0.15)" }}
         >
           <Link href="/" className="text-[#001e40] hover:underline">

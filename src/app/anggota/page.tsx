@@ -12,10 +12,14 @@ export const metadata: Metadata = {
 };
 
 const pengurus = [
-  { nama: "Sahabat Azam", jabatan: "Ketua Rayon", foto: "/yon azam.webp" },
-  { nama: "—", jabatan: "Wakil Ketua", foto: null },
-  { nama: "—", jabatan: "Sekretaris Umum", foto: null },
-  { nama: "—", jabatan: "Bendahara Umum", foto: null },
+  { nama: "Sahabat Azam", jabatan: "Ketua Rayon", foto: "/yon azam.webp", portfolio: null },
+  { nama: "—", jabatan: "Wakil Ketua", foto: null, portfolio: null },
+  { nama: "—", jabatan: "Sekretaris Umum", foto: null, portfolio: null },
+  { nama: "—", jabatan: "Bendahara Umum", foto: null, portfolio: null },
+  { nama: "—", jabatan: "Koor Dept. Kaderisasi", foto: null, portfolio: null },
+  { nama: "—", jabatan: "Koor Dept. Keagamaan", foto: null, portfolio: null },
+  { nama: "—", jabatan: "Koor Dept. Sains & Teknologi", foto: null, portfolio: null },
+  { nama: "—", jabatan: "Koor Dept. Komunikasi", foto: null, portfolio: null },
 ];
 
 const departemen = [
@@ -36,31 +40,61 @@ export default function AnggotaPage() {
       <MobileHeader crumbs={[{ label: "Informasi", href: "/anggota" }, { label: "Anggota" }]} />
 
       <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
-
         <section className="max-w-4xl mx-auto space-y-14">
 
-          {/* Pengurus Harian */}
+          {/* ── PENGURUS HARIAN ── */}
           <div>
-            <div className="flex justify-start">
+            <div className="flex justify-start mb-8">
               <div className="w-[260px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
                 style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}>
                 Pengurus Harian
               </div>
             </div>
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+
+            {/* Grid 2 kolom */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {pengurus.map((p, i) => (
-                <FadeInUp key={i} delay={i * 60}>
-                  <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-white/70 border border-[#d0e4ff] backdrop-blur-sm">
-                    <div className="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-[#001e40]/10 bg-[#d0e4ff] flex items-center justify-center">
+                <FadeInUp key={i} delay={i * 50}>
+                  <div className="flex flex-col rounded-2xl overflow-hidden bg-white/80 border border-[#d0e4ff] backdrop-blur-sm hover:shadow-md transition-all duration-200">
+                    {/* Foto */}
+                    <div className="aspect-[4/3] w-full overflow-hidden bg-[#eef5ff]">
                       {p.foto ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.foto} alt={p.nama} className="w-full h-full object-cover object-top" />
+                        <img
+                          src={p.foto}
+                          alt={p.nama}
+                          className="w-full h-full object-cover object-top"
+                        />
                       ) : (
-                        <span className="material-symbols-outlined text-[#001e40]/30 text-[28px]">person</span>
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="material-symbols-outlined text-[#001e40]/20 text-[48px]">person</span>
+                        </div>
                       )}
                     </div>
-                    <p className="text-[14px] font-bold text-[#001e40] leading-tight mb-0.5">{p.nama}</p>
-                    <p className="text-[11px] text-[#4a5a6e] font-medium">{p.jabatan}</p>
+
+                    {/* Info */}
+                    <div className="p-3 flex flex-col gap-2">
+                      <div>
+                        <p className="text-[14px] font-bold text-[#001e40] leading-tight text-center">{p.nama}</p>
+                        <p className="text-[11px] text-[#4a5a6e] font-medium text-center mt-0.5">{p.jabatan}</p>
+                      </div>
+
+                      {/* Visit button */}
+                      <a
+                        href={p.portfolio ?? "#"}
+                        className={`flex items-center justify-center gap-1.5 text-[11px] font-bold py-1.5 rounded-lg transition-all duration-200 ${
+                          p.portfolio
+                            ? "bg-[#0059bb] text-white hover:bg-[#003d8a]"
+                            : "bg-[#001e40]/[0.06] text-[#001e40]/40 pointer-events-none"
+                        }`}
+                        {...(p.portfolio ? { target: "_blank", rel: "noopener noreferrer" } : { "aria-disabled": "true" })}
+                      >
+                        <span className="material-symbols-outlined text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          {p.portfolio ? "open_in_new" : "hourglass_empty"}
+                        </span>
+                        {p.portfolio ? "Visit" : "Soon"}
+                      </a>
+                    </div>
                   </div>
                 </FadeInUp>
               ))}
@@ -69,15 +103,15 @@ export default function AnggotaPage() {
 
           <div className="h-px bg-gradient-to-r from-transparent via-[#001e40]/15 to-transparent" />
 
-          {/* Departemen */}
+          {/* ── DEPARTEMEN ── */}
           <div>
-            <div className="flex justify-end">
+            <div className="flex justify-end mb-8">
               <div className="w-[220px] text-center py-1.5 rounded-l-lg text-white font-bold text-[17px] tracking-wide"
                 style={{ background: "linear-gradient(to left, transparent, #0059bb, #fbbf24, transparent)" }}>
                 Departemen
               </div>
             </div>
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {departemen.map((d, i) => (
                 <FadeInUp key={i} delay={i * 60}>
                   <div className="flex gap-4 items-start p-5 rounded-2xl bg-white/70 border border-[#d0e4ff] backdrop-blur-sm hover:shadow-sm transition-all duration-200">
