@@ -37,10 +37,12 @@ export default function ProfileCardAzam() {
         onMouseMove={onMove}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={onLeave}
+        onClick={() => window.open("https://wa.me/6281234567890", "_blank")}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         animate={{ y: hovered ? -8 : 0 }}
+        whileTap={{ scale: 0.97 }}
         transition={{ type: "spring", stiffness: 200, damping: 25 }}
-        className="relative cursor-pointer"
+        className="relative cursor-pointer active:scale-95"
       >
         {/* Glow behind */}
         <motion.div
@@ -143,7 +145,7 @@ export default function ProfileCardAzam() {
                 <Image src="/yon azam.webp" alt="mini" width={32} height={32} className="object-cover object-top w-full h-full" />
               </div>
               <div>
-                <p className="text-[11px] font-bold text-white/90 leading-none">@azampmii</p>
+                <p className="text-[11px] font-bold text-white/90 leading-none">@sahabatazam</p>
                 <p className="text-[10px] text-white/40 leading-none mt-0.5">Rayon FST</p>
               </div>
             </div>

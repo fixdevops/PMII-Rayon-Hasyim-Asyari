@@ -91,15 +91,15 @@ export default function BerandaPage() {
         <div className="relative z-10 flex flex-col md:hidden min-h-[100svh] bg-white">
 
           {/* Top bar: logo kiri + hamburger kanan */}
-          <div className="flex items-center justify-between px-5 pt-5 pb-2">
-            <div className="flex items-center gap-2.5">
-              {/* ↓ LOGO PMII — ubah w-9 h-9 untuk ganti ukuran (w-8=32px, w-9=36px, w-10=40px, w-12=48px) */}
-              <Image src="/logoi pmii.png" alt="Logo PMII" width={36} height={36} className="object-contain w-9 h-9" />
-              {/* ↓ LOGO KOMISARIAT — ubah w-9 h-9 untuk ganti ukuran */}
-              <Image src="/logokomis.png" alt="Logo Komisariat" width={36} height={36} className="object-contain w-9 h-9" />
-              {/* ↓ LOGO RAYON — ubah w-9 h-9 untuk ganti ukuran */}
-              <Image src="/logorayon.png" alt="Logo Rayon" width={36} height={36} className="object-contain w-9 h-9" />
-              {/* ↑ gap-2.5 di atas = jarak antar logo, ubah ke gap-2, gap-3, gap-4 dst */}
+          <div className="flex items-center justify-between px-5 pt-5 pb-0">
+            <div className="flex items-center gap-1">
+              {/* ↓ LOGO PMII — ubah w-10 h-10 untuk ganti ukuran (w-8=32px, w-9=36px, w-10=40px, w-12=48px) */}
+              <Image src="/logoi pmii.png" alt="Logo PMII" width={40} height={40} className="object-contain w-10 h-10" />
+              {/* ↓ LOGO KOMISARIAT — ubah w-10 h-10 untuk ganti ukuran */}
+              <Image src="/logokomis.png" alt="Logo Komisariat" width={40} height={40} className="object-contain w-10 h-10" />
+              {/* ↓ LOGO RAYON — ubah w-10 h-10 untuk ganti ukuran */}
+              <Image src="/logorayon.png" alt="Logo Rayon" width={40} height={40} className="object-contain w-10 h-10" />
+              {/* ↑ gap-1 di atas = jarak antar logo. gap-0=rapat, gap-1=4px, gap-2=8px, gap-3=12px */}
             </div>
             {/* hamburger ada di MobileNav (pojok kanan atas) */}
           </div>
