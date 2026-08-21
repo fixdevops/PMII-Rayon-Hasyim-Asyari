@@ -49,7 +49,7 @@ export default function RoadmapPage() {
           </h1>
 
           <p className="text-[15px] text-[#4a5a6e] leading-relaxed max-w-md mx-auto mb-10">
-            Kami sedang menyusun roadmap program kerja PMII Rayon Hasyim Asy&apos;ari periode 2024–2025.
+            Kami sedang menyusun roadmap program kerja PMII Rayon Hasyim Asy&apos;ari periode 2026–2027.
             Halaman ini akan segera hadir dengan informasi lengkap.
           </p>
 

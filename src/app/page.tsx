@@ -119,7 +119,7 @@ export default function BerandaPage() {
           <div className="flex items-center justify-between px-5 pt-5 pb-0">
             <div className="flex items-center gap-1">
               {/* ↓ LOGO GABUNGAN — ubah w-14 h-14 untuk ganti ukuran */}
-              <Image src="/logojadisatu.svg" alt="Logo PMII Rayon Hasyim Asy'ari" width={76} height={76} className="object-contain w-28 h-14" />
+              <Image src="/logojadisatu.svg" alt="Logo PMII Rayon Hasyim Asy'ari" width={112} height={56} className="object-contain" />
             </div>
             {/* hamburger ada di MobileNav (pojok kanan atas) */}
           </div>

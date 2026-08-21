@@ -110,7 +110,7 @@ export default function ProfileCardAzam() {
           {/* Photo */}
           <div className="absolute inset-x-0 top-0 bottom-[130px] overflow-hidden">
             <motion.div
-              className="w-full h-full"
+              className="relative w-full h-full"
               animate={{ scale: hovered ? 1.06 : 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >

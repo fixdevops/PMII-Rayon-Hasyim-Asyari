@@ -31,6 +31,7 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 200, damping: 26, delay: 0.1 }}
+      suppressHydrationWarning
     >
       {/* Blur bg that fades in on scroll */}
       <motion.div
