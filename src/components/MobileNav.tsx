@@ -136,7 +136,7 @@ export default function MobileNav() {
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#001e40] text-white font-bold text-[13px] transition-all active:scale-95 hover:bg-[#002d5e]"
                 >
-                  Daftar Jadi Kader
+                  Daftar Free Bootcamp
                 </a>
                 <p className="text-[10px] text-[#0f0f0f]/25 text-center mt-3">
                   © 2025 PMII Rayon Hasyim Asy&apos;ari FST
