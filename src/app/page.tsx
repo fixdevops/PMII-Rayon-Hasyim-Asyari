@@ -87,53 +87,52 @@ export default function BerandaPage() {
           />
         </div>
 
-        {/* ── MOBILE: layout center, tanpa gambar ── */}
+        {/* ── MOBILE: layout baru sesuai desain ── */}
         <div className="relative z-10 flex flex-col md:hidden min-h-[100svh] bg-white">
 
-          {/* Spacer untuk hamburger button */}
-          <div className="h-24" />
+          {/* Top bar: logo kiri + hamburger kanan */}
+          <div className="flex items-center justify-between px-5 pt-5 pb-2">
+            <div className="flex items-center gap-2.5">
+              {/* ↓ LOGO PMII — ubah w-9 h-9 untuk ganti ukuran (w-8=32px, w-9=36px, w-10=40px, w-12=48px) */}
+              <Image src="/logoi pmii.png" alt="Logo PMII" width={36} height={36} className="object-contain w-9 h-9" />
+              {/* ↓ LOGO KOMISARIAT — ubah w-9 h-9 untuk ganti ukuran */}
+              <Image src="/logokomis.png" alt="Logo Komisariat" width={36} height={36} className="object-contain w-9 h-9" />
+              {/* ↓ LOGO RAYON — ubah w-9 h-9 untuk ganti ukuran */}
+              <Image src="/logorayon.png" alt="Logo Rayon" width={36} height={36} className="object-contain w-9 h-9" />
+              {/* ↑ gap-2.5 di atas = jarak antar logo, ubah ke gap-2, gap-3, gap-4 dst */}
+            </div>
+            {/* hamburger ada di MobileNav (pojok kanan atas) */}
+          </div>
 
-          {/* Konten tengah */}
-          <div className="flex-1 flex flex-col items-center justify-center px-8 text-center">
+          {/* Konten utama */}
+          <div className="flex-1 flex flex-col px-5 pt-4 pb-10">
+
             <FadeInUp>
-              {/* Badge */}
-              <span className="inline-flex items-center gap-1.5 bg-[#001e40]/[0.06] border border-[#001e40]/10 rounded-full px-3 py-1 mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0059bb] animate-pulse" />
-                <span className="text-[10px] font-bold text-[#001e40]/60 tracking-widest uppercase">Rayon FST</span>
-              </span>
-
-              {/* Judul */}
-              <h1
-                className="text-[clamp(3rem,16vw,5rem)] leading-[0.9] text-[#001e40] text-center"
-                style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.05em" }}
-              >
-                PMII<br />RAYON<br />HASYIM<br />ASY&apos;ARI
+              {/* Judul besar */}
+              <h1 className="text-[clamp(1.9rem,8vw,2.6rem)] font-black text-[#001e40] leading-[1.1] tracking-tight mb-4">
+                SELAMAT DATANG<br />
+                DI WEBSITE RESMI PMII<br />
+                RAYON HASYIM ASY&apos;ARI
               </h1>
 
-              {/* Tagline */}
-              <p className="text-[10px] text-[#001e40]/35 font-bold tracking-[0.25em] uppercase mt-4">
-                Dzikir · Fikir · Amal Sholeh
+              {/* Paragraf deskripsi */}
+              <p className="text-[13.5px] text-[#0f0f0f]/65 font-normal leading-[1.75] mb-8">
+                PMII Rayon Hasyim Asy&apos;ari adalah organisasi eksekutif mahasiswa
+                di Fakultas Sains dan Teknologi (FST) Universitas Nahdlatul Ulama
+                Sunan Giri yang berlandaskan nilai Ahlussunnah wal Jama&apos;ah
+                An-Nahdliyah. Organisasi ini berperan aktif sebagai wadah untuk
+                mengembangkan kreativitas, mengasah potensi keilmuan dan teknologi,
+                serta mewujudkan berbagai kegiatan positif dan progresif bagi seluruh
+                mahasiswa FST.
               </p>
-
-              {/* Deskripsi */}
-              <div className="mt-3 space-y-0.5">
-                <p className="text-[12px] font-semibold text-[#001e40]/60 leading-snug">
-                  Website Resmi PMII Rayon Hasyim Asy&apos;ari
-                </p>
-                <p className="text-[11px] text-[#001e40]/40 font-medium leading-snug">
-                  Fakultas Sains dan Teknologi · UNUGIRI Bojonegoro
-                </p>
-              </div>
             </FadeInUp>
-          </div>
 
-          {/* Card — bawah center */}
-          <div className="flex justify-center px-6 pb-14">
-            <FadeInUp delay={120}>
+            {/* Profile card center */}
+            <FadeInUp delay={120} className="flex justify-center">
               <ProfileCardAzam />
             </FadeInUp>
-          </div>
 
+          </div>
         </div>
 
         {/* ── DESKTOP: kiri-kanan dengan gambar ── */}
