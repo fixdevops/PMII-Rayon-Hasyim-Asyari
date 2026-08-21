@@ -14,6 +14,7 @@ interface Kursus {
   bg_color: string
   icon: string
   icon_color: string
+  thumbnail_url?: string | null
   category: string
   href: string
 }
@@ -97,20 +98,38 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
               >
                 {/* Thumbnail */}
                 <div
-                  className="relative w-full flex items-center justify-center"
-                  style={{ background: course.bg_color, minHeight: 120 }}
+                  className="relative w-full flex items-center justify-center overflow-hidden"
+                  style={{ background: course.thumbnail_url ? undefined : (course.bg_color ?? '#f0f4ff'), minHeight: 120 }}
                 >
-                  {/* Nomor */}
-                  <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm">
-                    <span className="text-[11px] font-bold text-[#0a1628]">{course.no}</span>
-                  </div>
-                  {/* Icon */}
-                  <span
-                    className="material-symbols-outlined text-[56px] group-hover:scale-110 transition-transform duration-300"
-                    style={{ color: course.icon_color, fontVariationSettings: "'FILL' 1" }}
-                  >
-                    {course.icon}
-                  </span>
+                  {course.thumbnail_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={course.thumbnail_url}
+                      alt={course.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      style={{ minHeight: 120, maxHeight: 160 }}
+                    />
+                  ) : (
+                    <>
+                      {/* Nomor */}
+                      <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                        <span className="text-[11px] font-bold text-[#0a1628]">{course.no}</span>
+                      </div>
+                      {/* Icon fallback */}
+                      <span
+                        className="material-symbols-outlined text-[56px] group-hover:scale-110 transition-transform duration-300"
+                        style={{ color: course.icon_color ?? '#0059bb', fontVariationSettings: "'FILL' 1" }}
+                      >
+                        {course.icon ?? 'school'}
+                      </span>
+                    </>
+                  )}
+                  {/* Nomor overlay jika ada thumbnail */}
+                  {course.thumbnail_url && (
+                    <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                      <span className="text-[11px] font-bold text-white">{course.no}</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}

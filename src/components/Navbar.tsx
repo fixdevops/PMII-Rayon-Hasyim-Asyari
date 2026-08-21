@@ -120,10 +120,8 @@ export default function Navbar() {
 
           {/* ── CTA BUTTON ── */}
           <motion.a
-            href="https://wa.me/6281234567890"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-[13px] font-bold text-white px-5 py-2.5 rounded-full"
+            href="/bootcamp"
+            className="flex items-center gap-2 text-[13px] font-bold text-white px-5 py-2.5 rounded-full relative overflow-hidden"
             style={{
               background: "linear-gradient(135deg, #001e40 0%, #003d8a 100%)",
               boxShadow: "0 4px 16px rgba(0,30,64,0.25), inset 0 1px 0 rgba(255,255,255,0.1)",
@@ -148,9 +146,9 @@ export default function Navbar() {
             </motion.span>
 
             <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-              how_to_reg
+              rocket_launch
             </span>
-            Daftar Kader
+            Daftar Free Bootcamp
           </motion.a>
 
         </div>
