@@ -5,6 +5,8 @@ import MobileNav from "@/components/MobileNav";
 import Footer from "@/components/Footer";
 import FadeInUp from "@/components/FadeInUp";
 import ProfileCardAzam from "@/components/ProfileCardAzam";
+import GaleriSlider from "@/components/GaleriSlider";
+import AspirasiButton from "@/components/AspirasiButton";
 
 const ndpValues = [
   {
@@ -29,19 +31,32 @@ const ndpValues = [
 
 const features = [
   {
-    icon: "school",
-    title: "Kaderisasi Terstruktur",
-    desc: "MAPABA, PKD, hingga PKL — alur pembentukan kader yang sistematis dan berkesinambungan.",
-  },
-  {
     icon: "menu_book",
-    title: "Kajian Ke-Islaman",
-    desc: "Kajian rutin mingguan mendalami teks klasik, sejarah pergerakan, dan implementasi NDP.",
+    title: "Visi & Misi",
+    desc: "Gambaran visi organisasi dan misi strategis PMII Rayon dalam menjalankan perannya.",
+    href: "/visi-misi",
+    soon: false,
   },
   {
-    icon: "terminal",
-    title: "Pengembangan Sains & Teknologi",
-    desc: "Wadah riset, pemrograman, dan inovasi berbasis disiplin Fakultas Sains dan Teknologi.",
+    icon: "diversity_3",
+    title: "Anggota",
+    desc: "Lihat daftar anggota dan pengurus PMII Rayon Hasyim Asy'ari beserta departemennya.",
+    href: "/anggota",
+    soon: false,
+  },
+  {
+    icon: "route",
+    title: "Roadmap Proker",
+    desc: "Rangkaian tahapan program kerja PMII Rayon selama satu periode kepengurusan.",
+    href: "#",
+    soon: true,
+  },
+  {
+    icon: "help",
+    title: "FAQ",
+    desc: "Kumpulan pertanyaan yang sering diajukan seputar PMII Rayon Hasyim Asy'ari FST.",
+    href: "/faq",
+    soon: false,
   },
 ];
 
@@ -63,14 +78,23 @@ const steps = [
   },
 ];
 
+const prodi = [
+  { label: "Teknik Informatika", icon: "computer", href: "https://ti.unugiri.ac.id/" },
+  { label: "Sistem Informasi", icon: "storage", href: "https://si.unugiri.ac.id/" },
+  { label: "Sistem Komputer", icon: "memory", href: "https://sk.unugiri.ac.id/" },
+  { label: "Statistika & Sains Data", icon: "bar_chart", href: "https://statistika.unugiri.ac.id/" },
+  { label: "Teknik Mesin", icon: "settings", href: "https://tm.unugiri.ac.id/" },
+  { label: "Farmasi", icon: "science", href: "http://farmasi.unugiri.ac.id/" },
+];
+
 export default function BerandaPage() {
   return (
-    <div className="bg-white text-[#0f0f0f] overflow-x-hidden">
+    <div className="text-[#0f0f0f] overflow-x-hidden">
       <Navbar />
       <MobileNav />
 
       {/* ── HERO ── */}
-      <section className="relative bg-white overflow-hidden md:pt-16" style={{ minHeight: "100svh" }}>
+      <section className="relative overflow-hidden md:pt-16" style={{ minHeight: "100svh" }}>
 
         {/* Gambar karakter — hanya desktop */}
         <div
@@ -88,7 +112,7 @@ export default function BerandaPage() {
         </div>
 
         {/* ── MOBILE: layout baru sesuai desain ── */}
-        <div className="relative z-10 flex flex-col md:hidden min-h-[100svh] bg-white">
+        <div className="relative z-10 flex flex-col md:hidden min-h-[100svh]">
 
           {/* Top bar: logo kiri + hamburger kanan */}
           <div className="flex items-center justify-between px-5 pt-5 pb-0">
@@ -159,169 +183,66 @@ export default function BerandaPage() {
 
       </section>
 
-      {/* ── 3 FITUR UTAMA ── */}
-      <section id="tentang" className="py-24 bg-[#f4f8ff]">
+      {/* ── APA YANG KAMI TAWARKAN ── */}
+      <section id="tentang" className="py-20">
         <div className="w-full px-[var(--page-padding)]">
           <div className="mx-auto max-w-[var(--container-width)]">
-            <FadeInUp className="text-center mb-14">
-              <p className="text-[13px] font-bold text-[#0059bb] uppercase tracking-widest mb-3">
-                Apa yang kami tawarkan
-              </p>
-              <h2 className="text-[clamp(1.8rem,4vw,2.75rem)] font-bold tracking-tight text-[#0a1628] text-balance">
-                Ekosistem tumbuh yang lengkap.
+
+            {/* Header */}
+            <FadeInUp className="text-center mb-12">
+              <h2 className="text-[clamp(1.6rem,4vw,2.4rem)] font-bold text-[#0a1628] text-balance">
+                Informasi <span className="text-[#0059bb]">PMII</span> Rayon Hasyim Asy&apos;ari
               </h2>
+              <p className="text-[14px] text-[#4a5a6e] font-medium mt-3 max-w-sm mx-auto leading-relaxed">
+                Beragam informasi dan layanan kemahasiswaan yang dapat membantu kader dalam berorganisasi dan beraktivitas.
+              </p>
             </FadeInUp>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* Items vertikal */}
+            <div className="flex flex-col items-center gap-10 max-w-xs mx-auto md:max-w-none md:grid md:grid-cols-2 md:gap-8 lg:grid-cols-4">
               {features.map((f, i) => (
-                <FadeInUp key={f.title} delay={i * 80}>
-                  <div className="group p-7 rounded-2xl bg-white border border-[#d0e4ff] hover:border-[#0059bb]/40 hover:shadow-md transition-all duration-200">
-                    <div className="w-11 h-11 rounded-xl bg-[#001e40] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-200">
-                      <span className="material-symbols-outlined text-white text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                <FadeInUp key={f.title} delay={i * 80} className="flex flex-col items-center text-center w-full">
+                  <Link
+                    href={f.href}
+                    className={`flex flex-col items-center text-center w-full group ${f.soon ? "pointer-events-none" : ""}`}
+                  >
+                    {/* Icon bulat */}
+                    <div
+                      className="w-20 h-20 rounded-full flex items-center justify-center mb-4 shadow-md transition-transform duration-200 group-hover:scale-110"
+                      style={{ background: f.soon ? "linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)" : "linear-gradient(135deg, #001e40 0%, #0059bb 100%)" }}
+                    >
+                      <span
+                        className="material-symbols-outlined text-white text-[32px]"
+                        style={{ fontVariationSettings: "'FILL' 1" }}
+                      >
                         {f.icon}
                       </span>
                     </div>
-                    <h3 className="text-[17px] font-bold mb-2 tracking-tight text-[#0a1628]">{f.title}</h3>
-                    <p className="text-[14px] text-[#4a5a6e] font-medium leading-relaxed">{f.desc}</p>
-                  </div>
-                </FadeInUp>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ── NILAI DASAR PERGERAKAN ── */}
-      <section className="py-24 bg-white">
-        <div className="w-full px-[var(--page-padding)]">
-          <div className="mx-auto max-w-[var(--container-width)]">
-            <FadeInUp className="mb-14">
-              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-                <div>
-                  <p className="text-[13px] font-bold text-[#0059bb] uppercase tracking-widest mb-3">
-                    Landasan Filosofis
-                  </p>
-                  <h2 className="text-[clamp(1.8rem,4vw,2.75rem)] font-bold tracking-tight text-[#0a1628] text-balance max-w-md">
-                    Nilai Dasar Pergerakan.
-                  </h2>
-                </div>
-                <p className="text-[15px] text-[#4a5a6e] font-medium max-w-sm leading-relaxed">
-                  Fondasi filosofis yang membimbing setiap kader PMII dalam berfikir dan bertindak.
-                </p>
-              </div>
-            </FadeInUp>
+                    <h3 className="text-[16px] font-bold text-[#0a1628] mb-1">{f.title}</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {ndpValues.map((v, i) => (
-                <FadeInUp key={v.title} delay={i * 100}>
-                  <div className="relative p-8 rounded-2xl bg-[#f4f8ff] border border-[#d0e4ff] hover:bg-white hover:border-[#0059bb]/40 hover:shadow-md transition-all duration-200 h-full">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#001e40] text-white text-[11px] font-bold tracking-widest uppercase mb-5">
-                      {v.tag}
-                    </span>
-                    <h3 className="text-[22px] font-bold tracking-tight mb-3 text-[#0a1628]">{v.title}</h3>
-                    <p className="text-[14px] text-[#4a5a6e] font-medium leading-relaxed">{v.desc}</p>
-                    <span className="absolute bottom-5 right-6 text-[72px] font-black text-[#001e40]/[0.04] leading-none select-none">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-                </FadeInUp>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3 LANGKAH BERGABUNG ── */}
-      <section className="py-24 bg-[#f4f8ff]">
-        <div className="w-full px-[var(--page-padding)]">
-          <div className="mx-auto max-w-[var(--container-width)]">
-            <FadeInUp className="text-center mb-16">
-              <p className="text-[13px] font-bold text-[#0059bb] uppercase tracking-widest mb-3">
-                Cara bergabung
-              </p>
-              <h2 className="text-[clamp(1.8rem,4vw,2.75rem)] font-bold tracking-tight text-[#0a1628] text-balance">
-                Mulai perjalananmu.
-              </h2>
-            </FadeInUp>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {steps.map((s, i) => (
-                <FadeInUp key={s.num} delay={i * 100}>
-                  <div className="relative p-7 rounded-2xl bg-white border border-[#d0e4ff] hover:border-[#0059bb]/40 hover:shadow-md transition-all duration-200">
-                    {/* Step number circle */}
-                    <div className="w-12 h-12 rounded-full bg-[#001e40] flex items-center justify-center mb-6 shadow-md shadow-[#001e40]/20">
-                      <span className="text-[14px] font-bold text-white">{s.num}</span>
-                    </div>
-                    <h3 className="text-[18px] font-bold tracking-tight mb-2 text-[#0a1628]">{s.title}</h3>
-                    <p className="text-[14px] text-[#4a5a6e] font-medium leading-relaxed">{s.desc}</p>
-
-                    {/* Connector for desktop */}
-                    {i < steps.length - 1 && (
-                      <div className="hidden md:block absolute top-[2.75rem] left-full w-6 h-px bg-[#d0e4ff] z-10" />
+                    {/* Badge segera hadir */}
+                    {f.soon && (
+                      <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-600 text-[10px] font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full mb-1.5">
+                        🚧 Segera Hadir
+                      </span>
                     )}
-                  </div>
+
+                    <p className="text-[13px] text-[#4a5a6e] font-medium leading-relaxed max-w-[200px]">{f.desc}</p>
+                  </Link>
                 </FadeInUp>
               ))}
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ── CTA DAFTAR ── */}
-      <section id="daftar" className="py-24 bg-white">
-        <div className="w-full px-[var(--page-padding)]">
-          <div className="mx-auto max-w-[var(--container-width)]">
-            <FadeInUp>
-              <div className="relative overflow-hidden rounded-3xl bg-[#001e40] px-10 py-16 text-center">
-                {/* BG orbs */}
-                <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-[#0059bb]/30 -translate-x-1/2 -translate-y-1/2 blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-[#003d8a]/40 translate-x-1/3 translate-y-1/3 blur-3xl pointer-events-none" />
-                {/* Dot pattern */}
-                <div
-                  className="absolute inset-0 opacity-[0.07]"
-                  style={{
-                    backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-                    backgroundSize: "28px 28px",
-                  }}
-                />
+      {/* ── GALERI ── */}
+      <GaleriSlider />
 
-                <div className="relative z-10">
-                  <p className="text-[13px] font-bold text-[#60c8ff] uppercase tracking-widest mb-4">
-                    Bergabung sekarang
-                  </p>
-                  <h2 className="text-[clamp(1.8rem,5vw,3.25rem)] font-bold tracking-tight text-white text-balance mb-4 max-w-2xl mx-auto leading-tight">
-                    Jadilah bagian dari generasi ulul albab.
-                  </h2>
-                  <p className="text-[16px] text-white/60 font-medium mb-10 max-w-xl mx-auto leading-relaxed">
-                    Gerakan mahasiswa yang memadukan keilmuan sains, kedalaman iman,
-                    dan kepedulian sosial.
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-3">
-                    <a
-                      href="https://wa.me/6281234567890"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2.5 bg-white text-[#001e40] text-[15px] font-bold px-8 py-3.5 rounded-full shadow-lg hover:bg-[#e8f0ff] active:scale-[0.97] transition-all duration-150"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">chat</span>
-                      Hubungi via WhatsApp
-                    </a>
-                    <Link
-                      href="/kaderisasi"
-                      className="inline-flex items-center gap-2 text-white/70 text-[15px] font-semibold hover:text-white transition-colors"
-                    >
-                      Pelajari kaderisasi
-                      <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </FadeInUp>
-          </div>
-        </div>
-      </section>
+      {/* ── ASPIRASI FLOATING ── */}
+      <AspirasiButton />
 
       <Footer />
     </div>

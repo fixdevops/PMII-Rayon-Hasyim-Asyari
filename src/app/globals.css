@@ -70,7 +70,7 @@ html {
 }
 
 body {
-  background-color: #ffffff;
+  background: linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%);
   color: #0f0f0f;
   overflow-x: hidden;
 }
