@@ -117,13 +117,7 @@ export default function BerandaPage() {
 
               {/* Paragraf deskripsi */}
               <p className="text-[13.5px] text-[#0f0f0f]/65 font-normal leading-[1.75] mb-8">
-                PMII Rayon Hasyim Asy&apos;ari adalah organisasi eksekutif mahasiswa
-                di Fakultas Sains dan Teknologi (FST) Universitas Nahdlatul Ulama
-                Sunan Giri yang berlandaskan nilai Ahlussunnah wal Jama&apos;ah
-                An-Nahdliyah. Organisasi ini berperan aktif sebagai wadah untuk
-                mengembangkan kreativitas, mengasah potensi keilmuan dan teknologi,
-                serta mewujudkan berbagai kegiatan positif dan progresif bagi seluruh
-                mahasiswa FST.
+                PMII Rayon Hasyim Asy'ari FST UNUGIRI adalah organisasi eksekutif mahasiswa Fakultas Sains dan Teknologi yang berlandaskan Aswaja An-Nahdliyah, berfokus mengembangkan kreativitas, potensi keilmuan, serta mewujudkan kegiatan positif bagi mahasiswa FST.
               </p>
             </FadeInUp>
 
