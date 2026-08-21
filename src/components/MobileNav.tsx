@@ -130,7 +130,7 @@ export default function MobileNav() {
               {/* Footer CTA */}
               <div className="px-4 pb-10 pt-3 border-t border-black/[0.06]">
                 <a
-                  href="https://wa.me/6281234567890"
+                  href="/bootcamp"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
