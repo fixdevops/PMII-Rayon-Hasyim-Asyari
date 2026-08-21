@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
   { href: "/", label: "Home", desc: "Halaman Utama" },
-  { href: "/kegiatan", label: "News", desc: "Kegiatan & Galeri" },
+  { href: "/kegiatan", label: "News", desc: "Kegiatan Terkini" },
+  { href: "/galeri", label: "Galeri", desc: "Dokumentasi Foto" },
   { href: "/kaderisasi", label: "Belajar", desc: "Sistem Kaderisasi" },
   { href: "/#tentang", label: "Tentang", desc: "Tentang Rayon" },
 ];
@@ -68,7 +69,7 @@ export default function MobileNav() {
               {/* Header */}
               <div className="flex items-center justify-between px-5 pt-14 pb-5 border-b border-black/[0.06]">
                 <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-                  <Image src="/logoi pmii.png" alt="PMII" width={38} height={38} className="object-contain" />
+                  <Image src="/logojadisatu.svg" alt="Logo PMII Rayon Hasyim Asy'ari" width={40} height={40} className="object-contain" />
                   <div>
                     <p className="text-[13px] font-black text-[#001e40] tracking-wide leading-none">PMII</p>
                     <p className="text-[9px] font-semibold text-[#001e40]/50 tracking-widest leading-none mt-1 uppercase">Rayon Hasyim Asy&apos;ari</p>

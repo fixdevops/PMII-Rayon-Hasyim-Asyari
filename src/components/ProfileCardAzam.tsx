@@ -133,7 +133,7 @@ export default function ProfileCardAzam() {
           <div className="absolute top-4 left-4 z-30">
             <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md border border-white/15 rounded-full pl-1.5 pr-3 py-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logoi pmii.png" alt="PMII" className="w-5 h-5 object-contain rounded-full" />
+              <img src="/logojadisatu.svg" alt="PMII Rayon" className="w-5 h-5 object-contain rounded-full" />
               <span className="text-[10px] font-bold text-white/80 tracking-widest">PMII</span>
             </div>
           </div>

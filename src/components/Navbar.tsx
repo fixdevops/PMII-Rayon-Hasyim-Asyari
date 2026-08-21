@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/kegiatan", label: "News" },
+  { href: "/galeri", label: "Galeri" },
   { href: "/kaderisasi", label: "Belajar" },
   { href: "/#tentang", label: "Tentang" },
 ];
@@ -53,8 +54,8 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-3 group">
             <motion.div whileHover={{ rotate: 8, scale: 1.08 }} transition={{ type: "spring", stiffness: 300 }}>
               <Image
-                src="/logoi pmii.png"
-                alt="Logo PMII"
+                src="/logojadisatu.svg"
+                alt="Logo PMII Rayon Hasyim Asy'ari"
                 width={38}
                 height={38}
                 className="object-contain"

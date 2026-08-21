@@ -8,7 +8,7 @@ import AspirasiButton from "@/components/AspirasiButton";
 
 export const metadata: Metadata = {
   title: "News & Kegiatan | PMII Rayon Hasyim Asy'ari",
-  description: "Eksplorasi kegiatan, dokumentasi visual, dan arsip dinamika pergerakan PMII Rayon Hasyim Asyari FST.",
+  description: "Berita dan kegiatan terkini PMII Rayon Hasyim Asy'ari FST UNUGIRI Bojonegoro.",
 };
 
 const activities = [
@@ -30,13 +30,24 @@ const activities = [
     desc: "Implementasi nilai Hablum Minal Alam melalui aksi nyata menjaga kelestarian ekosistem kampus bersama seluruh civitas akademika.",
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDS1wSpVf88qF1irAzxwac8aivUKijPlvpICAdo7BjS7S76_DJXjUwo2EV_DFNE1OojLClw7pmkhQjz9508_BR2QO5i6G9dlVOPzz6Wy6g8gUgVA6QGHrnFhRLr-v64pie93MyzEtYQrS25uIxrIHwTyt105lBlaCAvha3a6IeBp5_H-5DswpEpBVYBU5CGmmPxB_d7gLWLjmVSPoKIOU_DWtE46AXLY8ifNTqiOF7F6c5ebV-Y5vB-",
   },
-];
-
-const galleryItems = [
-  { id: 1, aspect: "aspect-[3/4]", label: "Pelatihan • Okt 2023", title: "Seminar Nasional Teknologi", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAfrSt8V_x9P7USfSXffEShtCkO7MoRsZNSzhbsVWF2Eo5vRHRwlDo0QDihC9H22LmqQs7QLz-UoHIBBAGcYLcBCae6xhAfLkrz-kSdgukbpy86kYEN0z8LjXOFtYwcLwYWGRCAe5qzSBg20zmTWX78pVnN_QqhswfVwUQxfxd3p5S5yamtNccy-47GkdJEjynsPyWCxFuHElspfpCw9fCzFAzXbNjg_IGCu9MV3tSODt0k7fhkXW4b" },
-  { id: 2, aspect: "aspect-square", label: "Diskusi • Nov 2023", title: "Mimbar Bebas Akademik", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEk2A9TXxkJs70BRglsv-4c89cb_iaR__leDe4SXhZJX-asB6ntDzccVBuGvQn2N-Y60KcJtXnPXqGIp3pxg0g1uCqFyGS-ofZET3jDEZ1Qn-CK8NZlp3UW2ZgZqIbm45F0_EQ_ZqCjh4etAbb75qyju-5Avs9YkXub8d1xaiyt-N7CgeB70j78O75XY2KqUVzRZGUUx74kBgbmDVrFJzVEx28uVA8KtN4FsES53MRBPe__dZiL-Lh" },
-  { id: 3, aspect: "aspect-video", label: "Rapat • Des 2023", title: "Koordinasi Kepengurusan", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBfetDghZCeUImXvZo4LO_7QOVm_GptcC_Kd4KzFmGbJHP4nYtF1Ts7tVdr-67HdRdjC4ijOL4bgAFq9_1VstXKEEPkuzUhQG3FBW6HdfJ9CuZfERD3ZkkUqhAS8gI52YJzn7CQV9ksUPHAmx5yxXqfVawdHlRHjvWY6EJEby6oXL_DiWtRpdr72WMwCK1Nl1-wkJQ0QbaiX1dxiun50p2y8hbLGUcG8mnUEsYWic1lbvr9JmUdTDPe" },
-  { id: 4, aspect: "aspect-[4/5]", label: "Kegiatan • Jan 2024", title: "Pelantikan Pengurus Baru", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB_J5lr37qBczDj7-TIcCvB5BlBWh4wNk9il1WUjQQM_chVxM4sw3hUARzyMq8NRt-T557rp-SLQQ_QV1oYLqyU6vNmgprKrHJ1V1yK1zV9mc-yWypzBw2WT5lujXSzXvRGrDUFIbN7Q62BRT7FMJ8wvBkdZG6c1Mq2Ed3ZF26-BUzW_BhAGCZ6Nx4G7S97JbkP0LLrXKckmQnb3TtF1KX0f2RiFUzkxNy5JrmxqZU8G4B-f1H3udRO" },
+  {
+    id: 4, category: "Kajian Rutin", date: "12 Nov 2024",
+    title: "Diskusi: Teknologi & Etika Islam",
+    desc: "Mengkaji bagaimana perkembangan teknologi AI dan digital dilihat dari perspektif etika Islam dan Maqashid Syariah.",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCUR7ZbaVAIia8Bt114DxvSJW5aDoIdw1riRrHI9lw9LWIjE3LgkBJjiIG-bXhYftRW85YooH_QPbb7GbiIqPeXAduz39wmo-ibyYcflnWkr7HwsE8PdP-09AF3zsXmSIdvC909ErQ19jGJCsAE4jQSnFONEYNfekiybGqR9G6IIaEG6r3QUJECNRvEi_6tqdzMx31M8pog3u_KCGnBDDDT9dXXnfagSeJch7N_v17XBFJBsRk2e_l0",
+  },
+  {
+    id: 5, category: "Pelatihan", date: "20 Nov 2024",
+    title: "Pelatihan Desain UI/UX untuk Kader",
+    desc: "Workshop praktis desain antarmuka dan pengalaman pengguna menggunakan Figma, dirancang khusus untuk mahasiswa FST.",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDrH0fW16CNvX_-XnpCfodtx9fnljl95YlPcYuFheATjYjVCPjtSlJsqPGwL0z6jI-Y5zcKvXMlBbA92SPYghG4u1OKK0Vx0VqKA_lyfZLQhqW6U0iV-tt2WLHyuU2QTn5GDSCg-qPe8QDhXJ3abwLThyQfpL4In_Bs_oz2TpMKGcxo5w4HDnPshnD4iMP_gh9QFxnulsNiuLKCCHJ7-AB8zwSmoQT5h3dPdSyRxaSps5dSdVqkdaVl",
+  },
+  {
+    id: 6, category: "Aksi Sosial", date: "01 Des 2024",
+    title: "Bakti Sosial Akhir Tahun",
+    desc: "Kegiatan bakti sosial berbagi sembako dan santunan kepada masyarakat sekitar kampus sebagai wujud nyata nilai Habluminannas.",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDS1wSpVf88qF1irAzxwac8aivUKijPlvpICAdo7BjS7S76_DJXjUwo2EV_DFNE1OojLClw7pmkhQjz9508_BR2QO5i6G9dlVOPzz6Wy6g8gUgVA6QGHrnFhRLr-v64pie93MyzEtYQrS25uIxrIHwTyt105lBlaCAvha3a6IeBp5_H-5DswpEpBVYBU5CGmmPxB_d7gLWLjmVSPoKIOU_DWtE46AXLY8ifNTqiOF7F6c5ebV-Y5vB-",
+  },
 ];
 
 export default function KegiatanPage() {
@@ -53,72 +64,57 @@ export default function KegiatanPage() {
           <ol className="flex items-center gap-1 text-[#0f0f0f]/70 font-semibold text-[15px] rounded-xl px-6 py-4 flex-wrap">
             <li><Link href="/" className="hover:text-[#001e40] transition-colors">Beranda</Link></li>
             <li className="text-[#0059bb]">›</li>
-            <li className="text-[#0059bb]">News</li>
-            <li><span className="text-[#0059bb]/60"> › Kegiatan</span></li>
+            <li><span className="text-[#0059bb]/60">News</span></li>
           </ol>
         </nav>
 
-        <section className="max-w-4xl mx-auto space-y-16">
+        <section className="max-w-4xl mx-auto">
 
-          {/* Kegiatan Terkini */}
-          <div>
-            <div className="flex justify-start mb-8">
-              <div className="w-[260px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
-                style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}>
-                Kegiatan Terkini
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {activities.map((act, i) => (
-                <FadeInUp key={act.id} delay={i * 80}>
-                  <article className="group rounded-2xl overflow-hidden bg-white/80 border border-[#d0e4ff] hover:shadow-md transition-all duration-200 cursor-pointer backdrop-blur-sm">
-                    <div className="relative aspect-[4/3] overflow-hidden bg-[#f0f3ff]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={act.img} alt={act.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                      <div className="absolute top-3 left-3">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[12px] font-semibold text-[#0f0f0f] shadow-sm border border-black/[0.06]">{act.category}</span>
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <div className="flex items-center gap-1.5 text-[13px] text-[#0f0f0f]/40 font-medium mb-2">
-                        <span className="material-symbols-outlined text-[15px]">calendar_today</span>
-                        {act.date}
-                      </div>
-                      <h3 className="text-[17px] font-semibold tracking-tight mb-2 leading-snug">{act.title}</h3>
-                      <p className="text-[13px] text-[#0f0f0f]/55 font-medium leading-relaxed line-clamp-2">{act.desc}</p>
-                    </div>
-                  </article>
-                </FadeInUp>
-              ))}
+          {/* Label */}
+          <div className="flex justify-start mb-8">
+            <div className="w-[260px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
+              style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}>
+              Kegiatan Terkini
             </div>
           </div>
 
-          <div className="h-px bg-gradient-to-r from-transparent via-[#001e40]/15 to-transparent" />
+          <p className="text-[14px] text-[#3a4a5e] mb-10 max-w-xl">
+            Beragam kegiatan, kajian, pelatihan, dan aksi sosial yang dijalankan PMII Rayon Hasyim Asy&apos;ari.
+          </p>
 
-          {/* Galeri */}
-          <div>
-            <div className="flex justify-end mb-8">
-              <div className="w-[220px] text-center py-1.5 rounded-l-lg text-white font-bold text-[17px] tracking-wide"
-                style={{ background: "linear-gradient(to left, transparent, #0059bb, #fbbf24, transparent)" }}>
-                Galeri
-              </div>
-            </div>
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5">
-              {galleryItems.map((item, i) => (
-                <FadeInUp key={item.id} delay={i * 80}>
-                  <div className="break-inside-avoid group relative overflow-hidden rounded-2xl bg-[#f0f3ff] cursor-pointer border border-[#d0e4ff] hover:shadow-md transition-all duration-200">
-                    <div className={`relative w-full ${item.aspect}`}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                        <span className="text-white/60 text-[12px] font-medium mb-1">{item.label}</span>
-                        <h4 className="text-white text-[17px] font-semibold leading-snug">{item.title}</h4>
-                      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {activities.map((act, i) => (
+              <FadeInUp key={act.id} delay={i * 60}>
+                <article className="group rounded-2xl overflow-hidden bg-white/80 border border-[#d0e4ff] hover:shadow-md transition-all duration-200 cursor-pointer backdrop-blur-sm">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={act.img} alt={act.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[12px] font-semibold text-[#0f0f0f] shadow-sm border border-black/[0.06]">{act.category}</span>
                     </div>
                   </div>
-                </FadeInUp>
-              ))}
-            </div>
+                  <div className="p-5">
+                    <div className="flex items-center gap-1.5 text-[12px] text-[#0f0f0f]/40 font-medium mb-2">
+                      <span className="material-symbols-outlined text-[14px]">calendar_today</span>
+                      {act.date}
+                    </div>
+                    <h3 className="text-[16px] font-semibold tracking-tight mb-2 leading-snug">{act.title}</h3>
+                    <p className="text-[13px] text-[#0f0f0f]/55 leading-relaxed line-clamp-2">{act.desc}</p>
+                  </div>
+                </article>
+              </FadeInUp>
+            ))}
+          </div>
+
+          {/* Link ke galeri */}
+          <div className="mt-12 text-center">
+            <Link href="/galeri"
+              className="inline-flex items-center gap-2 border border-[#0059bb]/30 text-[#0059bb] text-[14px] font-semibold px-6 py-2.5 rounded-full hover:bg-[#0059bb] hover:text-white transition-all duration-200">
+              Lihat Galeri Foto
+              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
           </div>
 
         </section>

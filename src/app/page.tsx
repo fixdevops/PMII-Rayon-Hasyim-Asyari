@@ -48,8 +48,8 @@ const features = [
     icon: "route",
     title: "Roadmap Proker",
     desc: "Rangkaian tahapan program kerja PMII Rayon selama satu periode kepengurusan.",
-    href: "#",
-    soon: true,
+    href: "/roadmap",
+    soon: false,
   },
   {
     icon: "help",
@@ -98,8 +98,8 @@ export default function BerandaPage() {
 
         {/* Gambar karakter — hanya desktop */}
         <div
-          className="hidden md:block absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none overflow-hidden md:w-[55vw] lg:w-[48vw] xl:w-[44vw]"
-          style={{ height: "92svh" }}
+          className="hidden md:block absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none overflow-hidden md:w-[38vw] lg:w-[34vw] xl:w-[30vw]"
+          style={{ height: "82svh" }}
         >
           <Image
             src="/lutfibirupmii.png"
@@ -117,13 +117,9 @@ export default function BerandaPage() {
           {/* Top bar: logo kiri + hamburger kanan */}
           <div className="flex items-center justify-between px-5 pt-5 pb-0">
             <div className="flex items-center gap-1">
-              {/* ↓ LOGO PMII — ubah w-10 h-10 untuk ganti ukuran (w-8=32px, w-9=36px, w-10=40px, w-12=48px) */}
-              <Image src="/logoi pmii.png" alt="Logo PMII" width={40} height={40} className="object-contain w-10 h-10" />
-              {/* ↓ LOGO KOMISARIAT — ubah w-10 h-10 untuk ganti ukuran */}
-              <Image src="/logokomis.png" alt="Logo Komisariat" width={40} height={40} className="object-contain w-10 h-10" />
-              {/* ↓ LOGO RAYON — ubah w-10 h-10 untuk ganti ukuran */}
-              <Image src="/logorayon.png" alt="Logo Rayon" width={40} height={40} className="object-contain w-10 h-10" />
-              {/* ↑ gap-1 di atas = jarak antar logo. gap-0=rapat, gap-1=4px, gap-2=8px, gap-3=12px */}
+              {/* ↓ LOGO GABUNGAN — ubah w-10 h-10 untuk ganti ukuran */}
+              <Image src="/logojadisatu.svg" alt="Logo PMII Rayon Hasyim Asy'ari" width={40} height={40} className="object-contain w-10 h-10" />
+              {/* ↑ gap-1 = jarak. gap-0=rapat, gap-1=4px, gap-2=8px */}
             </div>
             {/* hamburger ada di MobileNav (pojok kanan atas) */}
           </div>
@@ -198,37 +194,26 @@ export default function BerandaPage() {
               </p>
             </FadeInUp>
 
-            {/* Items vertikal */}
-            <div className="flex flex-col items-center gap-10 max-w-xs mx-auto md:max-w-none md:grid md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+            {/* Items — formasi zigzag: item 1&4 atas, item 2&3 turun */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 items-start">
               {features.map((f, i) => (
-                <FadeInUp key={f.title} delay={i * 80} className="flex flex-col items-center text-center w-full">
+                <FadeInUp key={f.title} delay={i * 80}>
                   <Link
                     href={f.href}
-                    className={`flex flex-col items-center text-center w-full group ${f.soon ? "pointer-events-none" : ""}`}
+                    className={`flex flex-col items-center text-center group ${
+                      (i === 1 || i === 2) ? "md:mt-16" : ""
+                    }`}
                   >
-                    {/* Icon bulat */}
                     <div
                       className="w-20 h-20 rounded-full flex items-center justify-center mb-4 shadow-md transition-transform duration-200 group-hover:scale-110"
-                      style={{ background: f.soon ? "linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)" : "linear-gradient(135deg, #001e40 0%, #0059bb 100%)" }}
+                      style={{ background: "#0059bb" }}
                     >
-                      <span
-                        className="material-symbols-outlined text-white text-[32px]"
-                        style={{ fontVariationSettings: "'FILL' 1" }}
-                      >
+                      <span className="material-symbols-outlined text-white text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                         {f.icon}
                       </span>
                     </div>
-
-                    <h3 className="text-[16px] font-bold text-[#0a1628] mb-1">{f.title}</h3>
-
-                    {/* Badge segera hadir */}
-                    {f.soon && (
-                      <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-600 text-[10px] font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full mb-1.5">
-                        🚧 Segera Hadir
-                      </span>
-                    )}
-
-                    <p className="text-[13px] text-[#4a5a6e] font-medium leading-relaxed max-w-[200px]">{f.desc}</p>
+                    <h3 className="text-[15px] font-bold text-[#0a1628] mb-2">{f.title}</h3>
+                    <p className="text-[13px] text-[#4a5a6e] font-medium leading-relaxed max-w-[180px]">{f.desc}</p>
                   </Link>
                 </FadeInUp>
               ))}

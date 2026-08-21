@@ -67,10 +67,13 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+  background: linear-gradient(to bottom, #ddeeff 0%, #eef5ff 50%, #f5f9ff 100%);
+  background-attachment: fixed;
 }
 
 body {
-  background: linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%);
+  background: linear-gradient(to bottom, #ddeeff 0%, #eef5ff 50%, #f5f9ff 100%);
   color: #0f0f0f;
   overflow-x: hidden;
 }
