@@ -129,15 +129,31 @@ export default function MobileNav() {
 
               {/* Footer CTA */}
               <div className="px-4 pb-10 pt-3 border-t border-black/[0.06]">
-                <a
+                <Link
                   href="/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#001e40] text-white font-bold text-[13px] transition-all active:scale-95 hover:bg-[#002d5e]"
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-white font-bold text-[13px] relative overflow-hidden active:scale-95 transition-transform"
+                  style={{
+                    background: "linear-gradient(135deg, #001e40 0%, #003d8a 100%)",
+                    boxShadow: "0 4px 16px rgba(0,30,64,0.25), inset 0 1px 0 rgba(255,255,255,0.1)",
+                  }}
                 >
-                  Daftar Free Bootcamp
-                </a>
+                  {/* Shimmer */}
+                  <motion.span
+                    className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
+                    initial={false}
+                  >
+                    <motion.span
+                      className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+                      animate={{ x: ["-100%", "300%"] }}
+                      transition={{ repeat: Infinity, duration: 2.5, ease: "linear", repeatDelay: 1 }}
+                    />
+                  </motion.span>
+                  <span className="material-symbols-outlined text-[15px] relative z-10" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    rocket_launch
+                  </span>
+                  <span className="relative z-10">Daftar Free Bootcamp</span>
+                </Link>
                 <p className="text-[10px] text-[#0f0f0f]/25 text-center mt-3">
                   © 2025 PMII Rayon Hasyim Asy&apos;ari FST
                 </p>
