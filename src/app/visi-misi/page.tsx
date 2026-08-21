@@ -24,7 +24,7 @@ export default function VisiMisiPage() {
     <div className="bg-white text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
-      <MobileHeader />
+      <MobileHeader crumbs={[{ label: "Informasi", href: "/visi-misi" }, { label: "Visi & Misi" }]} />
 
       <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
 
