@@ -24,6 +24,21 @@ export default function ProfileCardAzam() {
     mouseY.set((e.clientY - r.top) / r.height - 0.5);
   }
 
+  function onTouchMove(e: React.TouchEvent<HTMLDivElement>) {
+    if (!cardRef.current) return;
+    const touch = e.touches[0];
+    const r = cardRef.current.getBoundingClientRect();
+    mouseX.set((touch.clientX - r.left) / r.width - 0.5);
+    mouseY.set((touch.clientY - r.top) / r.height - 0.5);
+    setHovered(true);
+  }
+
+  function onTouchEnd() {
+    mouseX.set(0);
+    mouseY.set(0);
+    setHovered(false);
+  }
+
   function onLeave() {
     mouseX.set(0);
     mouseY.set(0);
@@ -37,12 +52,14 @@ export default function ProfileCardAzam() {
         onMouseMove={onMove}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={onLeave}
-        onClick={() => window.open("https://wa.me/6281234567890", "_blank")}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchEnd}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         animate={{ y: hovered ? -8 : 0 }}
-        whileTap={{ scale: 0.97 }}
+        whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 200, damping: 25 }}
-        className="relative cursor-pointer active:scale-95"
+        className="relative cursor-pointer"
       >
         {/* Glow behind */}
         <motion.div
