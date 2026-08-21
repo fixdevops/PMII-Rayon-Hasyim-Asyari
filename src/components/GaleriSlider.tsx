@@ -1,43 +1,50 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
-const photos = [
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCUR7ZbaVAIia8Bt114DxvSJW5aDoIdw1riRrHI9lw9LWIjE3LgkBJjiIG-bXhYftRW85YooH_QPbb7GbiIqPeXAduz39wmo-ibyYcflnWkr7HwsE8PdP-09AF3zsXmSIdvC909ErQ19jGJCsAE4jQSnFONEYNfekiybGqR9G6IIaEG6r3QUJECNRvEi_6tqdzMx31M8pog3u_KCGnBDDDT9dXXnfagSeJch7N_v17XBFJBsRk2e_l0",
-    label: "Bedah Buku: Filsafat Sains Modern"
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDrH0fW16CNvX_-XnpCfodtx9fnljl95YlPcYuFheATjYjVCPjtSlJsqPGwL0z6jI-Y5zcKvXMlBbA92SPYghG4u1OKK0Vx0VqKA_lyfZLQhqW6U0iV-tt2WLHyuU2QTn5GDSCg-qPe8QDhXJ3abwLThyQfpL4In_Bs_oz2TpMKGcxo5w4HDnPshnD4iMP_gh9QFxnulsNiuLKCCHJ7-AB8zwSmoQT5h3dPdSyRxaSps5dSdVqkdaVl",
-    label: "Workshop Data Analitik Dasar"
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDS1wSpVf88qF1irAzxwac8aivUKijPlvpICAdo7BjS7S76_DJXjUwo2EV_DFNE1OojLClw7pmkhQjz9508_BR2QO5i6G9dlVOPzz6Wy6g8gUgVA6QGHrnFhRLr-v64pie93MyzEtYQrS25uIxrIHwTyt105lBlaCAvha3a6IeBp5_H-5DswpEpBVYBU5CGmmPxB_d7gLWLjmVSPoKIOU_DWtE46AXLY8ifNTqiOF7F6c5ebV-Y5vB-",
-    label: "Gerakan Bersih Lingkungan Kampus"
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBfetDghZCeUImXvZo4LO_7QOVm_GptcC_Kd4KzFmGbJHP4nYtF1Ts7tVdr-67HdRdjC4ijOL4bgAFq9_1VstXKEEPkuzUhQG3FBW6HdfJ9CuZfERD3ZkkUqhAS8gI52YJzn7CQV9ksUPHAmx5yxXqfVawdHlRHjvWY6EJEby6oXL_DiWtRpdr72WMwCK1Nl1-wkJQ0QbaiX1dxiun50p2y8hbLGUcG8mnUEsYWic1lbvr9JmUdTDPe",
-    label: "Koordinasi Kepengurusan"
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB_J5lr37qBczDj7-TIcCvB5BlBWh4wNk9il1WUjQQM_chVxM4sw3hUARzyMq8NRt-T557rp-SLQQ_QV1oYLqyU6vNmgprKrHJ1V1yK1zV9mc-yWypzBw2WT5lujXSzXvRGrDUFIbN7Q62BRT7FMJ8wvBkdZG6c1Mq2Ed3ZF26-BUzW_BhAGCZ6Nx4G7S97JbkP0LLrXKckmQnb3TtF1KX0f2RiFUzkxNy5JrmxqZU8G4B-f1H3udRO",
-    label: "Pelantikan Pengurus Baru"
-  },
+interface GaleriItem {
+  id: string;
+  judul: string;
+  foto_url: string;
+  keterangan: string | null;
+}
+
+const fallbackPhotos = [
+  { id: "1", judul: "Bedah Buku: Filsafat Sains Modern", foto_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuCUR7ZbaVAIia8Bt114DxvSJW5aDoIdw1riRrHI9lw9LWIjE3LgkBJjiIG-bXhYftRW85YooH_QPbb7GbiIqPeXAduz39wmo-ibyYcflnWkr7HwsE8PdP-09AF3zsXmSIdvC909ErQ19jGJCsAE4jQSnFONEYNfekiybGqR9G6IIaEG6r3QUJECNRvEi_6tqdzMx31M8pog3u_KCGnBDDDT9dXXnfagSeJch7N_v17XBFJBsRk2e_l0", keterangan: null },
+  { id: "2", judul: "Workshop Data Analitik Dasar", foto_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDrH0fW16CNvX_-XnpCfodtx9fnljl95YlPcYuFheATjYjVCPjtSlJsqPGwL0z6jI-Y5zcKvXMlBbA92SPYghG4u1OKK0Vx0VqKA_lyfZLQhqW6U0iV-tt2WLHyuU2QTn5GDSCg-qPe8QDhXJ3abwLThyQfpL4In_Bs_oz2TpMKGcxo5w4HDnPshnD4iMP_gh9QFxnulsNiuLKCCHJ7-AB8zwSmoQT5h3dPdSyRxaSps5dSdVqkdaVl", keterangan: null },
+  { id: "3", judul: "Gerakan Bersih Lingkungan Kampus", foto_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDS1wSpVf88qF1irAzxwac8aivUKijPlvpICAdo7BjS7S76_DJXjUwo2EV_DFNE1OojLClw7pmkhQjz9508_BR2QO5i6G9dlVOPzz6Wy6g8gUgVA6QGHrnFhRLr-v64pie93MyzEtYQrS25uIxrIHwTyt105lBlaCAvha3a6IeBp5_H-5DswpEpBVYBU5CGmmPxB_d7gLWLjmVSPoKIOU_DWtE46AXLY8ifNTqiOF7F6c5ebV-Y5vB-", keterangan: null },
+  { id: "4", judul: "Koordinasi Kepengurusan", foto_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuBfetDghZCeUImXvZo4LO_7QOVm_GptcC_Kd4KzFmGbJHP4nYtF1Ts7tVdr-67HdRdjC4ijOL4bgAFq9_1VstXKEEPkuzUhQG3FBW6HdfJ9CuZfERD3ZkkUqhAS8gI52YJzn7CQV9ksUPHAmx5yxXqfVawdHlRHjvWY6EJEby6oXL_DiWtRpdr72WMwCK1Nl1-wkJQ0QbaiX1dxiun50p2y8hbLGUcG8mnUEsYWic1lbvr9JmUdTDPe", keterangan: null },
+  { id: "5", judul: "Pelantikan Pengurus Baru", foto_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuB_J5lr37qBczDj7-TIcCvB5BlBWh4wNk9il1WUjQQM_chVxM4sw3hUARzyMq8NRt-T557rp-SLQQ_QV1oYLqyU6vNmgprKrHJ1V1yK1zV9mc-yWypzBw2WT5lujXSzXvRGrDUFIbN7Q62BRT7FMJ8wvBkdZG6c1Mq2Ed3ZF26-BUzW_BhAGCZ6Nx4G7S97JbkP0LLrXKckmQnb3TtF1KX0f2RiFUzkxNy5JrmxqZU8G4B-f1H3udRO", keterangan: null },
 ];
 
 export default function GaleriSlider() {
   const ref = useRef<HTMLDivElement>(null);
+  const [photos, setPhotos] = useState<GaleriItem[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("galeri")
+      .select("id, judul, foto_url, keterangan")
+      .order("tanggal", { ascending: false })
+      .limit(10)
+      .then(({ data }) => {
+        setPhotos(data && data.length > 0 ? data : fallbackPhotos);
+      });
+  }, []);
 
   const scroll = (dir: "left" | "right") => {
     if (!ref.current) return;
     ref.current.scrollBy({ left: dir === "left" ? -320 : 320, behavior: "smooth" });
   };
 
+  if (photos.length === 0) return null;
+
   return (
     <section className="w-full px-[var(--page-padding)] mt-10 pb-4">
-      {/* Label bar — kanan */}
+      {/* Label bar */}
       <div className="flex justify-end mb-5">
         <div
           className="w-[180px] text-center py-1.5 rounded-l-lg text-white font-bold text-[17px] tracking-wide"
@@ -49,30 +56,27 @@ export default function GaleriSlider() {
 
       {/* Slider */}
       <div className="relative mx-auto max-w-[var(--container-width)]">
-        {/* Card container */}
-        <div
-          className="rounded-2xl border border-[#d0e4ff] bg-white/60 backdrop-blur-sm p-4 relative"
-        >
+        <div className="rounded-2xl border border-[#d0e4ff] bg-white/60 backdrop-blur-sm p-4 relative">
           {/* Scroll area */}
           <div
             ref={ref}
             className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {photos.map((p, i) => (
+            {photos.map((p) => (
               <div
-                key={i}
+                key={p.id}
                 className="snap-start flex-shrink-0 rounded-xl overflow-hidden relative group"
                 style={{ width: "320px", height: "200px" }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={p.src}
-                  alt={p.label}
+                  src={p.foto_url}
+                  alt={p.judul}
                   className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-[12px] font-semibold">{p.label}</p>
+                  <p className="text-white text-[12px] font-semibold">{p.judul}</p>
                 </div>
               </div>
             ))}

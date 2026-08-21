@@ -85,7 +85,7 @@ export default function Footer() {
           <div className="flex items-center gap-2">
             <Image src="/logoi pmii.png" alt="Logo" width={22} height={22} className="object-contain opacity-60" />
             <p className="text-[13px] text-[#0f0f0f]/40 font-medium tracking-tight">
-              © 2025 PMII Rayon Hasyim Asy&apos;ari FST.
+              © 2026 PMII Rayon Hasyim Asy&apos;ari FST.
             </p>
           </div>
         </div>

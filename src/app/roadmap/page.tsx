@@ -55,17 +55,10 @@ export default function RoadmapPage() {
 
           <div className="h-px bg-gradient-to-r from-transparent via-[#001e40]/15 to-transparent mb-10" />
 
-          <p className="text-[13px] text-[#4a5a6e] mb-5">Ingin tahu lebih lanjut? Hubungi kami:</p>
-          <a
-            href="https://wa.me/6281234567890"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-white text-[14px] font-bold px-7 py-3 rounded-full transition-colors hover:opacity-90"
-            style={{ background: "#0059bb" }}
-          >
-            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>chat</span>
-            Hubungi via WhatsApp
-          </a>
+          <p className="text-[13px] text-[#4a5a6e] mb-5">Ingin tahu lebih lanjut?</p>
+          <p className="text-[13px] text-[#0059bb] font-semibold">
+            Gunakan tombol <strong>Aspirasi</strong> di pojok kiri bawah untuk menghubungi kami.
+          </p>
         </div>
 
       </main>

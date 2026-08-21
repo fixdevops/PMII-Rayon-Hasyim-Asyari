@@ -82,11 +82,9 @@ export default function FAQPage() {
 
           <div className="text-center">
             <p className="text-[14px] text-[#4a5a6e] mb-4">Tidak menemukan jawaban yang kamu cari?</p>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#001e40] text-white text-[14px] font-bold px-7 py-3 rounded-full hover:bg-[#002d5e] transition-colors">
-              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>chat</span>
-              Hubungi Kami via WhatsApp
-            </a>
+            <p className="text-[13px] text-[#0059bb] font-semibold">
+              Gunakan tombol <strong>Aspirasi</strong> di pojok kiri bawah untuk menghubungi kami.
+            </p>
           </div>
 
         </section>
