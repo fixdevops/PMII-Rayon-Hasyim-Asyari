@@ -2,11 +2,15 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
+import dynamic from 'next/dynamic'
+
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), { ssr: false })
 
 interface Kegiatan {
   id: string
   judul: string
   deskripsi: string | null
+  konten: string | null
   tanggal: string
   lokasi: string | null
   foto_url: string | null
@@ -15,7 +19,7 @@ interface Kegiatan {
 
 const KATEGORI_OPTIONS = ['umum', 'kajian', 'pelatihan', 'aksi sosial', 'kaderisasi', 'keagamaan', 'rapat']
 
-const emptyForm = { judul: '', deskripsi: '', tanggal: '', lokasi: '', kategori: 'umum' }
+const emptyForm = { judul: '', deskripsi: '', konten: '', tanggal: '', lokasi: '', kategori: 'umum' }
 
 const kategoriColor: Record<string, string> = {
   umum: 'bg-gray-100 text-gray-600',
@@ -67,6 +71,7 @@ export default function AdminKegiatanPage() {
     setEditId(k.id)
     setForm({
       judul: k.judul, deskripsi: k.deskripsi ?? '',
+      konten: k.konten ?? '',
       tanggal: k.tanggal, lokasi: k.lokasi ?? '', kategori: k.kategori,
     })
     setCurrentFotoUrl(k.foto_url)
@@ -109,6 +114,7 @@ export default function AdminKegiatanPage() {
     if (!editId) {
       const { data: inserted } = await supabase.from('kegiatan').insert({
         judul: form.judul, deskripsi: form.deskripsi || null,
+        konten: form.konten || null,
         tanggal: form.tanggal, lokasi: form.lokasi || null,
         kategori: form.kategori, foto_url: null,
       }).select('id').single()
@@ -120,6 +126,7 @@ export default function AdminKegiatanPage() {
     const foto_url = await uploadFoto(targetId)
     await supabase.from('kegiatan').update({
       judul: form.judul, deskripsi: form.deskripsi || null,
+      konten: form.konten || null,
       tanggal: form.tanggal, lokasi: form.lokasi || null,
       kategori: form.kategori, foto_url,
     }).eq('id', targetId)
@@ -218,6 +225,10 @@ export default function AdminKegiatanPage() {
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-blue-200 text-blue-600 rounded-xl text-xs font-semibold hover:bg-blue-50 transition">
                     <span className="material-symbols-outlined text-[15px]">edit</span>Edit
                   </button>
+                  <a href={`/kegiatan/${k.id}`} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1 py-2 px-3 border border-gray-200 text-gray-500 rounded-xl text-xs font-semibold hover:bg-gray-50 transition">
+                    <span className="material-symbols-outlined text-[15px]">open_in_new</span>
+                  </a>
                   <button onClick={() => handleDelete(k.id, k.foto_url)} disabled={deleting === k.id}
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-red-200 text-red-500 rounded-xl text-xs font-semibold hover:bg-red-50 transition disabled:opacity-50">
                     <span className="material-symbols-outlined text-[15px]">
@@ -303,10 +314,22 @@ export default function AdminKegiatanPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Deskripsi</label>
+                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Deskripsi Singkat</label>
                 <textarea value={form.deskripsi} onChange={e => setForm({ ...form, deskripsi: e.target.value })}
-                  rows={3} placeholder="Deskripsi kegiatan..."
+                  rows={2} placeholder="Ringkasan singkat kegiatan (tampil di kartu)..."
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 resize-none" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">
+                  Konten Lengkap
+                  <span className="ml-1 font-normal text-gray-400 text-xs">(tampil di halaman detail)</span>
+                </label>
+                <RichTextEditor
+                  value={form.konten}
+                  onChange={val => setForm(f => ({ ...f, konten: val }))}
+                  placeholder="Tulis isi berita/kegiatan lengkap di sini..."
+                />
               </div>
             </div>
 

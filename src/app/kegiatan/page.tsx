@@ -95,7 +95,8 @@ export default async function KegiatanPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {activities.map((act, i) => (
                 <FadeInUp key={act.id} delay={i * 60}>
-                  <article className="group rounded-2xl overflow-hidden bg-white/80 border border-[#d0e4ff] hover:shadow-md transition-all duration-200 cursor-pointer backdrop-blur-sm">
+                  <Link href={`/kegiatan/${act.id}`}>
+                  <article className="group rounded-2xl overflow-hidden bg-white/80 border border-[#d0e4ff] hover:shadow-md transition-all duration-200 cursor-pointer backdrop-blur-sm h-full">
                     <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
                       {act.foto_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -127,8 +128,15 @@ export default async function KegiatanPage() {
                           {act.lokasi}
                         </p>
                       )}
+                      <div className="mt-3 flex items-center gap-1 text-[#0059bb] text-[12px] font-semibold">
+                        Baca selengkapnya
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none">
+                          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
                     </div>
                   </article>
+                  </Link>
                 </FadeInUp>
               ))}
             </div>
