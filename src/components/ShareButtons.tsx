@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface Props {
   judul: string
@@ -10,21 +10,23 @@ interface Props {
 
 export default function ShareButtons({ judul, deskripsi, url }: Props) {
   const [copied, setCopied] = useState(false)
+  const [hasNativeShare, setHasNativeShare] = useState(false)
+
+  // Cek di client saja — hindari hydration mismatch
+  useEffect(() => {
+    setHasNativeShare(!!navigator.share)
+  }, [])
 
   const text = `${judul}\n${deskripsi ? deskripsi + '\n' : ''}${url}`
 
-  // Native share (HP: muncul sheet Instagram Story, WA, dll)
   async function handleNativeShare() {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: judul, text: deskripsi ?? judul, url })
-      } catch {
-        // user cancel — no-op
-      }
+    try {
+      await navigator.share({ title: judul, text: deskripsi ?? judul, url })
+    } catch {
+      // user cancel — no-op
     }
   }
 
-  // Share ke Instagram: native share kalau ada, fallback copy link
   async function handleIgShare() {
     if (navigator.share) {
       try {
@@ -38,7 +40,6 @@ export default function ShareButtons({ judul, deskripsi, url }: Props) {
     }
   }
 
-  // Copy link
   async function handleCopy() {
     await navigator.clipboard.writeText(url)
     setCopied(true)
@@ -47,8 +48,6 @@ export default function ShareButtons({ judul, deskripsi, url }: Props) {
 
   const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`
   const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
-
-  const hasNativeShare = typeof navigator !== 'undefined' && !!navigator.share
 
   return (
     <div className="border-t border-b border-[#d0e4ff] py-5 my-8">
