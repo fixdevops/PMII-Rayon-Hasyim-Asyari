@@ -10,10 +10,40 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rayonhasyimasyari.vercel.app"),
+  icons: {
+    icon: "/logorayon.png",
+    shortcut: "/logorayon.png",
+    apple: "/logorayon.png",
+  },
   title: "PMII Rayon Hasyim Asyari - FST",
   description:
     "PMII Rayon Hasyim Asyari Fakultas Sains & Teknologi — Integrasi Spiritualitas & Inovasi. Dzikir, Fikir, Amal Sholeh.",
   keywords: ["PMII", "Rayon Hasyim Asyari", "FST", "Kaderisasi", "Sains", "Teknologi", "Islam"],
+  openGraph: {
+    title: "PMII Rayon Hasyim Asyari - FST",
+    description:
+      "PMII Rayon Hasyim Asyari Fakultas Sains & Teknologi — Integrasi Spiritualitas & Inovasi. Dzikir, Fikir, Amal Sholeh.",
+    url: "https://rayonhasyimasyari.vercel.app",
+    siteName: "PMII Rayon Hasyim Asyari",
+    images: [
+      {
+        url: "/logorayon.png",
+        width: 1200,
+        height: 630,
+        alt: "Logo PMII Rayon Hasyim Asyari FST",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PMII Rayon Hasyim Asyari - FST",
+    description:
+      "PMII Rayon Hasyim Asyari Fakultas Sains & Teknologi — Integrasi Spiritualitas & Inovasi. Dzikir, Fikir, Amal Sholeh.",
+    images: ["/logorayon.png"],
+  },
 };
 
 export default function RootLayout({
