@@ -7,6 +7,8 @@ import FadeInUp from "@/components/FadeInUp";
 import AspirasiButton from "@/components/AspirasiButton";
 import { supabase } from "@/lib/supabase";
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "Anggota | PMII Rayon Hasyim Asy'ari",
   description: "Daftar pengurus dan anggota PMII Rayon Hasyim Asy'ari FST UNUGIRI Bojonegoro.",
@@ -16,7 +18,7 @@ async function getAnggota() {
   const { data } = await supabase
     .from("anggota")
     .select("*")
-    .order("created_at", { ascending: true });
+    .order("urutan", { ascending: true });
   return data ?? [];
 }
 
@@ -69,7 +71,7 @@ export default async function AnggotaPage() {
               <div className="flex flex-col rounded-2xl overflow-hidden bg-white/80 border border-[#d0e4ff] backdrop-blur-sm hover:shadow-md transition-all duration-200 h-full">
 
                 {/* Foto */}
-                <div className="aspect-[4/3] w-full overflow-hidden bg-[#eef5ff]">
+                <div className="aspect-[3/4] w-full overflow-hidden bg-[#eef5ff]">
                   {a.foto_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img

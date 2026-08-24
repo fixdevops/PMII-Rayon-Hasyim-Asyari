@@ -11,6 +11,7 @@ interface Anggota {
   foto_url: string | null
   angkatan: string | null
   portfolio_url: string | null
+  urutan: number
 }
 
 const DEPARTEMEN_OPTIONS = [
@@ -46,15 +47,71 @@ export default function AdminAnggotaPage() {
   const [search, setSearch] = useState('')
   const [filterDept, setFilterDept] = useState('')
 
+  // Drag state
+  const [dragId, setDragId] = useState<string | null>(null)
+  const [dragOverId, setDragOverId] = useState<string | null>(null)
+  const [savingOrder, setSavingOrder] = useState(false)
+
   const load = useCallback(async () => {
     setLoading(true)
-    const { data } = await supabase.from('anggota').select('*').order('created_at', { ascending: true })
+    const { data } = await supabase
+      .from('anggota')
+      .select('*')
+      .order('urutan', { ascending: true })
     setList(data ?? [])
     setLoading(false)
   }, [])
 
   useEffect(() => { load() }, [load])
 
+  // ── Drag & Drop handlers ──
+  function handleDragStart(id: string) {
+    setDragId(id)
+  }
+
+  function handleDragOver(e: React.DragEvent, id: string) {
+    e.preventDefault()
+    if (id !== dragId) setDragOverId(id)
+  }
+
+  function handleDragLeave() {
+    setDragOverId(null)
+  }
+
+  async function handleDrop(targetId: string) {
+    setDragOverId(null)
+    if (!dragId || dragId === targetId) { setDragId(null); return }
+
+    const current = [...list]
+    const fromIdx = current.findIndex(a => a.id === dragId)
+    const toIdx = current.findIndex(a => a.id === targetId)
+    if (fromIdx === -1 || toIdx === -1) { setDragId(null); return }
+
+    // Reorder lokal
+    const reordered = [...current]
+    const [moved] = reordered.splice(fromIdx, 1)
+    reordered.splice(toIdx, 0, moved)
+
+    // Update urutan angka
+    const updated = reordered.map((a, i) => ({ ...a, urutan: i }))
+    setList(updated)
+    setDragId(null)
+
+    // Simpan ke DB
+    setSavingOrder(true)
+    const updates = updated.map(a =>
+      supabase.from('anggota').update({ urutan: a.urutan }).eq('id', a.id)
+    )
+    await Promise.all(updates)
+    setSavingOrder(false)
+  }
+
+  function handleDragEnd() {
+    setDragId(null)
+    setDragOverId(null)
+  }
+
+  // ── Modal ──
   function openTambah() {
     setEditId(null)
     setForm(emptyForm)
@@ -109,14 +166,15 @@ export default function AdminAnggotaPage() {
     setSaving(true)
 
     let targetId = editId
-    // Kalau tambah baru, insert dulu untuk dapat ID
     if (!editId) {
+      // Urutan baru = paling akhir
+      const maxUrutan = list.length > 0 ? Math.max(...list.map(a => a.urutan)) + 1 : 0
       const { data: inserted } = await supabase
         .from('anggota')
         .insert({
           nama: form.nama, jabatan: form.jabatan, departemen: form.departemen,
           angkatan: form.angkatan || null, portfolio_url: form.portfolio_url || null,
-          foto_url: null,
+          foto_url: null, urutan: maxUrutan,
         })
         .select('id')
         .single()
@@ -126,7 +184,6 @@ export default function AdminAnggotaPage() {
     if (!targetId) { setSaving(false); return }
 
     const foto_url = await uploadFoto(targetId)
-
     await supabase.from('anggota').update({
       nama: form.nama, jabatan: form.jabatan, departemen: form.departemen,
       angkatan: form.angkatan || null, portfolio_url: form.portfolio_url || null,
@@ -141,7 +198,6 @@ export default function AdminAnggotaPage() {
   async function handleDelete(id: string, fotoUrl: string | null) {
     if (!confirm('Hapus anggota ini?')) return
     setDeleting(id)
-    // Hapus foto dari storage jika ada
     if (fotoUrl) {
       const path = fotoUrl.split('/anggota/')[1]
       if (path) await supabase.storage.from('anggota').remove([path])
@@ -158,6 +214,7 @@ export default function AdminAnggotaPage() {
     return matchSearch && matchDept
   })
 
+  const isFiltering = !!search || !!filterDept
   const isBusy = saving || uploading
 
   return (
@@ -166,13 +223,26 @@ export default function AdminAnggotaPage() {
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
           <h2 className="text-xl font-bold text-[#0a1628]">Manajemen Anggota</h2>
-          <p className="text-sm text-gray-500 mt-0.5">Kelola pengurus dan anggota rayon</p>
+          <p className="text-sm text-gray-500 mt-0.5">
+            Kelola pengurus dan anggota rayon
+            {!isFiltering && (
+              <span className="ml-1 text-[#0059bb] font-medium">· drag baris untuk ubah urutan</span>
+            )}
+          </p>
         </div>
-        <button onClick={openTambah}
-          className="flex items-center gap-2 bg-[#0059bb] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition">
-          <span className="material-symbols-outlined text-[18px]">person_add</span>
-          Tambah Anggota
-        </button>
+        <div className="flex items-center gap-2">
+          {savingOrder && (
+            <span className="flex items-center gap-1.5 text-xs text-gray-400">
+              <span className="material-symbols-outlined text-[15px] animate-spin">progress_activity</span>
+              Menyimpan urutan...
+            </span>
+          )}
+          <button onClick={openTambah}
+            className="flex items-center gap-2 bg-[#0059bb] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition">
+            <span className="material-symbols-outlined text-[18px]">person_add</span>
+            Tambah Anggota
+          </button>
+        </div>
       </div>
 
       {/* Filter bar */}
@@ -206,6 +276,9 @@ export default function AdminAnggotaPage() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
+                  {!isFiltering && (
+                    <th className="w-8 px-3 py-3"></th>
+                  )}
                   <th className="text-left px-4 py-3 font-semibold text-gray-600">Anggota</th>
                   <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden md:table-cell">Jabatan</th>
                   <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden lg:table-cell">Biro</th>
@@ -215,7 +288,28 @@ export default function AdminAnggotaPage() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {filtered.map(a => (
-                  <tr key={a.id} className="hover:bg-gray-50 transition">
+                  <tr
+                    key={a.id}
+                    draggable={!isFiltering}
+                    onDragStart={() => !isFiltering && handleDragStart(a.id)}
+                    onDragOver={e => !isFiltering && handleDragOver(e, a.id)}
+                    onDragLeave={() => !isFiltering && handleDragLeave()}
+                    onDrop={() => !isFiltering && handleDrop(a.id)}
+                    onDragEnd={handleDragEnd}
+                    className={[
+                      'transition-colors',
+                      !isFiltering ? 'cursor-grab active:cursor-grabbing' : '',
+                      dragId === a.id ? 'opacity-40 bg-gray-50' : 'hover:bg-gray-50',
+                      dragOverId === a.id ? 'bg-[#eef5ff] border-l-2 border-[#0059bb]' : '',
+                    ].join(' ')}
+                  >
+                    {/* Handle drag */}
+                    {!isFiltering && (
+                      <td className="px-3 py-3 text-gray-300 hover:text-gray-400">
+                        <span className="material-symbols-outlined text-[18px] select-none">drag_indicator</span>
+                      </td>
+                    )}
+
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full overflow-hidden bg-[#eef5ff] flex-shrink-0">
@@ -261,6 +355,14 @@ export default function AdminAnggotaPage() {
         )}
       </div>
 
+      {/* Info drag */}
+      {!isFiltering && list.length > 1 && (
+        <p className="text-xs text-gray-400 text-center">
+          <span className="material-symbols-outlined text-[13px] align-middle mr-1">info</span>
+          Seret baris ke atas/bawah untuk mengatur urutan tampil di website
+        </p>
+      )}
+
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
@@ -279,7 +381,6 @@ export default function AdminAnggotaPage() {
               <div>
                 <label className="block text-sm font-semibold text-[#0a1628] mb-2">Foto</label>
                 <div className="flex items-center gap-4">
-                  {/* Preview */}
                   <div className="w-20 h-20 rounded-xl overflow-hidden bg-[#eef5ff] flex-shrink-0 border border-gray-100">
                     {fotoPreview ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -290,8 +391,6 @@ export default function AdminAnggotaPage() {
                       </div>
                     )}
                   </div>
-
-                  {/* Tombol upload */}
                   <div className="flex flex-col gap-2 flex-1">
                     <input
                       ref={fileInputRef}
@@ -301,10 +400,8 @@ export default function AdminAnggotaPage() {
                       className="hidden"
                       id="foto-upload"
                     />
-                    <label
-                      htmlFor="foto-upload"
-                      className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-[#0059bb]/30 text-[#0059bb] rounded-xl text-sm font-semibold cursor-pointer hover:border-[#0059bb] hover:bg-[#eef5ff] transition"
-                    >
+                    <label htmlFor="foto-upload"
+                      className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-[#0059bb]/30 text-[#0059bb] rounded-xl text-sm font-semibold cursor-pointer hover:border-[#0059bb] hover:bg-[#eef5ff] transition">
                       <span className="material-symbols-outlined text-[18px]">upload</span>
                       {fotoPreview ? 'Ganti Foto' : 'Upload Foto'}
                     </label>

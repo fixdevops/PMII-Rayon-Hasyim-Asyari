@@ -8,6 +8,8 @@ import FadeInUp from "@/components/FadeInUp";
 import AspirasiButton from "@/components/AspirasiButton";
 import { supabase } from "@/lib/supabase";
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "News & Kegiatan | PMII Rayon Hasyim Asy'ari",
   description: "Berita dan kegiatan terkini PMII Rayon Hasyim Asy'ari FST UNUGIRI Bojonegoro.",
