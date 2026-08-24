@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://pmii-rayon-hasyim-asyari.vercel.app"),
+  metadataBase: new URL("https://rayonhasyimasyari.vercel.app"),
   icons: {
     icon: "/logorayon.png",
     shortcut: "/logorayon.png",

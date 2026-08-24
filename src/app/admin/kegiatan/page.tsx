@@ -9,12 +9,25 @@ const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), { ss
 interface Kegiatan {
   id: string
   judul: string
+  slug: string | null
   deskripsi: string | null
   konten: string | null
   tanggal: string
   lokasi: string | null
   foto_url: string | null
   kategori: string
+}
+
+// Generate slug URL-friendly dari judul
+function generateSlug(judul: string, id: string): string {
+  const base = judul
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')   // hapus karakter non-alfanumerik
+    .replace(/\s+/g, '-')            // spasi → tanda hubung
+    .replace(/-+/g, '-')             // double dash → single
+    .slice(0, 60)                    // max 60 karakter
+    .replace(/-$/, '')               // hapus trailing dash
+  return `${base}-${id.slice(0, 8)}`
 }
 
 const KATEGORI_OPTIONS = ['umum', 'kajian', 'pelatihan', 'aksi sosial', 'kaderisasi', 'keagamaan', 'rapat']
@@ -124,11 +137,13 @@ export default function AdminKegiatanPage() {
     if (!targetId) { setSaving(false); return }
 
     const foto_url = await uploadFoto(targetId)
+    const slug = generateSlug(form.judul, targetId)
+
     await supabase.from('kegiatan').update({
       judul: form.judul, deskripsi: form.deskripsi || null,
       konten: form.konten || null,
       tanggal: form.tanggal, lokasi: form.lokasi || null,
-      kategori: form.kategori, foto_url,
+      kategori: form.kategori, foto_url, slug,
     }).eq('id', targetId)
 
     setSaving(false)
@@ -225,7 +240,7 @@ export default function AdminKegiatanPage() {
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-blue-200 text-blue-600 rounded-xl text-xs font-semibold hover:bg-blue-50 transition">
                     <span className="material-symbols-outlined text-[15px]">edit</span>Edit
                   </button>
-                  <a href={`/kegiatan/${k.id}`} target="_blank" rel="noopener noreferrer"
+                  <a href={`/news/${k.slug ?? k.id}`} target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-1 py-2 px-3 border border-gray-200 text-gray-500 rounded-xl text-xs font-semibold hover:bg-gray-50 transition">
                     <span className="material-symbols-outlined text-[15px]">open_in_new</span>
                   </a>

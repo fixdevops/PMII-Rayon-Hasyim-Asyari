@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/kegiatan", label: "News" },
+  { href: "/news", label: "News" },
   { href: "/galeri", label: "Galeri" },
   { href: "/kaderisasi", label: "Belajar" },
   { href: "/#tentang", label: "Tentang" },

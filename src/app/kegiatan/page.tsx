@@ -78,7 +78,7 @@ export default async function KegiatanPage() {
           <div className="flex justify-start mb-8">
             <div className="w-[260px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
               style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}>
-              Kegiatan Terkini
+              News Terkini
             </div>
           </div>
 

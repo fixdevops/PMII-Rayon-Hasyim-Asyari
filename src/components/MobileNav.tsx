@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
   { href: "/", label: "Home", desc: "Halaman Utama" },
-  { href: "/kegiatan", label: "News", desc: "Kegiatan Terkini" },
+  { href: "/news", label: "News", desc: "News Terkini" },
   { href: "/galeri", label: "Galeri", desc: "Dokumentasi Foto" },
   { href: "/kaderisasi", label: "Belajar", desc: "Sistem Kaderisasi" },
   { href: "/#tentang", label: "Tentang", desc: "Tentang Rayon" },

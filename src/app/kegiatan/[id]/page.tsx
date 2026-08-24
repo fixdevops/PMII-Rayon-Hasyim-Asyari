@@ -6,6 +6,7 @@ import MobileNav from "@/components/MobileNav";
 import MobileHeader from "@/components/MobileHeader";
 import Footer from "@/components/Footer";
 import AspirasiButton from "@/components/AspirasiButton";
+import ShareButtons from "@/components/ShareButtons";
 import { supabase } from "@/lib/supabase";
 
 export const dynamic = 'force-dynamic'
@@ -56,9 +57,31 @@ export async function generateMetadata(
   const { id } = await params
   const kegiatan = await getKegiatan(id)
   if (!kegiatan) return { title: "Kegiatan tidak ditemukan" }
+
+  const pageUrl = `https://rayonhasyimasyari.vercel.app/kegiatan/${id}`
+  const ogImage = kegiatan.foto_url
+    ? [{ url: kegiatan.foto_url, width: 1200, height: 630, alt: kegiatan.judul }]
+    : [{ url: 'https://rayonhasyimasyari.vercel.app/logorayon.png', width: 1200, height: 630, alt: "PMII Rayon Hasyim Asy'ari" }]
+
   return {
     title: `${kegiatan.judul} | PMII Rayon Hasyim Asy'ari`,
-    description: kegiatan.deskripsi ?? undefined,
+    description: kegiatan.deskripsi ?? `Kegiatan PMII Rayon Hasyim Asy'ari: ${kegiatan.judul}`,
+    openGraph: {
+      title: kegiatan.judul,
+      description: kegiatan.deskripsi ?? `Kegiatan PMII Rayon Hasyim Asy'ari`,
+      url: pageUrl,
+      siteName: "PMII Rayon Hasyim Asy'ari",
+      type: 'article',
+      publishedTime: kegiatan.tanggal,
+      images: ogImage,
+      locale: 'id_ID',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: kegiatan.judul,
+      description: kegiatan.deskripsi ?? `Kegiatan PMII Rayon Hasyim Asy'ari`,
+      images: kegiatan.foto_url ? [kegiatan.foto_url] : ['https://rayonhasyimasyari.vercel.app/logorayon.png'],
+    },
   }
 }
 
@@ -87,7 +110,7 @@ export default async function KegiatanDetailPage(
 
           {/* Breadcrumb desktop */}
           <div className="hidden md:flex items-center gap-2 text-[13px] text-[#0f0f0f]/40 mb-6">
-            <Link href="/kegiatan" className="hover:text-[#0059bb] transition">News & Kegiatan</Link>
+            <Link href="/kegiatan" className="hover:text-[#0059bb] transition">News</Link>
             <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none">
               <path d="M6 3l4 5-4 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -160,6 +183,13 @@ export default async function KegiatanDetailPage(
             )}
           </article>
 
+          {/* Share */}
+          <ShareButtons
+            judul={kegiatan.judul}
+            deskripsi={kegiatan.deskripsi}
+            url={`https://rayonhasyimasyari.vercel.app/kegiatan/${kegiatan.id}`}
+          />
+
           {/* Tombol kembali */}
           <div className="mt-10">
             <Link href="/kegiatan"
@@ -171,10 +201,10 @@ export default async function KegiatanDetailPage(
             </Link>
           </div>
 
-          {/* Kegiatan lainnya */}
+          {/* News lainnya */}
           {kegiatanLain.length > 0 && (
             <section className="mt-16">
-              <h2 className="text-[17px] font-bold text-[#001e40] mb-5">Kegiatan Lainnya</h2>
+              <h2 className="text-[17px] font-bold text-[#001e40] mb-5">News Lainnya</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {kegiatanLain.map(k => (
                   <Link key={k.id} href={`/kegiatan/${k.id}`}
