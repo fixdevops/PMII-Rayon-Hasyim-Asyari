@@ -140,36 +140,7 @@ export default function MobileNav() {
 
               {/* Footer */}
               <div className="px-4 pb-10 pt-3 border-t border-black/[0.06]">
-                <Link
-                  href="/bootcamp"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-[#1a1a1a] text-white font-bold text-[13px] relative overflow-hidden active:scale-95 transition-transform"
-                >
-                  {/* Shimmer */}
-                  <motion.span
-                    className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
-                    initial={false}
-                  >
-                    <motion.span
-                      className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
-                      animate={{ x: ["-100%", "300%"] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2.5,
-                        ease: "linear",
-                        repeatDelay: 1,
-                      }}
-                    />
-                  </motion.span>
-                  <span
-                    className="material-symbols-outlined text-[15px] relative z-10"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    rocket_launch
-                  </span>
-                  <span className="relative z-10">Daftar Free Bootcamp</span>
-                </Link>
-                <p className="text-[10px] text-[#6b6b6b] text-center mt-3">
+                <p className="text-[10px] text-[#6b6b6b] text-center">
                   © 2025 PMII Rayon Hasyim Asy&apos;ari FST
                 </p>
               </div>
