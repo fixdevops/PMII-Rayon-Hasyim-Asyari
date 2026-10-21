@@ -46,33 +46,25 @@ export default async function GaleriPage() {
   const items = galeriList.length > 0 ? galeriList : fallbackItems;
 
   return (
-    <div className="text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col"
-      style={{ background: "linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%)" }}>
+    <div className="bg-white text-[#1a1a1a] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
       <MobileHeader crumbs={[{ label: "Galeri" }]} />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
-        <section className="max-w-4xl mx-auto">
+      <main className="flex-grow w-full px-6 pb-16 pt-6 md:pt-24">
+        <div className="max-w-[900px] mx-auto">
 
-          <div className="flex justify-end mb-8">
-            <div className="w-[220px] text-center py-1.5 rounded-l-lg text-white font-bold text-[17px] tracking-wide"
-              style={{ background: "linear-gradient(to left, transparent, #0059bb, #fbbf24, transparent)" }}>
-              Galeri
-            </div>
+          <div className="border-b border-[#e5e5e5] pb-8 mb-10">
+            <h1 className="text-3xl font-bold text-[#1a1a1a] mb-3">Galeri Foto</h1>
+            <p className="text-[#6b6b6b] text-[17px]">Dokumentasi visual kegiatan dan momen berharga PMII Rayon Hasyim Asy&apos;ari.</p>
           </div>
 
-          <p className="text-[14px] text-[#3a4a5e] mb-10 text-right max-w-xl ml-auto">
-            Dokumentasi visual kegiatan dan momen berharga PMII Rayon Hasyim Asy&apos;ari.
-          </p>
-
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-40 text-[#3a4a5e] gap-2">
+            <div className="flex flex-col items-center justify-center h-40 text-[#6b6b6b] gap-2">
               <span className="material-symbols-outlined text-[40px]">photo_library</span>
               <p className="text-sm">Belum ada foto di galeri.</p>
             </div>
           ) : (
-            /* Grid album — interaksi ditangani client component */
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
               {items.map((item, i) => (
                 <FadeInUp key={item.id} delay={i * 60}>
@@ -84,15 +76,15 @@ export default async function GaleriPage() {
 
           <div className="mt-12 text-center">
             <Link href="/kegiatan"
-              className="inline-flex items-center gap-2 border border-[#0059bb]/30 text-[#0059bb] text-[14px] font-semibold px-6 py-2.5 rounded-full hover:bg-[#0059bb] hover:text-white transition-all duration-200">
+              className="inline-flex items-center gap-2 border border-[#1a1a1a] text-[#1a1a1a] text-[14px] font-semibold px-6 py-2.5 rounded-full hover:bg-[#1a1a1a] hover:text-white transition-all duration-200">
               <svg className="w-4 h-4 rotate-180" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              Lihat Kegiatan & News
+              Lihat Kegiatan &amp; News
             </Link>
           </div>
 
-        </section>
+        </div>
       </main>
 
       <AspirasiButton />

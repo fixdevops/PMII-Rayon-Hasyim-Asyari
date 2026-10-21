@@ -21,62 +21,43 @@ const misi = [
 
 export default function VisiMisiPage() {
   return (
-    <div className="bg-white text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col">
+    <div className="bg-white text-[#1a1a1a] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
       <MobileHeader crumbs={[{ label: "Informasi", href: "/visi-misi" }, { label: "Visi & Misi" }]} />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
+      <main className="flex-grow w-full px-6 pb-16 pt-6 md:pt-24">
+        <article className="max-w-[680px] mx-auto">
 
-        <section className="max-w-3xl mx-auto space-y-14">
+          <div className="border-b border-[#e5e5e5] pb-8 mb-10">
+            <h1 className="text-3xl font-bold text-[#1a1a1a] mb-3">Visi &amp; Misi</h1>
+            <p className="text-[#6b6b6b] text-[17px]">Landasan arah gerakan PMII Rayon Hasyim Asy&apos;ari FST UNUGIRI Bojonegoro.</p>
+          </div>
 
-          {/* ── VISI ── */}
-          <div>
-            {/* Label bar kiri */}
-            <div className="flex justify-start">
-              <div
-                className="w-[220px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
-                style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}
-              >
-                Visi
-              </div>
-            </div>
-
-            <p className="mt-7 text-center text-[#3a4a5e] text-[15px] sm:text-[16px] font-normal leading-[1.9] px-2 sm:px-0 max-w-[600px] mx-auto italic">
+          <h2 className="text-xl font-bold text-[#1a1a1a] mb-5">Visi</h2>
+          <blockquote className="border-l-4 border-[#1a1a1a] pl-5 my-6">
+            <p className="italic text-[#292929] text-[17px] leading-[1.8]">
               &ldquo;Terwujudnya kader PMII Rayon Hasyim Asy&apos;ari yang bertaqwa, berilmu, dan berakhlak mulia, serta mampu menjadi agen perubahan yang berlandaskan Ahlussunnah wal Jama&apos;ah An-Nahdliyah di lingkungan Fakultas Sains dan Teknologi UNUGIRI Bojonegoro.&rdquo;
             </p>
+          </blockquote>
+
+          <div className="flex items-center justify-center gap-4 my-12 text-[#1a1a1a]">
+            <span className="text-2xl leading-none">&bull;</span>
+            <span className="text-2xl leading-none">&bull;</span>
+            <span className="text-2xl leading-none">&bull;</span>
           </div>
 
-          {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-[#001e40]/15 to-transparent" />
+          <h2 className="text-xl font-bold text-[#1a1a1a] mb-5">Misi</h2>
+          <ol className="list-decimal list-outside ml-6 space-y-4 text-[#292929] text-[17px] leading-[1.8]">
+            {misi.map((m, i) => (
+              <li key={i}>{m}</li>
+            ))}
+          </ol>
 
-          {/* ── MISI ── */}
-          <div>
-            {/* Label bar kanan */}
-            <div className="flex justify-end">
-              <div
-                className="w-[220px] text-center py-1.5 rounded-l-lg text-white font-bold text-[17px] tracking-wide"
-                style={{ background: "linear-gradient(to left, transparent, #0059bb, #fbbf24, transparent)" }}
-              >
-                Misi
-              </div>
-            </div>
-
-            <ol className="mt-7 list-decimal list-inside text-[#3a4a5e] text-[15px] sm:text-[16px] font-normal leading-[1.9] space-y-4 px-2 sm:px-4 max-w-[720px] mx-auto">
-              {misi.map((m, i) => (
-                <li key={i} className="pl-1">
-                  <span>{m}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-
-        </section>
+        </article>
       </main>
 
-      {/* Tombol Aspirasi floating */}
       <AspirasiButton />
-
       <Footer />
     </div>
   );

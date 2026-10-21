@@ -12,55 +12,46 @@ export const metadata: Metadata = {
 
 export default function RoadmapPage() {
   return (
-    <div className="text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col"
-      style={{ background: "linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%)" }}>
+    <div className="bg-white text-[#1a1a1a] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
       <MobileHeader crumbs={[{ label: "Informasi", href: "/roadmap" }, { label: "Roadmap Proker" }]} />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
+      <main className="flex-grow w-full px-6 pb-16 pt-6 md:pt-24">
+        <div className="max-w-[680px] mx-auto">
 
-        {/* Segera Hadir */}
-        <div className="max-w-2xl mx-auto text-center py-20">
-
-          {/* Label bar */}
-          <div className="flex justify-start mb-10">
-            <div className="w-[260px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
-              style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}>
-              Roadmap Proker
-            </div>
+          <div className="border-b border-[#e5e5e5] pb-8 mb-10">
+            <h1 className="text-3xl font-bold text-[#1a1a1a] mb-3">Roadmap Program Kerja</h1>
+            <p className="text-[#6b6b6b] text-[17px]">Rencana strategis program kerja PMII Rayon Hasyim Asy&apos;ari FST UNUGIRI Bojonegoro.</p>
           </div>
 
-          {/* Icon */}
-          <div className="w-24 h-24 rounded-full mx-auto mb-8 flex items-center justify-center shadow-lg"
-            style={{ background: "#0059bb" }}>
-            <span className="material-symbols-outlined text-white text-[44px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-              route
+          <div className="py-16 flex flex-col items-center text-center">
+            {/* Icon SVG */}
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className="mb-8 text-[#e5e5e5]">
+              <circle cx="32" cy="32" r="31" stroke="#e5e5e5" strokeWidth="2"/>
+              <path d="M20 32h24M32 20v24" stroke="#1a1a1a" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="32" cy="32" r="4" fill="#1a1a1a"/>
+            </svg>
+
+            {/* Badge */}
+            <span className="inline-flex items-center gap-2 border border-[#e5e5e5] text-[#6b6b6b] text-[12px] font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-8">
+              Segera Hadir
             </span>
+
+            <p className="text-[17px] text-[#292929] leading-[1.8] max-w-[480px] mb-10">
+              Kami sedang menyusun roadmap program kerja PMII Rayon Hasyim Asy&apos;ari periode 2026&ndash;2027.
+              Halaman ini akan segera hadir dengan informasi lengkap.
+            </p>
+
+            <div className="h-px w-24 bg-[#e5e5e5] mb-10" />
+
+            <p className="text-[14px] text-[#6b6b6b] mb-2">Ingin tahu lebih lanjut?</p>
+            <p className="text-[14px] text-[#1a1a1a] font-semibold">
+              Gunakan tombol <strong>Aspirasi</strong> di pojok kiri bawah untuk menghubungi kami.
+            </p>
           </div>
 
-          {/* Badge */}
-          <span className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 text-orange-600 text-[13px] font-bold tracking-widest uppercase px-5 py-2 rounded-full mb-6">
-            🚧 Segera Hadir
-          </span>
-
-          <h1 className="text-[clamp(1.8rem,5vw,2.5rem)] font-black text-[#001e40] tracking-tight mb-4">
-            Roadmap Program Kerja
-          </h1>
-
-          <p className="text-[15px] text-[#4a5a6e] leading-relaxed max-w-md mx-auto mb-10">
-            Kami sedang menyusun roadmap program kerja PMII Rayon Hasyim Asy&apos;ari periode 2026–2027.
-            Halaman ini akan segera hadir dengan informasi lengkap.
-          </p>
-
-          <div className="h-px bg-gradient-to-r from-transparent via-[#001e40]/15 to-transparent mb-10" />
-
-          <p className="text-[13px] text-[#4a5a6e] mb-5">Ingin tahu lebih lanjut?</p>
-          <p className="text-[13px] text-[#0059bb] font-semibold">
-            Gunakan tombol <strong>Aspirasi</strong> di pojok kiri bawah untuk menghubungi kami.
-          </p>
         </div>
-
       </main>
 
       <AspirasiButton />

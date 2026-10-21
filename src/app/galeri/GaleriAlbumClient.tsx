@@ -60,7 +60,7 @@ export default function GaleriAlbumClient({ item }: Props) {
       {/* Album card */}
       <div
         onClick={openAlbum}
-        className="break-inside-avoid group relative overflow-hidden rounded-2xl border border-[#d0e4ff] hover:shadow-md transition-all duration-200 cursor-pointer"
+        className="break-inside-avoid group relative overflow-hidden rounded-2xl border border-[#e5e5e5] hover:shadow-md transition-all duration-200 cursor-pointer"
       >
         <div className="relative w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}

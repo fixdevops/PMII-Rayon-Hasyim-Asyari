@@ -24,24 +24,33 @@ function FAQItem({ faq, index }: { faq: { q: string; a: string }; index: number 
   const [open, setOpen] = useState(false);
   return (
     <FadeInUp delay={index * 50}>
-      <div className={`rounded-2xl overflow-hidden transition-all duration-200 bg-white/70 backdrop-blur-sm ${open ? "border border-[#0059bb]/30 shadow-sm" : "border border-[#d0e4ff]"}`}>
-        <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-6 py-4 text-left">
-          <span className={`text-[15px] font-semibold leading-snug pr-4 ${open ? "text-[#001e40]" : "text-[#0f0f0f]"}`}>{faq.q}</span>
-          <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.2 }}
-            className="flex-shrink-0 w-6 h-6 rounded-full bg-[#001e40]/[0.06] flex items-center justify-center">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M6 1v10M1 6h10" stroke="#001e40" strokeWidth="1.75" strokeLinecap="round"/>
+      <div className="border-b border-[#e5e5e5]">
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center justify-between py-5 text-left gap-4"
+        >
+          <span className="text-[17px] font-semibold text-[#1a1a1a] leading-snug">{faq.q}</span>
+          <motion.span
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex-shrink-0"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 6l5 5 5-5" stroke="#1a1a1a" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </motion.span>
         </button>
         <AnimatePresence initial={false}>
           {open && (
-            <motion.div key="content" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25, ease: "easeInOut" }}>
-              <div className="px-6 pb-5">
-                <div className="h-px bg-[#d0e4ff] mb-4" />
-                <p className="text-[14px] text-[#4a5a6e] leading-relaxed">{faq.a}</p>
-              </div>
+            <motion.div
+              key="content"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <p className="text-[15px] text-[#292929] leading-[1.8] pb-5">{faq.a}</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -52,42 +61,31 @@ function FAQItem({ faq, index }: { faq: { q: string; a: string }; index: number 
 
 export default function FAQPage() {
   return (
-    <div className="text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col"
-      style={{ background: "linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%)" }}>
+    <div className="bg-white text-[#1a1a1a] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
       <MobileHeader crumbs={[{ label: "Informasi", href: "/faq" }, { label: "FAQ" }]} />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
+      <main className="flex-grow w-full px-6 pb-16 pt-6 md:pt-24">
+        <div className="max-w-[680px] mx-auto">
 
-        <section className="max-w-3xl mx-auto space-y-14">
-
-          <div>
-            <div className="flex justify-start">
-              <div className="w-[220px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
-                style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}>
-                FAQ
-              </div>
-            </div>
-            <p className="mt-5 text-center text-[#3a4a5e] text-[15px] leading-relaxed max-w-lg mx-auto">
-              Kumpulan pertanyaan yang sering diajukan seputar PMII Rayon Hasyim Asy&apos;ari FST.
-            </p>
+          <div className="border-b border-[#e5e5e5] pb-8 mb-2">
+            <h1 className="text-3xl font-bold text-[#1a1a1a] mb-3">FAQ</h1>
+            <p className="text-[#6b6b6b] text-[17px]">Kumpulan pertanyaan yang sering diajukan seputar PMII Rayon Hasyim Asy&apos;ari FST.</p>
           </div>
 
-          <div className="space-y-3">
+          <div>
             {faqs.map((faq, i) => <FAQItem key={i} faq={faq} index={i} />)}
           </div>
 
-          <div className="h-px bg-gradient-to-r from-transparent via-[#001e40]/15 to-transparent" />
-
-          <div className="text-center">
-            <p className="text-[14px] text-[#4a5a6e] mb-4">Tidak menemukan jawaban yang kamu cari?</p>
-            <p className="text-[13px] text-[#0059bb] font-semibold">
+          <div className="mt-12 pt-8 border-t border-[#e5e5e5] text-center">
+            <p className="text-[14px] text-[#6b6b6b] mb-2">Tidak menemukan jawaban yang kamu cari?</p>
+            <p className="text-[14px] text-[#1a1a1a] font-semibold">
               Gunakan tombol <strong>Aspirasi</strong> di pojok kiri bawah untuk menghubungi kami.
             </p>
           </div>
 
-        </section>
+        </div>
       </main>
 
       <AspirasiButton />
