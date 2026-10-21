@@ -97,20 +97,7 @@ export default function BerandaPage() {
       {/* ── HERO ── */}
       <section className="relative overflow-hidden md:pt-16" style={{ minHeight: "100svh" }}>
 
-        {/* Gambar karakter — hanya desktop */}
-        <div
-          className="hidden md:block absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none overflow-hidden md:w-[38vw] lg:w-[34vw] xl:w-[30vw]"
-          style={{ height: "82svh" }}
-        >
-          <Image
-            src="/lutfibirupmii.png"
-            alt="Maskot PMII Rayon Hasyim Asy'ari"
-            width={900}
-            height={1100}
-            className="w-full h-auto object-cover object-top"
-            priority
-          />
-        </div>
+        {/* (gambar karakter dihapus) */}
 
         {/* ── MOBILE: layout baru sesuai desain ── */}
         <div className="relative z-10 flex flex-col md:hidden min-h-[100svh]">
@@ -149,28 +136,24 @@ export default function BerandaPage() {
           </div>
         </div>
 
-        {/* ── DESKTOP: kiri-kanan dengan gambar ── */}
+        {/* ── DESKTOP: kiri-kanan tanpa gambar ── */}
         <div className="relative z-10 hidden md:flex w-full items-center min-h-[100svh] px-8 lg:px-16 xl:px-20">
-          <div className="w-full flex justify-between items-center">
+          <div className="w-full flex justify-between items-center gap-16">
 
-            {/* LEFT: judul font Amanojaku */}
-            <FadeInUp>
-              <h1
-                className="text-[clamp(2.6rem,4.5vw,6.5rem)] leading-[1.0] text-[#0f0f0f] select-none"
-                style={{ fontFamily: "'Amanojaku', cursive" }}
-              >
-                PMII
-                <br />
-                RAYON
-                <br />
-                HASYIM
-                <br />
-                ASY&apos;ARI
+            {/* LEFT: heading + deskripsi */}
+            <FadeInUp className="flex-1 max-w-xl">
+              <h1 className="text-[clamp(2rem,3.5vw,3rem)] font-black text-[#1a1a1a] leading-[1.1] tracking-tight mb-6">
+                SELAMAT DATANG<br />
+                DI WEBSITE RESMI PMII<br />
+                RAYON HASYIM ASY&apos;ARI
               </h1>
+              <p className="text-[15px] text-[#6b6b6b] leading-[1.8] font-normal">
+                PMII Rayon Hasyim Asy&apos;ari FST UNUGIRI adalah organisasi eksekutif mahasiswa Fakultas Sains dan Teknologi yang berlandaskan Aswaja An-Nahdliyah, berfokus mengembangkan kreativitas, potensi keilmuan, serta mewujudkan kegiatan positif bagi mahasiswa FST.
+              </p>
             </FadeInUp>
 
             {/* RIGHT: profile card */}
-            <FadeInUp delay={150} className="flex items-center">
+            <FadeInUp delay={150} className="flex items-center flex-shrink-0">
               <ProfileCardAzam />
             </FadeInUp>
 
