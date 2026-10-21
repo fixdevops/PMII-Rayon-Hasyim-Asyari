@@ -124,38 +124,7 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
           </div>
         </div>
 
-        {/* Stats bar */}
-        <div className="border-t border-[#e5e5e5] bg-[#f9f9f9]">
-          <div className="max-w-[1100px] mx-auto px-6 py-5">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex flex-wrap gap-3">
-                {[
-                  { icon: 'menu_book', label: 'Kajian & Diskusi' },
-                  { icon: 'self_improvement', label: 'Pengembangan Diri' },
-                  { icon: 'volunteer_activism', label: 'Aksi Sosial' },
-                  { icon: 'diversity_3', label: 'Kebersamaan' },
-                ].map((f) => (
-                  <div key={f.label} className="flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5">
-                    <span className="material-symbols-outlined text-[14px] text-blue-500">{f.icon}</span>
-                    <span className="text-[#6b6b6b] text-[11px] font-medium">{f.label}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-6">
-                {[
-                  { value: '128', label: 'Kader' },
-                  { value: '6', label: 'Program Berjalan' },
-                  { value: '2019', label: 'Tahun Berdiri' },
-                ].map((s) => (
-                  <div key={s.label} className="text-center">
-                    <div className="text-2xl font-extrabold text-[#1a1a1a]">{s.value}</div>
-                    <div className="text-[10px] text-[#6b6b6b] font-medium">{s.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Stats bar dihapus */}
       </section>
 
       {/* ── ROADMAP BELAJAR ── */}
@@ -163,7 +132,7 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
         <div className="max-w-[1100px] mx-auto px-6">
           <FadeInUp>
             <div className="flex items-start gap-3 mb-8">
-              <div className="w-10 h-10 rounded-xl bg-[#1a1a1a]/5 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded bg-[#1a1a1a]/5 flex items-center justify-center flex-shrink-0">
                 <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">route</span>
               </div>
               <div>
@@ -173,7 +142,7 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
             </div>
           </FadeInUp>
 
-          {/* Scroll horizontal di mobile, grid di desktop */}
+          {/* Grid semua kursus — scroll horizontal di mobile */}
           <div className="-mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto scrollbar-hide">
             <div className="flex gap-4 pb-3 md:pb-0 md:grid md:grid-cols-4">
               {(kursus.length > 0 ? kursus : fallbackCards).map((course, i) => {
@@ -184,16 +153,16 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
                 const icon = isReal ? (course as Kursus).icon : 'school'
                 const iconColor = isReal ? (course as Kursus).icon_color : '#6b6b6b'
                 return (
-                  <FadeInUp key={i} delay={i * 70}>
+                  <FadeInUp key={i} delay={i * 50}>
                     <a
                       href={href !== '#' ? href : undefined}
                       target={href !== '#' ? '_blank' : undefined}
                       rel="noopener noreferrer"
-                      className="w-[230px] md:w-auto flex flex-col bg-white rounded-2xl border border-[#e5e5e5] overflow-hidden shadow-sm hover:shadow-md transition-all group"
+                      className="w-[230px] md:w-auto flex flex-col bg-white border border-[#e5e5e5] overflow-hidden hover:shadow-md transition-all group"
                     >
-                      {/* Card header */}
+                      {/* Thumbnail */}
                       <div
-                        className="relative h-28 flex items-center justify-center overflow-hidden"
+                        className="relative h-[140px] flex items-center justify-center overflow-hidden"
                         style={{ background: thumbnail ? undefined : (bgColor ?? '#f2f2f2') }}
                       >
                         {thumbnail ? (
@@ -201,20 +170,20 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
                           <img src={thumbnail} alt={course.title} className="w-full h-full object-cover" />
                         ) : (
                           <>
-                            <span className="text-[72px] font-black text-[#1a1a1a]/8 select-none leading-none">{course.no}</span>
-                            <span className="absolute material-symbols-outlined text-[32px] opacity-30"
+                            <span className="text-[80px] font-black text-[#1a1a1a]/8 select-none leading-none">{course.no}</span>
+                            <span className="absolute material-symbols-outlined text-[36px] opacity-25"
                               style={{ color: iconColor, fontVariationSettings: "'FILL' 1" }}>
                               {icon}
                             </span>
                           </>
                         )}
                         {/* Nomor */}
-                        <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
-                          <span className="text-[11px] font-bold text-white">{course.no}</span>
+                        <div className="absolute top-2 left-2 w-6 h-6 bg-black/40 flex items-center justify-center">
+                          <span className="text-[10px] font-bold text-white">{course.no}</span>
                         </div>
                         {/* Level */}
-                        <div className="absolute bottom-3 right-3">
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${levelBadge[course.level] ?? 'bg-gray-100 text-gray-600'}`}>
+                        <div className="absolute bottom-2 right-2">
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${levelBadge[course.level] ?? 'bg-gray-100 text-gray-600'}`}>
                             {course.level}
                           </span>
                         </div>
@@ -226,7 +195,7 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
                         {course.deskripsi && (
                           <p className="text-[12px] text-[#6b6b6b] leading-relaxed line-clamp-3 flex-1">{course.deskripsi}</p>
                         )}
-                        <div className="mt-4 flex items-center gap-1 text-[12px] font-semibold">
+                        <div className="mt-4 flex items-center gap-1 text-[13px] font-semibold">
                           {href === '#' ? (
                             <span className="text-[#6b6b6b] flex items-center gap-1">
                               <span className="material-symbols-outlined text-[14px]">lock</span>
