@@ -260,7 +260,7 @@ export default function AdminKegiatanPage() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 sticky top-0 bg-white z-10">
               <h3 className="font-bold text-[#0a1628]">{editId ? 'Edit Kegiatan' : 'Tambah Kegiatan'}</h3>
               <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-gray-100 transition">
@@ -329,10 +329,13 @@ export default function AdminKegiatanPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Deskripsi Singkat</label>
+                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">
+                  Motivasi
+                  <span className="ml-1 font-normal text-gray-400 text-xs">(tampil italic di bawah gambar)</span>
+                </label>
                 <textarea value={form.deskripsi} onChange={e => setForm({ ...form, deskripsi: e.target.value })}
-                  rows={2} placeholder="Ringkasan singkat kegiatan (tampil di kartu)..."
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 resize-none" />
+                  rows={5} placeholder="Tulis kalimat motivasi atau deskripsi singkat kegiatan..."
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 resize-y min-h-[100px]" />
               </div>
 
               <div>

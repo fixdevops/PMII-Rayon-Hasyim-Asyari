@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import MobileNav from "@/components/MobileNav";
 import MobileHeader from "@/components/MobileHeader";
 import Footer from "@/components/Footer";
-import FadeInUp from "@/components/FadeInUp";
 import AspirasiButton from "@/components/AspirasiButton";
 import { supabase } from "@/lib/supabase";
+import NewsListClient from "./NewsListClient";
 
 export const dynamic = 'force-dynamic'
 
@@ -24,16 +23,6 @@ interface Activity {
   deskripsi?: string | null
   foto_url?: string | null
   lokasi?: string | null
-}
-
-const kategoriColor: Record<string, string> = {
-  umum: 'bg-gray-100 text-gray-700',
-  kajian: 'bg-blue-100 text-blue-700',
-  pelatihan: 'bg-purple-100 text-purple-700',
-  'aksi sosial': 'bg-green-100 text-green-700',
-  kaderisasi: 'bg-yellow-100 text-yellow-700',
-  keagamaan: 'bg-emerald-100 text-emerald-700',
-  rapat: 'bg-orange-100 text-orange-700',
 }
 
 async function getKegiatan(): Promise<Activity[]> {
@@ -76,93 +65,19 @@ export default async function NewsPage() {
   const activities = kegiatanList.length > 0 ? kegiatanList : fallbackActivities;
 
   return (
-    <div className="text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col"
-      style={{ background: "linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%)" }}>
+    <div className="bg-white text-[#1a1a1a] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
       <MobileHeader crumbs={[{ label: "News" }]} />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
-        <section className="max-w-4xl mx-auto">
+      <main className="flex-grow max-w-[900px] mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
+        {/* Header section */}
+        <h1 className="text-3xl font-bold text-[#1a1a1a] mb-2">Berita Terkini</h1>
+        <p className="text-[#6b6b6b] text-base mb-8">
+          Kegiatan, kajian, pelatihan, dan aksi sosial PMII Rayon Hasyim Asy&apos;ari.
+        </p>
 
-          <div className="flex justify-start mb-8">
-            <div className="w-[260px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
-              style={{ background: "linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)" }}>
-              News Terkini
-            </div>
-          </div>
-
-          <p className="text-[14px] text-[#3a4a5e] mb-10 max-w-xl">
-            Beragam kegiatan, kajian, pelatihan, dan aksi sosial yang dijalankan PMII Rayon Hasyim Asy&apos;ari.
-          </p>
-
-          {activities.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-40 text-[#3a4a5e] gap-2">
-              <span className="material-symbols-outlined text-[40px]">event_busy</span>
-              <p className="text-sm">Belum ada news terdaftar.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {activities.map((act, i) => (
-                <FadeInUp key={act.id} delay={i * 60}>
-                  <Link href={`/news/${act.slug ?? act.id}`}>
-                  <article className="group rounded-2xl overflow-hidden bg-white/80 border border-[#d0e4ff] hover:shadow-md transition-all duration-200 cursor-pointer backdrop-blur-sm h-full">
-                    <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                      {act.foto_url ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={act.foto_url} alt={act.judul}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="material-symbols-outlined text-gray-200 text-[48px]">image</span>
-                        </div>
-                      )}
-                      <div className="absolute top-3 left-3">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold shadow-sm border border-black/[0.06] capitalize ${kategoriColor[act.kategori] ?? 'bg-white/90 text-[#0f0f0f]'}`}>
-                          {act.kategori}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <div className="flex items-center gap-1.5 text-[12px] text-[#0f0f0f]/40 font-medium mb-2">
-                        <span className="material-symbols-outlined text-[14px]">calendar_today</span>
-                        {new Date(act.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-                      </div>
-                      <h3 className="text-[16px] font-semibold tracking-tight mb-2 leading-snug">{act.judul}</h3>
-                      {act.deskripsi && (
-                        <p className="text-[13px] text-[#0f0f0f]/55 leading-relaxed line-clamp-2">{act.deskripsi}</p>
-                      )}
-                      {act.lokasi && (
-                        <p className="text-[12px] text-[#0f0f0f]/40 mt-2 flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[13px]">location_on</span>
-                          {act.lokasi}
-                        </p>
-                      )}
-                      <div className="mt-3 flex items-center gap-1 text-[#0059bb] text-[12px] font-semibold">
-                        Baca selengkapnya
-                        <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none">
-                          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </article>
-                  </Link>
-                </FadeInUp>
-              ))}
-            </div>
-          )}
-
-          <div className="mt-12 text-center">
-            <Link href="/galeri"
-              className="inline-flex items-center gap-2 border border-[#0059bb]/30 text-[#0059bb] text-[14px] font-semibold px-6 py-2.5 rounded-full hover:bg-[#0059bb] hover:text-white transition-all duration-200">
-              Lihat Galeri Foto
-              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-          </div>
-
-        </section>
+        <NewsListClient activities={activities} />
       </main>
 
       <AspirasiButton />

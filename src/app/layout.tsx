@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rayonhasyimasyari.vercel.app"),
+  metadataBase: new URL("https://www.pmiirayonhasyimasyari.my.id"),
   icons: {
     icon: "/logorayon.png",
     shortcut: "/logorayon.png",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "PMII Rayon Hasyim Asyari - FST",
     description:
       "PMII Rayon Hasyim Asyari Fakultas Sains & Teknologi — Integrasi Spiritualitas & Inovasi. Dzikir, Fikir, Amal Sholeh.",
-    url: "https://pmii-rayon-hasyim-asyari.vercel.app",
+    url: "https://www.pmiirayonhasyimasyari.my.id",
     siteName: "PMII Rayon Hasyim Asyari",
     images: [
       {

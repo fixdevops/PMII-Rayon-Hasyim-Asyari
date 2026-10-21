@@ -23,16 +23,6 @@ interface Kegiatan {
   kategori: string
 }
 
-const kategoriColor: Record<string, string> = {
-  umum: 'bg-gray-100 text-gray-700',
-  kajian: 'bg-blue-100 text-blue-700',
-  pelatihan: 'bg-purple-100 text-purple-700',
-  'aksi sosial': 'bg-green-100 text-green-700',
-  kaderisasi: 'bg-yellow-100 text-yellow-700',
-  keagamaan: 'bg-emerald-100 text-emerald-700',
-  rapat: 'bg-orange-100 text-orange-700',
-}
-
 async function getBySlug(slug: string): Promise<Kegiatan | null> {
   // Coba cari by slug dulu
   const { data } = await supabase
@@ -68,29 +58,37 @@ export async function generateMetadata(
   const kegiatan = await getBySlug(slug)
   if (!kegiatan) return { title: "News tidak ditemukan" }
 
-  const pageUrl = `https://rayonhasyimasyari.vercel.app/news/${kegiatan.slug}`
-  const ogImage = kegiatan.foto_url
-    ? [{ url: kegiatan.foto_url, width: 1200, height: 630, alt: kegiatan.judul }]
-    : [{ url: 'https://rayonhasyimasyari.vercel.app/logorayon.png', width: 1200, height: 630, alt: "PMII Rayon Hasyim Asy'ari" }]
+  const BASE = 'https://www.pmiirayonhasyimasyari.my.id'
+  const pageUrl = `${BASE}/news/${kegiatan.slug ?? slug}`
+
+  // OG image dinamis via /api/og — WA dan platform lain bisa crawl dengan baik
+  const ogParams = new URLSearchParams({
+    judul: kegiatan.judul,
+    ...(kegiatan.deskripsi ? { deskripsi: kegiatan.deskripsi } : {}),
+    ...(kegiatan.foto_url ? { foto: kegiatan.foto_url } : {}),
+  })
+  const ogImageUrl = `${BASE}/api/og?${ogParams.toString()}`
+
+  const desc = kegiatan.deskripsi ?? `Berita dan kegiatan PMII Rayon Hasyim Asy'ari: ${kegiatan.judul}`
 
   return {
     title: `${kegiatan.judul} | PMII Rayon Hasyim Asy'ari`,
-    description: kegiatan.deskripsi ?? `News PMII Rayon Hasyim Asy'ari: ${kegiatan.judul}`,
+    description: desc,
     openGraph: {
       title: kegiatan.judul,
-      description: kegiatan.deskripsi ?? `News PMII Rayon Hasyim Asy'ari`,
+      description: desc,
       url: pageUrl,
       siteName: "PMII Rayon Hasyim Asy'ari",
       type: 'article',
       publishedTime: kegiatan.tanggal,
-      images: ogImage,
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: kegiatan.judul }],
       locale: 'id_ID',
     },
     twitter: {
       card: 'summary_large_image',
       title: kegiatan.judul,
-      description: kegiatan.deskripsi ?? `News PMII Rayon Hasyim Asy'ari`,
-      images: kegiatan.foto_url ? [kegiatan.foto_url] : ['https://rayonhasyimasyari.vercel.app/logorayon.png'],
+      description: desc,
+      images: [ogImageUrl],
     },
   }
 }
@@ -105,9 +103,16 @@ export default async function NewsDetailPage(
 
   const newsLain = await getNewsLain(kegiatan.id)
 
+  // Reading time calculation
+  const wordCount = (kegiatan.konten ?? '').replace(/(<([^>]+)>)/gi, '').split(/\s+/).filter(Boolean).length
+  const readTime = Math.max(1, Math.ceil(wordCount / 200))
+
+  const tanggalFormatted = new Date(kegiatan.tanggal).toLocaleDateString('id-ID', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  })
+
   return (
-    <div className="text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col"
-      style={{ background: "linear-gradient(to bottom, #ddeeff 0%, #eef5ff 20%, #ffffff 50%)" }}>
+    <div className="bg-white text-[#1a1a1a] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
       <MobileHeader crumbs={[
@@ -115,118 +120,217 @@ export default async function NewsDetailPage(
         { label: kegiatan.judul },
       ]} />
 
-      <main className="flex-grow w-full px-6 pb-16 pt-6 md:pt-24">
-        <div className="max-w-3xl mx-auto">
+      <main className="flex-grow w-full pb-16 pt-6 md:pt-24">
+        <div className="max-w-[680px] mx-auto px-6">
 
-          {/* Breadcrumb desktop */}
-          <div className="hidden md:flex items-center gap-2 text-[13px] text-[#0f0f0f]/40 mb-6">
-            <Link href="/news" className="hover:text-[#0059bb] transition">News</Link>
-            <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none">
-              <path d="M6 3l4 5-4 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          {/* Kembali ke News */}
+          <Link
+            href="/news"
+            className="inline-flex items-center gap-1.5 text-sm text-[#6b6b6b] hover:text-[#1a1a1a] transition mb-8"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+              <path d="M10 3L6 8l4 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <span className="text-[#0f0f0f]/60 line-clamp-1">{kegiatan.judul}</span>
-          </div>
+            Kembali ke News
+          </Link>
 
-          {/* Artikel */}
           <article>
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold capitalize border border-black/[0.06] ${kategoriColor[kegiatan.kategori] ?? 'bg-gray-100 text-gray-700'}`}>
-                {kegiatan.kategori}
-              </span>
-              <span className="flex items-center gap-1 text-[13px] text-[#0f0f0f]/40">
-                <span className="material-symbols-outlined text-[14px]">calendar_today</span>
-                {new Date(kegiatan.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-              </span>
-              {kegiatan.lokasi && (
-                <span className="flex items-center gap-1 text-[13px] text-[#0f0f0f]/40">
-                  <span className="material-symbols-outlined text-[14px]">location_on</span>
-                  {kegiatan.lokasi}
-                </span>
-              )}
-            </div>
-
-            <h1 className="text-[clamp(1.5rem,4vw,2.2rem)] font-bold text-[#001e40] leading-tight mb-6">
+            {/* Judul */}
+            <h1
+              className="font-bold text-[#1a1a1a] leading-tight mb-4"
+              style={{ fontSize: 'clamp(2rem, 5vw, 2.625rem)' }}
+            >
               {kegiatan.judul}
             </h1>
 
-            {kegiatan.foto_url && (
-              <div className="rounded-2xl overflow-hidden mb-8 border border-[#d0e4ff]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={kegiatan.foto_url} alt={kegiatan.judul}
-                  className="w-full object-cover max-h-[480px]" />
+            {/* Author info row */}
+            <div className="flex items-center gap-3 mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logorayon.png"
+                alt="Redaksi"
+                className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+              />
+              <div>
+                <p className="font-medium text-sm text-[#1a1a1a]">Redaksi Rayon Hasyim Asy&apos;ari</p>
+                <p className="text-[#6b6b6b] text-sm">
+                  {tanggalFormatted}
+                  <span className="mx-1.5">·</span>
+                  {readTime} menit baca
+                </p>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-[#e5e5e5] my-4" />
+
+            {/* Action row */}
+            <div className="flex items-center justify-between gap-3 mb-8">
+              <div className="flex items-center gap-4">
+                {/* Clap icon decorative */}
+                <button className="flex items-center gap-1.5 text-[#6b6b6b] hover:text-[#1a1a1a] transition" aria-label="Apresiasi">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 11l-2-2a1.5 1.5 0 0 1 2.12-2.12l2 2m0 0l1-1a1.5 1.5 0 0 1 2.12 2.12l-1 1m-2.12-2.12l-2 2m5 1l1.5-1.5a1.5 1.5 0 0 1 2.12 2.12L17 15m0 0l-5 5-7-2-2-7 4.5-4.5"/>
+                  </svg>
+                  <span className="text-sm hidden sm:inline">Apresiasi</span>
+                </button>
+              </div>
+
+              <div className="flex items-center gap-3">
+                {/* Bookmark icon decorative */}
+                <button className="text-[#6b6b6b] hover:text-[#1a1a1a] transition" aria-label="Simpan">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 3h14a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/>
+                  </svg>
+                </button>
+
+                {/* Share — 1 tombol cerdas */}
+                <ShareButtons
+                  judul={kegiatan.judul}
+                  deskripsi={kegiatan.deskripsi}
+                  url={`https://www.pmiirayonhasyimasyari.my.id/news/${kegiatan.slug}`}
+                />
+              </div>
+            </div>
+          </article>
+        </div>
+
+        {/* Hero image — sedikit lebih lebar dari kolom artikel */}
+        {kegiatan.foto_url ? (
+          <>
+            <div className="max-w-[800px] mx-auto px-6 mb-6">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={kegiatan.foto_url}
+                alt={kegiatan.judul}
+                className="w-full object-cover rounded-lg"
+                style={{ aspectRatio: '16/9', maxHeight: '400px' }}
+              />
+            </div>
+            {/* Motivasi — tepat di bawah gambar, tengah, italic */}
+            {kegiatan.deskripsi && (
+              <div className="max-w-[680px] mx-auto px-6 mb-8">
+                <p className="text-[14px] text-[#6b6b6b] leading-relaxed text-center italic">
+                  {kegiatan.deskripsi}
+                </p>
               </div>
             )}
-
-            {kegiatan.deskripsi && (
-              <p className="text-[16px] text-[#3a4a5e] leading-relaxed font-medium border-l-4 border-[#0059bb] pl-4 mb-8 italic">
+          </>
+        ) : (
+          /* Tidak ada foto: motivasi tetap muncul di kolom artikel */
+          kegiatan.deskripsi && (
+            <div className="max-w-[680px] mx-auto px-6 mb-8">
+              <p className="text-[17px] text-[#6b6b6b] leading-relaxed text-center italic">
                 {kegiatan.deskripsi}
               </p>
-            )}
+            </div>
+          )
+        )}
 
-            {kegiatan.konten && kegiatan.konten !== '<p></p>' ? (
-              <div
-                className="
-                  prose prose-sm md:prose-base max-w-none
-                  prose-headings:text-[#001e40] prose-headings:font-bold prose-headings:mt-6 prose-headings:mb-3
-                  prose-p:text-[#0f0f0f]/80 prose-p:leading-relaxed prose-p:mb-4
-                  prose-a:text-[#0059bb] prose-a:no-underline hover:prose-a:underline
-                  prose-strong:text-[#001e40]
-                  prose-blockquote:border-l-4 prose-blockquote:border-[#0059bb] prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-[#3a4a5e]
-                  prose-ul:list-disc prose-ul:pl-5 prose-ol:list-decimal prose-ol:pl-5
-                  prose-li:text-[#0f0f0f]/80 prose-li:mb-1
-                "
-                dangerouslySetInnerHTML={{ __html: kegiatan.konten }}
-              />
-            ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-[#3a4a5e]/50 gap-2 rounded-2xl border border-dashed border-[#d0e4ff]">
-                <span className="material-symbols-outlined text-[36px]">article</span>
-                <p className="text-sm">Konten lengkap belum ditambahkan.</p>
+        <div className="max-w-[680px] mx-auto px-6">
+          {/* Body teks */}
+          {kegiatan.konten && kegiatan.konten !== '<p></p>' ? (
+            <div
+              style={{ fontFamily: 'Georgia, serif' }}
+              className="
+                prose prose-lg max-w-none
+                prose-headings:font-bold prose-headings:text-[#1a1a1a]
+                prose-p:text-[#292929] prose-p:leading-[1.8]
+                prose-a:text-[#1a8917] hover:prose-a:underline
+                prose-strong:text-[#1a1a1a]
+                prose-blockquote:border-l-4 prose-blockquote:border-[#1a1a1a] prose-blockquote:italic prose-blockquote:text-[#6b6b6b] prose-blockquote:not-italic
+                prose-ul:list-disc prose-ol:list-decimal
+                prose-li:text-[#292929]
+              "
+              dangerouslySetInnerHTML={{ __html: kegiatan.konten }}
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 text-[#6b6b6b] gap-2">
+              <p className="text-sm">Konten lengkap belum ditambahkan.</p>
+            </div>
+          )}
+
+          {/* Footer artikel */}
+          <div className="mt-12">
+            {/* 3 dots separator */}
+            <div className="flex justify-center gap-2 my-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#b3b3b3]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#b3b3b3]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#b3b3b3]" />
+            </div>
+
+            {/* Author bio card */}
+            <div className="bg-[#f9f9f9] rounded-2xl p-6 mb-10">
+              <div className="flex items-start gap-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logorayon.png"
+                  alt="Redaksi"
+                  className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                />
+                <div className="flex-1">
+                  <p className="font-bold text-lg text-[#1a1a1a] mb-1">Redaksi Rayon Hasyim Asy&apos;ari</p>
+                  <p className="text-sm text-[#6b6b6b] leading-relaxed mb-4">
+                    Redaksi resmi PMII Rayon Hasyim Asy&apos;ari FST UNUGIRI Bojonegoro. Menyajikan informasi kegiatan, kajian, dan perkembangan organisasi.
+                  </p>
+                  <button className="border border-[#1a1a1a] text-[#1a1a1a] rounded-full px-5 py-2 text-sm font-medium hover:bg-[#1a1a1a] hover:text-white transition">
+                    Follow
+                  </button>
+                </div>
               </div>
-            )}
-          </article>
-
-          <ShareButtons
-            judul={kegiatan.judul}
-            deskripsi={kegiatan.deskripsi}
-            url={`https://rayonhasyimasyari.vercel.app/news/${kegiatan.slug}`}
-          />
-
-          <div className="mt-10">
-            <Link href="/news"
-              className="inline-flex items-center gap-2 border border-[#0059bb]/30 text-[#0059bb] text-[14px] font-semibold px-5 py-2.5 rounded-full hover:bg-[#0059bb] hover:text-white transition-all duration-200">
-              <svg className="w-4 h-4 rotate-180" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              Kembali ke News
-            </Link>
+            </div>
           </div>
 
+          {/* Rekomendasi untuk Anda */}
           {newsLain.length > 0 && (
-            <section className="mt-16">
-              <h2 className="text-[17px] font-bold text-[#001e40] mb-5">News Lainnya</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {newsLain.map(k => (
-                  <Link key={k.id} href={`/news/${k.slug ?? k.id}`}
-                    className="group rounded-xl overflow-hidden bg-white/80 border border-[#d0e4ff] hover:shadow-md transition-all duration-200">
-                    <div className="aspect-[4/3] overflow-hidden bg-gray-100">
-                      {k.foto_url ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={k.foto_url} alt={k.judul}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="material-symbols-outlined text-gray-200 text-[36px]">image</span>
+            <section className="mt-6 mb-16">
+              <h2 className="text-xl font-bold text-[#1a1a1a] mb-6">Rekomendasi untuk Anda</h2>
+              <div>
+                {newsLain.map((k, i) => {
+                  const kWordCount = (k.konten ?? '').replace(/(<([^>]+)>)/gi, '').split(/\s+/).filter(Boolean).length
+                  const kReadTime = Math.max(1, Math.ceil(kWordCount / 200))
+                  const kTanggal = new Date(k.tanggal).toLocaleDateString('id-ID', {
+                    day: 'numeric', month: 'short', year: 'numeric'
+                  })
+                  return (
+                    <div key={k.id}>
+                      {i > 0 && <div className="border-t border-[#e5e5e5]" />}
+                      <Link href={`/news/${k.slug ?? k.id}`} className="flex items-start gap-4 py-5 hover:bg-[#f9f9f9] -mx-3 px-3 rounded-lg transition group">
+                        {/* Kiri: teks */}
+                        <div className="flex-1 min-w-0">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-gray-100 text-[#6b6b6b] capitalize mb-2">
+                            {k.kategori}
+                          </span>
+                          <h3 className="font-semibold text-[#1a1a1a] text-[16px] leading-snug mb-1 line-clamp-2 group-hover:underline">
+                            {k.judul}
+                          </h3>
+                          <p className="text-[#6b6b6b] text-sm">
+                            {kTanggal}
+                            <span className="mx-1.5">·</span>
+                            {kReadTime} menit baca
+                          </p>
                         </div>
-                      )}
+                        {/* Kanan: gambar */}
+                        <div className="w-[112px] h-[75px] rounded overflow-hidden flex-shrink-0 bg-[#f2f2f2]">
+                          {k.foto_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={k.foto_url}
+                              alt={k.judul}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <svg className="w-6 h-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M21 15l-5-5-4 4-3-3-5 5V5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v10zm0 2.828l-5-5-4 4-3-3-5 4.172V19a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-1.172z"/>
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                      </Link>
                     </div>
-                    <div className="p-3">
-                      <p className="text-[11px] text-[#0f0f0f]/40 mb-1">
-                        {new Date(k.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </p>
-                      <h3 className="text-[13px] font-semibold text-[#001e40] line-clamp-2 leading-snug">{k.judul}</h3>
-                    </div>
-                  </Link>
-                ))}
+                  )
+                })}
               </div>
             </section>
           )}

@@ -58,10 +58,10 @@ export async function generateMetadata(
   const kegiatan = await getKegiatan(id)
   if (!kegiatan) return { title: "Kegiatan tidak ditemukan" }
 
-  const pageUrl = `https://rayonhasyimasyari.vercel.app/kegiatan/${id}`
+  const pageUrl = `https://www.pmiirayonhasyimasyari.my.id/kegiatan/${id}`
   const ogImage = kegiatan.foto_url
     ? [{ url: kegiatan.foto_url, width: 1200, height: 630, alt: kegiatan.judul }]
-    : [{ url: 'https://rayonhasyimasyari.vercel.app/logorayon.png', width: 1200, height: 630, alt: "PMII Rayon Hasyim Asy'ari" }]
+    : [{ url: 'https://www.pmiirayonhasyimasyari.my.id/logorayon.png', width: 1200, height: 630, alt: "PMII Rayon Hasyim Asy'ari" }]
 
   return {
     title: `${kegiatan.judul} | PMII Rayon Hasyim Asy'ari`,
@@ -80,7 +80,7 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: kegiatan.judul,
       description: kegiatan.deskripsi ?? `Kegiatan PMII Rayon Hasyim Asy'ari`,
-      images: kegiatan.foto_url ? [kegiatan.foto_url] : ['https://rayonhasyimasyari.vercel.app/logorayon.png'],
+      images: kegiatan.foto_url ? [kegiatan.foto_url] : ['https://www.pmiirayonhasyimasyari.my.id/logorayon.png'],
     },
   }
 }
@@ -187,7 +187,7 @@ export default async function KegiatanDetailPage(
           <ShareButtons
             judul={kegiatan.judul}
             deskripsi={kegiatan.deskripsi}
-            url={`https://rayonhasyimasyari.vercel.app/kegiatan/${kegiatan.id}`}
+            url={`https://www.pmiirayonhasyimasyari.my.id/kegiatan/${kegiatan.id}`}
           />
 
           {/* Tombol kembali */}
