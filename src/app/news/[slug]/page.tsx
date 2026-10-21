@@ -20,7 +20,6 @@ interface Kegiatan {
   tanggal: string
   lokasi: string | null
   foto_url: string | null
-  kategori: string
 }
 
 async function getBySlug(slug: string): Promise<Kegiatan | null> {
@@ -44,7 +43,7 @@ async function getBySlug(slug: string): Promise<Kegiatan | null> {
 async function getNewsLain(id: string): Promise<Kegiatan[]> {
   const { data } = await supabase
     .from("kegiatan")
-    .select("id, judul, slug, tanggal, foto_url, kategori, deskripsi, lokasi, konten")
+    .select("id, judul, slug, tanggal, foto_url, deskripsi, lokasi, konten")
     .neq("id", id)
     .order("tanggal", { ascending: false })
     .limit(3)
@@ -298,9 +297,6 @@ export default async function NewsDetailPage(
                       <Link href={`/news/${k.slug ?? k.id}`} className="flex items-start gap-4 py-5 hover:bg-[#f9f9f9] -mx-3 px-3 rounded-lg transition group">
                         {/* Kiri: teks */}
                         <div className="flex-1 min-w-0">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-gray-100 text-[#6b6b6b] capitalize mb-2">
-                            {k.kategori}
-                          </span>
                           <h3 className="font-semibold text-[#1a1a1a] text-[16px] leading-snug mb-1 line-clamp-2 group-hover:underline">
                             {k.judul}
                           </h3>

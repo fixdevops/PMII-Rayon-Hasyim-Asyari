@@ -18,7 +18,6 @@ interface Activity {
   id: string
   judul: string
   slug?: string | null
-  kategori: string
   tanggal: string
   deskripsi?: string | null
   foto_url?: string | null
@@ -28,14 +27,14 @@ interface Activity {
 async function getKegiatan(): Promise<Activity[]> {
   const { data } = await supabase
     .from("kegiatan")
-    .select("id, judul, slug, kategori, tanggal, deskripsi, foto_url, lokasi")
+    .select("id, judul, slug, tanggal, deskripsi, foto_url, lokasi")
     .order("tanggal", { ascending: false });
   return data ?? [];
 }
 
 const fallbackActivities: Activity[] = [
   {
-    id: "1", kategori: "Kajian Rutin",
+    id: "1",
     tanggal: "2026-10-15",
     judul: "Bedah Buku: Filsafat Sains Modern",
     deskripsi: "Mendiskusikan kaitan antara perkembangan sains kontemporer dengan nilai-nilai dasar pergerakan.",
@@ -43,7 +42,7 @@ const fallbackActivities: Activity[] = [
     lokasi: null,
   },
   {
-    id: "2", kategori: "Pelatihan",
+    id: "2",
     tanggal: "2026-10-22",
     judul: "Workshop Data Analitik Dasar",
     deskripsi: "Pelatihan keterampilan praktis analisis data menggunakan Python untuk kader PMII Rayon FST.",
@@ -51,7 +50,7 @@ const fallbackActivities: Activity[] = [
     lokasi: null,
   },
   {
-    id: "3", kategori: "Aksi Sosial",
+    id: "3",
     tanggal: "2026-11-05",
     judul: "Gerakan Bersih Lingkungan Kampus",
     deskripsi: "Implementasi nilai Hablum Minal Alam melalui aksi nyata menjaga kelestarian ekosistem kampus.",

@@ -15,7 +15,6 @@ interface Kegiatan {
   tanggal: string
   lokasi: string | null
   foto_url: string | null
-  kategori: string
 }
 
 // Generate slug URL-friendly dari judul
@@ -30,19 +29,7 @@ function generateSlug(judul: string, id: string): string {
   return `${base}-${id.slice(0, 8)}`
 }
 
-const KATEGORI_OPTIONS = ['umum', 'kajian', 'pelatihan', 'aksi sosial', 'kaderisasi', 'keagamaan', 'rapat']
-
-const emptyForm = { judul: '', deskripsi: '', konten: '', tanggal: '', lokasi: '', kategori: 'umum' }
-
-const kategoriColor: Record<string, string> = {
-  umum: 'bg-gray-100 text-gray-600',
-  kajian: 'bg-blue-100 text-blue-700',
-  pelatihan: 'bg-purple-100 text-purple-700',
-  'aksi sosial': 'bg-green-100 text-green-700',
-  kaderisasi: 'bg-yellow-100 text-yellow-700',
-  keagamaan: 'bg-emerald-100 text-emerald-700',
-  rapat: 'bg-orange-100 text-orange-700',
-}
+const emptyForm = { judul: '', deskripsi: '', konten: '', tanggal: '', lokasi: '' }
 
 export default function AdminKegiatanPage() {
   const [list, setList] = useState<Kegiatan[]>([])
@@ -85,7 +72,7 @@ export default function AdminKegiatanPage() {
     setForm({
       judul: k.judul, deskripsi: k.deskripsi ?? '',
       konten: k.konten ?? '',
-      tanggal: k.tanggal, lokasi: k.lokasi ?? '', kategori: k.kategori,
+      tanggal: k.tanggal, lokasi: k.lokasi ?? '',
     })
     setCurrentFotoUrl(k.foto_url)
     setFotoFile(null)
@@ -129,7 +116,7 @@ export default function AdminKegiatanPage() {
         judul: form.judul, deskripsi: form.deskripsi || null,
         konten: form.konten || null,
         tanggal: form.tanggal, lokasi: form.lokasi || null,
-        kategori: form.kategori, foto_url: null,
+        foto_url: null,
       }).select('id').single()
       targetId = inserted?.id ?? null
     }
@@ -143,7 +130,7 @@ export default function AdminKegiatanPage() {
       judul: form.judul, deskripsi: form.deskripsi || null,
       konten: form.konten || null,
       tanggal: form.tanggal, lokasi: form.lokasi || null,
-      kategori: form.kategori, foto_url, slug,
+      foto_url, slug,
     }).eq('id', targetId)
 
     setSaving(false)
@@ -219,9 +206,6 @@ export default function AdminKegiatanPage() {
               </div>
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full capitalize ${kategoriColor[k.kategori] ?? 'bg-gray-100 text-gray-600'}`}>
-                    {k.kategori}
-                  </span>
                   <span className="text-xs text-gray-400 flex items-center gap-1">
                     <span className="material-symbols-outlined text-[13px]">calendar_today</span>
                     {new Date(k.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -306,19 +290,10 @@ export default function AdminKegiatanPage() {
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Tanggal <span className="text-red-500">*</span></label>
-                  <input type="date" value={form.tanggal} onChange={e => setForm({ ...form, tanggal: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Kategori</label>
-                  <select value={form.kategori} onChange={e => setForm({ ...form, kategori: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]">
-                    {KATEGORI_OPTIONS.map(k => <option key={k} value={k}>{k.charAt(0).toUpperCase() + k.slice(1)}</option>)}
-                  </select>
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Tanggal <span className="text-red-500">*</span></label>
+                <input type="date" value={form.tanggal} onChange={e => setForm({ ...form, tanggal: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]" />
               </div>
 
               <div>

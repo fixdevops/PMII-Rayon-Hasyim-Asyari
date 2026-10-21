@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import FadeInUp from '@/components/FadeInUp'
 
@@ -8,7 +7,6 @@ interface Activity {
   id: string
   judul: string
   slug?: string | null
-  kategori: string
   tanggal: string
   deskripsi?: string | null
   foto_url?: string | null
@@ -20,36 +18,14 @@ interface Props {
 }
 
 export default function NewsListClient({ activities }: Props) {
-  const kategoriList = ['Semua', ...Array.from(new Set(activities.map(a => a.kategori)))]
-  const [aktifTab, setAktif] = useState('Semua')
-
-  const filtered = aktifTab === 'Semua' ? activities : activities.filter(a => a.kategori === aktifTab)
-
-  const featured = filtered[0] ?? null
-  const rest = filtered.slice(1)
+  const featured = activities[0] ?? null
+  const rest = activities.slice(1)
 
   return (
     <div>
-      {/* Filter tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-2 mb-8 scrollbar-hide">
-        {kategoriList.map(k => (
-          <button
-            key={k}
-            onClick={() => setAktif(k)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
-              aktifTab === k
-                ? 'bg-[#1a1a1a] text-white'
-                : 'bg-[#f2f2f2] text-[#6b6b6b] hover:bg-[#e5e5e5]'
-            }`}
-          >
-            {k}
-          </button>
-        ))}
-      </div>
-
-      {filtered.length === 0 ? (
+      {activities.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-40 text-[#6b6b6b] gap-2">
-          <p className="text-sm">Belum ada news di kategori ini.</p>
+          <p className="text-sm">Belum ada news.</p>
         </div>
       ) : (
         <>
@@ -58,7 +34,7 @@ export default function NewsListClient({ activities }: Props) {
             <FadeInUp key={featured.id}>
               <Link href={`/news/${featured.slug ?? featured.id}`} className="block group mb-0">
                 <article>
-                  {/* Foto — ukuran proporsional, tidak terlalu tinggi */}
+                  {/* Foto — ukuran proporsional */}
                   <div className="w-full rounded-xl overflow-hidden bg-[#f2f2f2] mb-4" style={{ aspectRatio: '16/9', maxHeight: '260px' }}>
                     {featured.foto_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -91,11 +67,7 @@ export default function NewsListClient({ activities }: Props) {
                   {/* Author row */}
                   <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/logorayon.png"
-                      alt="Redaksi"
-                      className="w-6 h-6 rounded-full object-cover"
-                    />
+                    <img src="/logorayon.png" alt="Redaksi" className="w-6 h-6 rounded-full object-cover" />
                     <span className="text-[#1a1a1a] font-medium">Redaksi</span>
                     <span>·</span>
                     <span>
@@ -127,14 +99,9 @@ export default function NewsListClient({ activities }: Props) {
                       {act.deskripsi}
                     </p>
                   )}
-                  {/* Meta */}
-                  <div className="flex items-center gap-1.5 text-xs text-[#6b6b6b] flex-wrap mt-auto">
+                  <div className="flex items-center gap-1.5 text-xs text-[#6b6b6b]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/logorayon.png"
-                      alt="Redaksi"
-                      className="w-4 h-4 rounded-full object-cover"
-                    />
+                    <img src="/logorayon.png" alt="Redaksi" className="w-4 h-4 rounded-full object-cover" />
                     <span className="text-[#1a1a1a] font-medium">Redaksi</span>
                     <span>·</span>
                     <span>
@@ -145,7 +112,7 @@ export default function NewsListClient({ activities }: Props) {
                   </div>
                 </div>
 
-                {/* Kanan: thumbnail — proporsional & responsif */}
+                {/* Kanan: thumbnail */}
                 <div
                   className="flex-shrink-0 rounded overflow-hidden bg-[#f2f2f2]"
                   style={{ width: 'clamp(80px, 20vw, 140px)', aspectRatio: '4/3' }}
