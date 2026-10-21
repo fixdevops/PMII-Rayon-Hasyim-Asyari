@@ -7,6 +7,7 @@ import MobileHeader from "@/components/MobileHeader";
 import Footer from "@/components/Footer";
 import AspirasiButton from "@/components/AspirasiButton";
 import ShareButtons from "@/components/ShareButtons";
+import NewsInteraction, { KomentarSection } from "./NewsInteraction";
 import { supabase } from "@/lib/supabase";
 
 export const dynamic = 'force-dynamic'
@@ -166,23 +167,15 @@ export default async function NewsDetailPage(
             {/* Action row */}
             <div className="flex items-center justify-between gap-3 mb-8">
               <div className="flex items-center gap-4">
-                {/* Clap icon decorative */}
-                <button className="flex items-center gap-1.5 text-[#6b6b6b] hover:text-[#1a1a1a] transition" aria-label="Apresiasi">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 11l-2-2a1.5 1.5 0 0 1 2.12-2.12l2 2m0 0l1-1a1.5 1.5 0 0 1 2.12 2.12l-1 1m-2.12-2.12l-2 2m5 1l1.5-1.5a1.5 1.5 0 0 1 2.12 2.12L17 15m0 0l-5 5-7-2-2-7 4.5-4.5"/>
-                  </svg>
-                  <span className="text-sm hidden sm:inline">Apresiasi</span>
-                </button>
+                <NewsInteraction
+                  kegiatanId={kegiatan.id}
+                  judul={kegiatan.judul}
+                  deskripsi={kegiatan.deskripsi}
+                  url={`https://www.pmiirayonhasyimasyari.my.id/news/${kegiatan.slug ?? kegiatan.id}`}
+                />
               </div>
 
               <div className="flex items-center gap-3">
-                {/* Bookmark icon decorative */}
-                <button className="text-[#6b6b6b] hover:text-[#1a1a1a] transition" aria-label="Simpan">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 3h14a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/>
-                  </svg>
-                </button>
-
                 {/* Share — 1 tombol cerdas */}
                 <ShareButtons
                   judul={kegiatan.judul}
@@ -279,6 +272,14 @@ export default async function NewsDetailPage(
               </div>
             </div>
           </div>
+
+          {/* Komentar */}
+          <KomentarSection
+            kegiatanId={kegiatan.id}
+            judul={kegiatan.judul}
+            deskripsi={kegiatan.deskripsi}
+            url={`https://www.pmiirayonhasyimasyari.my.id/news/${kegiatan.slug ?? kegiatan.id}`}
+          />
 
           {/* Rekomendasi untuk Anda */}
           {newsLain.length > 0 && (

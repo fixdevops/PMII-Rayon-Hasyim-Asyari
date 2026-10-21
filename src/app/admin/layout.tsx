@@ -12,6 +12,7 @@ const navItems = [
   { href: '/admin/galeri', label: 'Galeri', icon: 'photo_library' },
   { href: '/admin/belajar', label: 'Belajar', icon: 'school' },
   { href: '/admin/aspirasi', label: 'Aspirasi', icon: 'forum' },
+  { href: '/admin/komentar', label: 'Komentar', icon: 'comment' },
   { href: '/admin/pengaturan', label: 'Pengaturan', icon: 'settings' },
 ]
 
