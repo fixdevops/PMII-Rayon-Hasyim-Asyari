@@ -33,72 +33,76 @@ export default function Navbar() {
       transition={{ type: "spring", stiffness: 200, damping: 26, delay: 0.1 }}
       suppressHydrationWarning
     >
-      {/* Blur bg that fades in on scroll */}
+      {/* Animated background overlay */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         animate={{
-          backgroundColor: scrolled ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0)",
-          borderBottomColor: scrolled ? "rgba(0,0,0,0.07)" : "rgba(0,0,0,0)",
+          backgroundColor: scrolled
+            ? "rgba(255,255,255,0.92)"
+            : "rgba(255,255,255,0)",
         }}
         transition={{ duration: 0.3 }}
         style={{
           backdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
-          borderBottom: "1px solid",
-          boxShadow: scrolled ? "0 1px 24px rgba(0,20,60,0.07)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(0,0,0,0.08)" : "1px solid transparent",
+          boxShadow: scrolled ? "0 1px 24px rgba(0,0,0,0.07)" : "none",
         }}
       />
 
-      <div className="relative w-full px-[var(--page-padding)]">
-        <div className="mx-auto max-w-[var(--container-width)] flex items-center justify-between h-[68px]">
+      <div className="relative w-full px-6">
+        <div className="mx-auto max-w-6xl flex items-center justify-between h-[68px]">
 
-          {/* ── BRAND ── */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <motion.div whileHover={{ rotate: 8, scale: 1.08 }} transition={{ type: "spring", stiffness: 300 }}>
+          {/* ── LOGO ── */}
+          <Link href="/" className="flex items-center gap-3">
+            <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
               <Image
-                src="/logojadisatu.svg"
+                src="/logorayon.png"
                 alt="Logo PMII Rayon Hasyim Asy'ari"
-                width={38}
-                height={38}
-                className="object-contain"
+                width={36}
+                height={36}
+                className="rounded-full object-contain"
               />
             </motion.div>
             <div className="flex flex-col leading-tight">
-              <span className="text-[13px] font-black text-[#001e40] tracking-[0.08em]">PMII</span>
-              <span className="text-[9.5px] font-semibold text-[#001e40]/50 tracking-[0.12em] uppercase">Rayon Hasyim Asy&apos;ari</span>
+              <span className="text-[13px] font-black tracking-widest text-[#1a1a1a]">PMII</span>
+              <span className="text-[9px] font-semibold tracking-widest uppercase text-[#6b6b6b]">
+                Rayon Hasyim Asy&apos;ari
+              </span>
             </div>
           </Link>
 
           {/* ── NAV PILL ── */}
           <div
-            className="flex items-center gap-1 px-2 py-2 rounded-full"
-            style={{
-              background: scrolled ? "rgba(0,0,0,0.04)" : "rgba(0,30,64,0.05)",
-              border: "1px solid rgba(0,30,64,0.07)",
-            }}
+            className="flex items-center gap-1 px-1.5 py-1.5 rounded-full bg-[#f2f2f2]"
+            style={{ border: "1px solid rgba(0,0,0,0.06)" }}
           >
             {navLinks.map((link) => {
               const base = link.href.split("#")[0];
-              const isActive = pathname === base || (base !== "/" && pathname.startsWith(base));
+              const isActive =
+                pathname === base || (base !== "/" && pathname.startsWith(base));
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative px-4 py-1.5 rounded-full text-[13px] font-semibold transition-colors duration-150 outline-none"
-                  style={{ color: isActive ? "#001e40" : "rgba(15,15,15,0.5)" }}
+                  className="relative px-4 py-1.5 rounded-full text-[13px] transition-colors duration-150 outline-none"
+                  style={{
+                    color: isActive ? "#1a1a1a" : "#6b6b6b",
+                    fontWeight: isActive ? 600 : 400,
+                  }}
                   onMouseEnter={() => setHoveredLink(link.href)}
                   onMouseLeave={() => setHoveredLink(null)}
                 >
-                  {/* Active pill background */}
+                  {/* Active pill */}
                   {isActive && (
                     <motion.span
                       layoutId="nav-active-pill"
                       className="absolute inset-0 rounded-full bg-white"
-                      style={{ boxShadow: "0 1px 8px rgba(0,30,64,0.12), 0 0 0 1px rgba(0,30,64,0.06)" }}
+                      style={{ boxShadow: "0 1px 8px rgba(0,0,0,0.1)" }}
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
 
-                  {/* Hover pill background */}
+                  {/* Hover pill */}
                   <AnimatePresence>
                     {hoveredLink === link.href && !isActive && (
                       <motion.span
@@ -123,13 +127,10 @@ export default function Navbar() {
             href="/bootcamp"
             className="flex items-center gap-2 text-[13px] font-bold text-white px-5 py-2.5 rounded-full relative overflow-hidden"
             style={{
-              background: "linear-gradient(135deg, #001e40 0%, #003d8a 100%)",
-              boxShadow: "0 4px 16px rgba(0,30,64,0.25), inset 0 1px 0 rgba(255,255,255,0.1)",
+              background: "#1a1a1a",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
             }}
-            whileHover={{
-              scale: 1.04,
-              boxShadow: "0 8px 24px rgba(0,30,64,0.35), inset 0 1px 0 rgba(255,255,255,0.1)",
-            }}
+            whileHover={{ scale: 1.03, background: "#333" } as Parameters<typeof motion.a>[0]["whileHover"]}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
@@ -141,16 +142,23 @@ export default function Navbar() {
               <motion.span
                 className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
                 animate={{ x: ["-100%", "300%"] }}
-                transition={{ repeat: Infinity, duration: 2.5, ease: "linear", repeatDelay: 1 }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 2.5,
+                  ease: "linear",
+                  repeatDelay: 1,
+                }}
               />
             </motion.span>
 
-            <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+            <span
+              className="material-symbols-outlined text-[15px] relative z-10"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
               rocket_launch
             </span>
-            Daftar Free Bootcamp
+            <span className="relative z-10">Daftar Free Bootcamp</span>
           </motion.a>
-
         </div>
       </div>
     </motion.nav>

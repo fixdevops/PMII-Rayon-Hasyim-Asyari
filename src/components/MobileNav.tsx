@@ -7,35 +7,41 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
-  { href: "/", label: "Home", desc: "Halaman Utama" },
-  { href: "/news", label: "News", desc: "News Terkini" },
-  { href: "/galeri", label: "Galeri", desc: "Dokumentasi Foto" },
-  { href: "/kaderisasi", label: "Belajar", desc: "Sistem Kaderisasi" },
-  { href: "/#tentang", label: "Tentang", desc: "Tentang Rayon" },
+  { href: "/", label: "Home" },
+  { href: "/news", label: "News" },
+  { href: "/galeri", label: "Galeri" },
+  { href: "/kaderisasi", label: "Belajar" },
+  { href: "/#tentang", label: "Tentang" },
 ];
 
 export default function MobileNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  // Close on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
+  // Lock body scroll when open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
     <>
-      {/* Hamburger button — kanan atas */}
+      {/* Hamburger button */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed top-5 right-4 z-50 md:hidden w-10 h-10 rounded-xl bg-white border border-black/[0.08] shadow-sm flex flex-col justify-center items-center gap-[5px]"
+        className="fixed top-4 right-4 z-50 md:hidden w-9 h-9 rounded-full bg-white border border-black/[0.1] shadow-sm flex flex-col justify-center items-center gap-[5px]"
         aria-label="Buka menu"
       >
-        <span className="w-5 h-[2px] bg-[#001e40] rounded-full" />
-        <span className="w-5 h-[2px] bg-[#001e40] rounded-full" />
-        <span className="w-3 h-[2px] bg-[#001e40] rounded-full self-end mr-[5px]" />
+        <span className="w-5 h-[2px] bg-[#1a1a1a] rounded-full" />
+        <span className="w-5 h-[2px] bg-[#1a1a1a] rounded-full" />
+        <span className="w-5 h-[2px] bg-[#1a1a1a] rounded-full" />
       </button>
 
       <AnimatePresence>
@@ -52,45 +58,60 @@ export default function MobileNav() {
               onClick={() => setOpen(false)}
             />
 
-            {/* Sidebar — dari kanan */}
+            {/* Sidebar */}
             <motion.aside
               key="sidebar"
               className="fixed top-0 right-0 bottom-0 z-[60] md:hidden flex flex-col bg-white"
               style={{
-                width: "75vw",
-                maxWidth: 300,
-                boxShadow: "-4px 0 32px rgba(0,0,0,0.12)",
+                width: "min(280px, 80vw)",
+                boxShadow: "-4px 0 40px rgba(0,0,0,0.15)",
               }}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
             >
-              {/* Header */}
-              <div className="flex items-center justify-between px-5 pt-14 pb-5 border-b border-black/[0.06]">
-                <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-                  <Image src="/logoi pmii.png" alt="Logo PMII" width={40} height={40} className="object-contain" />
-                  <div>
-                    <p className="text-[13px] font-black text-[#001e40] tracking-wide leading-none">PMII</p>
-                    <p className="text-[9px] font-semibold text-[#001e40]/50 tracking-widest leading-none mt-1 uppercase">Rayon Hasyim Asy&apos;ari</p>
-                  </div>
+              {/* Sidebar header */}
+              <div className="flex items-center justify-between px-5 pt-6 pb-5 border-b border-black/[0.06]">
+                <Link
+                  href="/"
+                  className="flex items-center gap-2.5"
+                  onClick={() => setOpen(false)}
+                >
+                  <Image
+                    src="/logorayon.png"
+                    alt="Logo PMII Rayon Hasyim Asy'ari"
+                    width={32}
+                    height={32}
+                    className="rounded-full object-contain"
+                  />
+                  <span className="text-[13px] font-bold text-[#1a1a1a]">
+                    PMII Rayon Hasyim Asy&apos;ari
+                  </span>
                 </Link>
                 <button
                   onClick={() => setOpen(false)}
-                  className="w-8 h-8 rounded-lg bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#0f0f0f]/50 hover:text-[#0f0f0f] transition-all"
+                  className="w-8 h-8 rounded-full bg-[#f2f2f2] flex items-center justify-center"
                   aria-label="Tutup menu"
                 >
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
+                    <path
+                      d="M1 1l10 10M11 1L1 11"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                    />
                   </svg>
                 </button>
               </div>
 
-              {/* Nav items — tanpa icon */}
+              {/* Nav items */}
               <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
                 {navItems.map((item, i) => {
                   const base = item.href.split("#")[0];
-                  const isActive = pathname === base || (base !== "/" && pathname.startsWith(base));
+                  const isActive =
+                    pathname === base ||
+                    (base !== "/" && pathname.startsWith(base));
                   return (
                     <motion.div
                       key={item.href}
@@ -101,25 +122,15 @@ export default function MobileNav() {
                       <Link
                         href={item.href}
                         onClick={() => setOpen(false)}
-                        className={`flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-150 ${
+                        className={`flex items-center justify-between px-4 py-3 rounded-xl text-[15px] transition-all duration-150 ${
                           isActive
-                            ? "bg-[#001e40]/[0.06]"
-                            : "hover:bg-black/[0.04]"
+                            ? "bg-[#f2f2f2] text-[#1a1a1a] font-semibold"
+                            : "text-[#6b6b6b] hover:bg-[#f9f9f9]"
                         }`}
                       >
-                        <div>
-                          <p className={`text-[15px] font-semibold leading-none ${
-                            isActive ? "text-[#001e40]" : "text-[#0f0f0f]/70"
-                          }`}>
-                            {item.label}
-                          </p>
-                          <p className="text-[11px] text-[#0f0f0f]/35 leading-none mt-1">
-                            {item.desc}
-                          </p>
-                        </div>
-
+                        <span>{item.label}</span>
                         {isActive && (
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#0059bb] flex-shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a] flex-shrink-0" />
                         )}
                       </Link>
                     </motion.div>
@@ -127,16 +138,12 @@ export default function MobileNav() {
                 })}
               </nav>
 
-              {/* Footer CTA */}
+              {/* Footer */}
               <div className="px-4 pb-10 pt-3 border-t border-black/[0.06]">
                 <Link
                   href="/bootcamp"
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-white font-bold text-[13px] relative overflow-hidden active:scale-95 transition-transform"
-                  style={{
-                    background: "linear-gradient(135deg, #001e40 0%, #003d8a 100%)",
-                    boxShadow: "0 4px 16px rgba(0,30,64,0.25), inset 0 1px 0 rgba(255,255,255,0.1)",
-                  }}
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-[#1a1a1a] text-white font-bold text-[13px] relative overflow-hidden active:scale-95 transition-transform"
                 >
                   {/* Shimmer */}
                   <motion.span
@@ -146,15 +153,23 @@ export default function MobileNav() {
                     <motion.span
                       className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
                       animate={{ x: ["-100%", "300%"] }}
-                      transition={{ repeat: Infinity, duration: 2.5, ease: "linear", repeatDelay: 1 }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2.5,
+                        ease: "linear",
+                        repeatDelay: 1,
+                      }}
                     />
                   </motion.span>
-                  <span className="material-symbols-outlined text-[15px] relative z-10" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  <span
+                    className="material-symbols-outlined text-[15px] relative z-10"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
                     rocket_launch
                   </span>
                   <span className="relative z-10">Daftar Free Bootcamp</span>
                 </Link>
-                <p className="text-[10px] text-[#0f0f0f]/25 text-center mt-3">
+                <p className="text-[10px] text-[#6b6b6b] text-center mt-3">
                   © 2025 PMII Rayon Hasyim Asy&apos;ari FST
                 </p>
               </div>
