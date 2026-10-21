@@ -296,7 +296,7 @@ export default function NewsInteraction({ kegiatanId }: Props) {
         style={{ transition: 'transform 0.2s ease, color 0.15s' }}
       >
         <ClapIcon filled={clapped} />
-        <span className="text-[11px] font-medium">{count > 0 ? count : 'Apresiasi'}</span>
+        <span className="text-[11px] font-medium tabular-nums">{count}</span>
       </button>
 
       {/* Favorit */}
@@ -308,7 +308,7 @@ export default function NewsInteraction({ kegiatanId }: Props) {
         }`}
       >
         <BookmarkIcon filled={fav} />
-        <span className="text-[11px] font-medium">{fav ? 'Tersimpan' : 'Simpan'}</span>
+        <span className="text-[11px] font-medium tabular-nums">{fav ? '1' : '0'}</span>
       </button>
     </div>
   )
