@@ -111,25 +111,15 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
   return (
     <div className="w-full">
       {/* ===== HERO SECTION ===== */}
-      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#0d2a4a] to-[#0a1628] overflow-hidden pt-20 md:pt-28 pb-0">
-        {/* Decorative dots */}
+      <section className="relative bg-white border-b border-[#e5e5e5] overflow-hidden pt-20 md:pt-28 pb-0">
+        {/* Decorative subtle dots */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {[
-            { w: 2, h: 2, t: '10%', l: '5%' },
-            { w: 3, h: 3, t: '20%', l: '15%' },
-            { w: 1, h: 1, t: '35%', l: '25%' },
-            { w: 2, h: 2, t: '50%', l: '40%' },
-            { w: 3, h: 3, t: '65%', l: '55%' },
-            { w: 1, h: 1, t: '80%', l: '70%' },
-            { w: 2, h: 2, t: '15%', l: '80%' },
-            { w: 3, h: 3, t: '45%', l: '90%' },
-            { w: 1, h: 1, t: '70%', l: '10%' },
-            { w: 2, h: 2, t: '90%', l: '60%' },
-          ].map((dot, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full bg-white/10"
-              style={{ width: dot.w + 'px', height: dot.h + 'px', top: dot.t, left: dot.l }}
+            { w: 200, h: 200, t: '-5%', l: '-5%', opacity: 0.04 },
+            { w: 300, h: 300, t: '30%', l: '60%', opacity: 0.03 },
+          ].map((orb, i) => (
+            <div key={i} className="absolute rounded-full bg-blue-500"
+              style={{ width: orb.w, height: orb.h, top: orb.t, left: orb.l, opacity: orb.opacity, filter: 'blur(60px)' }}
             />
           ))}
         </div>
@@ -140,21 +130,21 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
             <div className="flex-1 min-w-0">
               {/* Breadcrumb */}
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-[11px] tracking-[0.2em] font-bold text-blue-400 uppercase">KADER</span>
-                <span className="text-blue-400/50">·</span>
-                <span className="text-[11px] tracking-[0.2em] font-bold text-blue-400 uppercase">ILMU</span>
-                <span className="text-blue-400/50">·</span>
-                <span className="text-[11px] tracking-[0.2em] font-bold text-blue-400 uppercase">PENGABDIAN</span>
+                <span className="text-[11px] tracking-[0.2em] font-bold text-blue-500 uppercase">KADER</span>
+                <span className="text-[#d0d0d0]">·</span>
+                <span className="text-[11px] tracking-[0.2em] font-bold text-blue-500 uppercase">ILMU</span>
+                <span className="text-[#d0d0d0]">·</span>
+                <span className="text-[11px] tracking-[0.2em] font-bold text-blue-500 uppercase">PENGABDIAN</span>
               </div>
 
               {/* Heading */}
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-                <span className="text-white">PMII </span>
-                <span className="text-blue-400">Rayon Hasyim Asy&apos;ari</span>
+                <span className="text-[#1a1a1a]">PMII </span>
+                <span className="text-blue-500">Rayon Hasyim Asy&apos;ari</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-blue-100/70 text-base md:text-lg leading-relaxed max-w-xl mb-8">
+              <p className="text-[#6b6b6b] text-base md:text-lg leading-relaxed max-w-xl mb-8">
                 Membentuk kader yang berilmu, berakhlak, dan berdaya guna untuk masyarakat, bangsa, dan agama.
               </p>
 
@@ -162,14 +152,14 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
               <div className="flex flex-wrap gap-3">
                 <Link
                   href="#roadmap"
-                  className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm px-6 py-3 rounded-full transition shadow-lg shadow-blue-500/30"
+                  className="inline-flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#333] text-white font-bold text-sm px-6 py-3 rounded-full transition"
                 >
                   Mulai Belajar
                   <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </Link>
                 <Link
                   href="#program"
-                  className="inline-flex items-center gap-2 border border-white/30 hover:border-white/60 text-white/80 hover:text-white font-bold text-sm px-6 py-3 rounded-full transition"
+                  className="inline-flex items-center gap-2 border border-[#e5e5e5] hover:border-[#1a1a1a] text-[#6b6b6b] hover:text-[#1a1a1a] font-bold text-sm px-6 py-3 rounded-full transition"
                 >
                   Jelajahi Program
                 </Link>
@@ -180,25 +170,25 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
             <div className="flex-shrink-0 flex flex-col items-center gap-4">
               {/* Logo */}
               <div className="relative">
-                <div className="w-40 h-40 md:w-52 md:h-52 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                <div className="w-40 h-40 md:w-52 md:h-52 rounded-full bg-[#f2f2f2] flex items-center justify-center border border-[#e5e5e5]">
                   <Image
                     src="/logorayon.png"
                     alt="Logo PMII Rayon Hasyim Asy'ari"
                     width={160}
                     height={160}
-                    className="rounded-full object-contain opacity-90 p-3"
+                    className="rounded-full object-contain p-3"
                   />
                 </div>
-                <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg">
+                <div className="absolute -bottom-2 -right-2 bg-[#1a1a1a] text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
                   FST UNUGIRI
                 </div>
               </div>
 
               {/* Info card */}
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 max-w-[220px] w-full">
-                <p className="text-white/50 text-[10px] font-semibold uppercase tracking-widest mb-1">Tentang Rayon</p>
-                <h3 className="text-white text-sm font-bold mb-2">Rayon Hasyim Asy&apos;ari</h3>
-                <p className="text-white/60 text-[11px] leading-relaxed">
+              <div className="bg-[#f9f9f9] border border-[#e5e5e5] rounded-2xl p-4 max-w-[220px] w-full">
+                <p className="text-[#6b6b6b] text-[10px] font-semibold uppercase tracking-widest mb-1">Tentang Rayon</p>
+                <h3 className="text-[#1a1a1a] text-sm font-bold mb-2">Rayon Hasyim Asy&apos;ari</h3>
+                <p className="text-[#6b6b6b] text-[11px] leading-relaxed">
                   Organisasi kader mahasiswa FST UNUGIRI berbasis Aswaja An-Nahdliyah.
                 </p>
               </div>
@@ -207,7 +197,7 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
         </div>
 
         {/* Stats bar */}
-        <div className="border-t border-white/10 bg-white/5 backdrop-blur-sm">
+        <div className="border-t border-[#e5e5e5] bg-[#f9f9f9]">
           <div className="max-w-[1100px] mx-auto px-6 py-5">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               {/* Feature pills */}
@@ -218,9 +208,9 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
                   { icon: 'volunteer_activism', label: 'Aksi Sosial' },
                   { icon: 'diversity_3', label: 'Kebersamaan' },
                 ].map((f) => (
-                  <div key={f.label} className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5">
-                    <span className="material-symbols-outlined text-[14px] text-blue-300">{f.icon}</span>
-                    <span className="text-white/80 text-[11px] font-medium">{f.label}</span>
+                  <div key={f.label} className="flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5">
+                    <span className="material-symbols-outlined text-[14px] text-blue-500">{f.icon}</span>
+                    <span className="text-[#6b6b6b] text-[11px] font-medium">{f.label}</span>
                   </div>
                 ))}
               </div>
@@ -233,8 +223,8 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
                   { value: '2019', label: 'Tahun Berdiri' },
                 ].map((s) => (
                   <div key={s.label} className="text-center">
-                    <div className="text-2xl font-extrabold text-white">{s.value}</div>
-                    <div className="text-[10px] text-white/50 font-medium">{s.label}</div>
+                    <div className="text-2xl font-extrabold text-[#1a1a1a]">{s.value}</div>
+                    <div className="text-[10px] text-[#6b6b6b] font-medium">{s.label}</div>
                   </div>
                 ))}
               </div>
