@@ -37,20 +37,13 @@ function initials(name: string): string {
   return name.trim().charAt(0).toUpperCase()
 }
 
-// ─── Clap SVG icon ─────────────────────────────────────────────────────────
+// ─── Heart/Like icon ───────────────────────────────────────────────────────
 
-function ClapIcon({ filled }: { filled?: boolean }) {
+function HeartIcon({ filled }: { filled?: boolean }) {
   return (
-    <svg
-      className="w-5 h-5"
-      viewBox="0 0 24 24"
-      fill={filled ? 'currentColor' : 'none'}
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9 11l-2-2a1.5 1.5 0 0 1 2.12-2.12l2 2m0 0l1-1a1.5 1.5 0 0 1 2.12 2.12l-1 1m-2.12-2.12l-2 2m5 1l1.5-1.5a1.5 1.5 0 0 1 2.12 2.12L17 15m0 0l-5 5-7-2-2-7 4.5-4.5" />
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'}
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
   )
 }
@@ -245,7 +238,7 @@ export default function NewsInteraction({ kegiatanId }: Props) {
     setFav(localStorage.getItem(`fav_${kegiatanId}`) === 'true')
 
     fetch(`/api/apresiasi?kegiatan_id=${encodeURIComponent(kegiatanId)}`)
-      .then((r) => r.json())
+      .then((r) => r.ok ? r.json() : Promise.resolve({ count: 0 }))
       .then((d) => { if (typeof d.count === 'number') setCount(d.count) })
       .catch(() => {})
   }, [kegiatanId])
@@ -295,7 +288,7 @@ export default function NewsInteraction({ kegiatanId }: Props) {
         }`}
         style={{ transition: 'transform 0.2s ease, color 0.15s' }}
       >
-        <ClapIcon filled={clapped} />
+        <HeartIcon filled={clapped} />
         <span className="text-[11px] font-medium tabular-nums">{count}</span>
       </button>
 
@@ -340,7 +333,7 @@ export function KomentarSection({ kegiatanId }: Props) {
     setIsAdmin(localStorage.getItem('admin_logged_in') === 'true')
 
     fetch(`/api/komentar?kegiatan_id=${encodeURIComponent(kegiatanId)}`)
-      .then((r) => r.json())
+      .then((r) => r.ok ? r.json() : Promise.resolve([]))
       .then((d) => {
         if (Array.isArray(d)) setKomentarList(d)
       })
