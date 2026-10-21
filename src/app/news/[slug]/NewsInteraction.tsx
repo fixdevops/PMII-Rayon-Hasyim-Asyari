@@ -280,33 +280,35 @@ export default function NewsInteraction({ kegiatanId }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-6">
       {/* Apresiasi */}
       <button
         onClick={handleClap}
         disabled={clapped}
         aria-label="Apresiasi"
-        className={`flex items-center gap-1.5 transition ${
+        className={`flex flex-col items-center gap-0.5 transition-transform ${
           animating ? 'scale-125' : 'scale-100'
         } ${
           clapped
-            ? 'text-[#1a1a1a] opacity-60 cursor-not-allowed'
+            ? 'text-[#1a1a1a] cursor-not-allowed opacity-70'
             : 'text-[#6b6b6b] hover:text-[#1a1a1a]'
         }`}
         style={{ transition: 'transform 0.2s ease, color 0.15s' }}
       >
         <ClapIcon filled={clapped} />
-        {count > 0 && <span className="text-sm">{count}</span>}
-        <span className="text-sm hidden sm:inline">Apresiasi</span>
+        <span className="text-[11px] font-medium">{count > 0 ? count : 'Apresiasi'}</span>
       </button>
 
       {/* Favorit */}
       <button
         onClick={handleFav}
         aria-label={fav ? 'Hapus dari favorit' : 'Simpan ke favorit'}
-        className={`transition ${fav ? 'text-[#1a1a1a]' : 'text-[#6b6b6b] hover:text-[#1a1a1a]'}`}
+        className={`flex flex-col items-center gap-0.5 transition ${
+          fav ? 'text-[#1a1a1a]' : 'text-[#6b6b6b] hover:text-[#1a1a1a]'
+        }`}
       >
         <BookmarkIcon filled={fav} />
+        <span className="text-[11px] font-medium">{fav ? 'Tersimpan' : 'Simpan'}</span>
       </button>
     </div>
   )
