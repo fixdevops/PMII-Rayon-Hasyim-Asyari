@@ -144,7 +144,7 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
 
           {/* Grid semua kursus — scroll horizontal di mobile */}
           <div className="-mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto scrollbar-hide">
-            <div className="flex gap-4 pb-3 md:pb-0 md:grid md:grid-cols-4">
+            <div className="flex gap-[1px] pb-3 md:pb-0 md:grid md:grid-cols-4 md:gap-[1px] border border-[#e5e5e5]">
               {(kursus.length > 0 ? kursus : fallbackCards).map((course, i) => {
                 const isReal = 'href' in course
                 const href = isReal ? (course as Kursus).href : '#'
@@ -158,53 +158,60 @@ export default function KaderisasiClient({ kursus, kegiatan }: Props) {
                       href={href !== '#' ? href : undefined}
                       target={href !== '#' ? '_blank' : undefined}
                       rel="noopener noreferrer"
-                      className="w-[230px] md:w-auto flex flex-col bg-white border border-[#e5e5e5] overflow-hidden hover:shadow-md transition-all group"
+                      className="w-[230px] md:w-auto flex flex-col bg-white border border-[#e5e5e5] md:border-0 overflow-hidden hover:bg-[#fafafa] transition-colors group"
                     >
-                      {/* Thumbnail */}
+                      {/* Thumbnail — tinggi tetap */}
                       <div
-                        className="relative h-[140px] flex items-center justify-center overflow-hidden"
-                        style={{ background: thumbnail ? undefined : (bgColor ?? '#f2f2f2') }}
+                        className="relative w-full overflow-hidden flex-shrink-0"
+                        style={{
+                          height: '140px',
+                          background: thumbnail ? undefined : (bgColor ?? '#f2f2f2'),
+                        }}
                       >
                         {thumbnail ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={thumbnail} alt={course.title} className="w-full h-full object-cover" />
+                          <img src={thumbnail} alt={course.title}
+                            className="w-full h-full object-cover" />
                         ) : (
                           <>
-                            <span className="text-[80px] font-black text-[#1a1a1a]/8 select-none leading-none">{course.no}</span>
-                            <span className="absolute material-symbols-outlined text-[36px] opacity-25"
+                            <span className="absolute inset-0 flex items-center justify-center text-[80px] font-black text-[#1a1a1a]/8 select-none leading-none">
+                              {course.no}
+                            </span>
+                            <span className="absolute inset-0 flex items-center justify-center material-symbols-outlined text-[40px] opacity-20"
                               style={{ color: iconColor, fontVariationSettings: "'FILL' 1" }}>
                               {icon}
                             </span>
                           </>
                         )}
                         {/* Nomor */}
-                        <div className="absolute top-2 left-2 w-6 h-6 bg-black/40 flex items-center justify-center">
+                        <div className="absolute top-2 left-2 w-6 h-6 bg-black/50 flex items-center justify-center">
                           <span className="text-[10px] font-bold text-white">{course.no}</span>
                         </div>
-                        {/* Level */}
+                        {/* Level badge */}
                         <div className="absolute bottom-2 right-2">
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${levelBadge[course.level] ?? 'bg-gray-100 text-gray-600'}`}>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 ${levelBadge[course.level] ?? 'bg-gray-100 text-gray-600'}`}>
                             {course.level}
                           </span>
                         </div>
                       </div>
 
-                      {/* Content */}
+                      {/* Content — flex-1 agar tinggi seragam */}
                       <div className="p-4 flex flex-col flex-1">
                         <h3 className="text-[14px] font-bold text-[#1a1a1a] leading-snug mb-2">{course.title}</h3>
-                        {course.deskripsi && (
-                          <p className="text-[12px] text-[#6b6b6b] leading-relaxed line-clamp-3 flex-1">{course.deskripsi}</p>
-                        )}
-                        <div className="mt-4 flex items-center gap-1 text-[13px] font-semibold">
+                        {/* Deskripsi: fixed 3 baris dengan line-clamp */}
+                        <p className="text-[12px] text-[#6b6b6b] leading-relaxed line-clamp-3 flex-1 min-h-[54px]">
+                          {course.deskripsi ?? ''}
+                        </p>
+                        <div className="mt-4 pt-3 border-t border-[#f0f0f0] flex items-center gap-1 text-[13px] font-semibold">
                           {href === '#' ? (
                             <span className="text-[#6b6b6b] flex items-center gap-1">
                               <span className="material-symbols-outlined text-[14px]">lock</span>
                               Segera Hadir
                             </span>
                           ) : (
-                            <span className="text-[#1a1a1a] flex items-center gap-1">
+                            <span className="text-[#1a1a1a] flex items-center gap-1 group-hover:gap-2 transition-all">
                               Mulai Belajar
-                              <span className="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                             </span>
                           )}
                         </div>
