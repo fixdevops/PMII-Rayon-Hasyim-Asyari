@@ -20,9 +20,9 @@ interface Kursus {
 }
 
 const levelColor: Record<string, string> = {
-  Beginner: 'bg-green-100 text-green-700',
-  Intermediate: 'bg-yellow-100 text-yellow-700',
-  Advanced: 'bg-red-100 text-red-700',
+  Beginner: 'bg-[#f2f2f2] text-[#6b6b6b]',
+  Intermediate: 'bg-[#f2f2f2] text-[#6b6b6b]',
+  Advanced: 'bg-[#f2f2f2] text-[#1a1a1a]',
 }
 
 export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
@@ -47,15 +47,8 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
       {/* Header */}
       <FadeInUp>
         <div className="mb-2">
-          <div className="flex justify-start mb-2">
-            <div
-              className="w-[220px] text-center py-1.5 rounded-r-lg text-white font-bold text-[17px] tracking-wide"
-              style={{ background: 'linear-gradient(to right, transparent, #0059bb, #fbbf24, transparent)' }}
-            >
-              Roadmap Belajar
-            </div>
-          </div>
-          <p className="text-[14px] text-[#3a4a5e] mt-3 max-w-xl">
+          <h1 className="text-3xl font-bold text-[#1a1a1a] mb-2">Roadmap Belajar</h1>
+          <p className="text-base text-[#6b6b6b] max-w-xl">
             Kumpulan materi belajar untuk kader PMII Rayon Hasyim Asy&apos;ari — dari pemrograman, desain, data, hingga ke-Islaman.
           </p>
         </div>
@@ -70,8 +63,8 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
               onClick={() => setActiveFilter(cat.value)}
               className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition ${
                 activeFilter === cat.value
-                  ? 'bg-[#0059bb] text-white border-[#0059bb]'
-                  : 'bg-white/80 text-[#3a4a5e] border-[#d0e4ff] hover:border-[#0059bb]/40 hover:bg-white'
+                  ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
+                  : 'bg-[#f2f2f2] text-[#6b6b6b] border-transparent hover:bg-[#e5e5e5]'
               }`}
             >
               {cat.label}
@@ -82,8 +75,8 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
 
       {/* Course grid */}
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-48 text-[#3a4a5e] gap-3 bg-white/60 rounded-2xl border border-[#d0e4ff]">
-          <span className="material-symbols-outlined text-[48px] text-[#0059bb]/30">school</span>
+        <div className="flex flex-col items-center justify-center h-48 text-[#6b6b6b] gap-3 bg-white/60 rounded-2xl border border-[#e5e5e5]">
+          <span className="material-symbols-outlined text-[48px] text-[#6b6b6b]/30">school</span>
           <p className="text-sm font-medium">Belum ada kursus di kategori ini.</p>
         </div>
       ) : (
@@ -94,7 +87,7 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
                 href={course.href}
                 target={course.href !== '#' ? '_blank' : undefined}
                 rel="noopener noreferrer"
-                className="flex flex-col rounded-2xl overflow-hidden bg-white border border-[#e8f0fb] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group h-full"
+                className="flex flex-col rounded-2xl overflow-hidden bg-white border border-[#e5e5e5] hover:shadow-sm transition-all duration-200 group h-full"
               >
                 {/* Thumbnail */}
                 <div
@@ -113,12 +106,12 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
                     <>
                       {/* Nomor */}
                       <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm">
-                        <span className="text-[11px] font-bold text-[#0a1628]">{course.no}</span>
+                        <span className="text-[11px] font-bold text-[#1a1a1a]">{course.no}</span>
                       </div>
                       {/* Icon fallback */}
                       <span
                         className="material-symbols-outlined text-[56px] group-hover:scale-110 transition-transform duration-300"
-                        style={{ color: course.icon_color ?? '#0059bb', fontVariationSettings: "'FILL' 1" }}
+                        style={{ color: course.icon_color ?? '#6b6b6b', fontVariationSettings: "'FILL' 1" }}
                       >
                         {course.icon ?? 'school'}
                       </span>
@@ -139,30 +132,30 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${levelColor[course.level] ?? 'bg-gray-100 text-gray-600'}`}>
                       {course.level}
                     </span>
-                    <span className="text-[11px] text-gray-400 flex items-center gap-0.5">
+                    <span className="text-[11px] text-[#6b6b6b] flex items-center gap-0.5">
                       <span className="material-symbols-outlined text-[12px]">layers</span>
                       {course.materi} materi
                     </span>
-                    <span className="text-[11px] text-gray-400 flex items-center gap-0.5">
+                    <span className="text-[11px] text-[#6b6b6b] flex items-center gap-0.5">
                       <span className="material-symbols-outlined text-[12px]">schedule</span>
                       {course.durasi}
                     </span>
                   </div>
 
                   {/* Judul */}
-                  <h3 className="text-[14px] font-bold text-[#0a1628] leading-snug mb-1.5 group-hover:text-[#0059bb] transition-colors">
+                  <h3 className="text-[14px] font-bold text-[#1a1a1a] leading-snug mb-1.5">
                     {course.title}
                   </h3>
 
                   {/* Deskripsi */}
                   {course.deskripsi && (
-                    <p className="text-[12px] text-[#4a5a6e] leading-relaxed line-clamp-3 flex-1">
+                    <p className="text-[12px] text-[#6b6b6b] leading-relaxed line-clamp-3 flex-1">
                       {course.deskripsi}
                     </p>
                   )}
 
                   {/* CTA */}
-                  <div className="mt-3 flex items-center gap-1 text-[12px] font-semibold text-[#0059bb]">
+                  <div className="mt-3 flex items-center gap-1 text-[12px] font-semibold text-[#1a1a1a]">
                     {course.href === '#' ? 'Segera Hadir' : 'Mulai Belajar'}
                     {course.href !== '#' && (
                       <span className="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">
@@ -179,25 +172,17 @@ export default function KaderisasiClient({ kursus }: { kursus: Kursus[] }) {
 
       {/* Banner bawah */}
       <FadeInUp delay={100} className="mt-12">
-        <div className="rounded-2xl bg-gradient-to-r from-[#001e40] to-[#0059bb] p-6 flex flex-col md:flex-row items-center gap-4 text-white">
-          <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
-            <span
-              className="material-symbols-outlined text-[28px] text-yellow-300"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              lightbulb
-            </span>
-          </div>
+        <div className="rounded-xl bg-[#f9f9f9] border border-[#e5e5e5] p-6 flex flex-col md:flex-row items-center gap-4">
           <div className="flex-1 text-center md:text-left">
-            <h3 className="font-bold text-lg mb-1">Punya rekomendasi materi?</h3>
-            <p className="text-white/70 text-sm">
+            <h3 className="font-bold text-lg mb-1 text-[#1a1a1a]">Punya rekomendasi materi?</h3>
+            <p className="text-[#6b6b6b] text-sm">
               Sampaikan saran materi atau kelas yang ingin kamu lihat di sini melalui layanan aspirasi.
             </p>
           </div>
           <a
             href="#"
             onClick={(e) => { e.preventDefault(); document.querySelector<HTMLButtonElement>('.fixed.bottom-6')?.click() }}
-            className="flex-shrink-0 bg-white text-[#0059bb] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-yellow-300 hover:text-[#001e40] transition"
+            className="flex-shrink-0 bg-[#1a1a1a] text-white font-bold text-sm px-5 py-2.5 rounded-full hover:bg-[#333] transition"
           >
             Kirim Aspirasi
           </a>

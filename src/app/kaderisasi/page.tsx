@@ -25,15 +25,12 @@ export default async function KaderisasiPage() {
   const kursus = await getKursus();
 
   return (
-    <div
-      className="text-[#0f0f0f] overflow-x-hidden min-h-screen flex flex-col"
-      style={{ background: "linear-gradient(to bottom, #ddeeff 0%, #eef5ff 30%, #ffffff 60%)" }}
-    >
+    <div className="bg-white text-[#1a1a1a] overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
       <MobileNav />
       <MobileHeader crumbs={[{ label: "Belajar" }]} />
 
-      <main className="flex-grow max-w-5xl mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
+      <main className="flex-grow max-w-[900px] mx-auto w-full px-6 pb-16 pt-6 md:pt-24">
         <KaderisasiClient kursus={kursus} />
       </main>
 
