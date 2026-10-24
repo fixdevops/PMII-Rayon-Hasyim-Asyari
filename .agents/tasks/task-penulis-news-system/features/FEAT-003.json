@@ -1,0 +1,23 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Sisi admin + tampilan publik: tambah section 'Manajemen Penulis' (tab Pending/Aktif/Nonaktif dgn aksi setujui/tolak/nonaktifkan/aktifkan/hapus) di halaman admin pengaturan, dan tampilkan nama penulis di author row halaman news/[slug] bila artikel punya penulis_nama. Bergantung pada FEAT-001 (tabel penulis + kolom kegiatan) di runtime; build independen.",
+  "status": "completed",
+  "steps": [
+    "Ubah src/app/admin/pengaturan/page.tsx: tambah state baru (listPenulis, tabAktif: 'pending'|'aktif'|'nonaktif', loadingPenulis). useEffect load semua penulis: `supabase.from('penulis').select('*').order('created_at',{ascending:false})`. Hitung jumlah pending utk badge. Render section baru 'Manajemen Penulis' (ikon 'edit_document'/'group') DI BAWAH kartu 'Ganti Password' (sebelum 'Informasi Sistem' atau sesudahnya, asal di bawah ganti password). Tabs: Pending | Aktif | Nonaktif (badge merah di tab Pending bila ada menunggu). Tabel: nama, username, email (atau '-'), tgl daftar (format id-ID), status. Aksi tombol: Pending -> 'Setujui' (update status:'aktif') + 'Tolak' (delete row); Aktif -> 'Nonaktifkan' (update status:'nonaktif'); Nonaktif -> 'Aktifkan kembali' (update status:'aktif') + 'Hapus' (delete). Setelah aksi reload list. Style konsisten dgn kartu lain (bg-white, border #e5e5e5, material-symbols-outlined). Tetap pertahankan section ganti password & info sistem yang sudah ada.",
+    "Ubah src/app/news/[slug]/page.tsx: tambah `penulis_nama: string | null` (dan `penulis_id: string | null`) ke interface Kegiatan. getBySlug sudah pakai `select('*')` jadi field otomatis ter-include. Di author row atas (elemen <p> 'Redaksi Rayon Hasyim Asy\\'ari'): ganti jadi `{kegiatan.penulis_nama ? kegiatan.penulis_nama : \"Redaksi Rayon Hasyim Asy'ari\"}` (logo tetap dipakai). Jangan ubah bio card bawah. Tetap server component (tidak 'use client'), params async (sudah benar). Tidak perlu ubah getNewsLain."
+  ],
+  "acceptance_criteria": [
+    "`npm run build` exit code 0.",
+    "Halaman /admin/pengaturan memuat section Manajemen Penulis dgn 3 tab dan aksi yang sesuai; badge pending tampil jika ada penulis pending.",
+    "Aksi setujui mengubah status -> 'aktif'; tolak/hapus menghapus row; nonaktifkan -> 'nonaktif'; aktifkan kembali -> 'aktif'.",
+    "Halaman /news/[slug] menampilkan penulis_nama di author row jika ada; tetap 'Redaksi Rayon Hasyim Asy\\'ari' jika null.",
+    "Tidak ada dependency baru; tidak merusak section ganti password yang sudah ada."
+  ],
+  "verification": [
+    "`npm run build` di d:\\web rayon hasyim asyari\\rayonhasyimasyari exit code 0.",
+    "Pastikan pengaturan/page.tsx memuat state & render Manajemen Penulis; news/[slug]/page.tsx author row memakai kondisi penulis_nama."
+  ],
+  "blocked_reason": null,
+  "findings": "Selesai. npm run build exit 0 (Next.js 16.3.1 Turbopack; TypeScript OK; 23 route ter-build termasuk /admin/pengaturan dan /news/[slug]). (1) admin/pengaturan/page.tsx: tambah type Penulis, helper formatTanggal+badgeStatus, state listPenulis/tabAktif/loadingPenulis, useEffect loadPenulis (select * order created_at desc), handler Setujui(->aktif)/Tolak(delete)/Nonaktifkan(->nonaktif)/Aktifkan kembali(->aktif)/Hapus(delete) yg reload list setelah aksi; section Manajemen Penulis (ikon group) ditempatkan di bawah kartu Ganti Password & sebelum Informasi Sistem; tab Pending/Aktif/Nonaktif + badge merah counter pending; tabel nama/username/email atau -/tgl daftar id-ID/status badge/aksi. Section Ganti Password & Informasi Sistem tetap utuh. (2) news/[slug]/page.tsx: tambah penulis_id? dan penulis_nama? (string|null optional) ke interface Kegiatan; author row atas pakai ternary penulis_nama ? penulis_nama : nama Redaksi default (logo tetap dipakai); bio card bawah & getNewsLain tidak diubah; tetap server component dgn params async. Catatan: dua field penulis dibuat optional (?) supaya getNewsLain (select eksplisit subset kolom, tipe Supabase hasil select tidak menyertakan field penulis) tetap kompile tanpa diubah, sesuai instruksi tidak perlu ubah getNewsLain; getBySlug pakai select(*) jadi tetap aman. Tidak ada dependency baru. Tidak commit."
+}

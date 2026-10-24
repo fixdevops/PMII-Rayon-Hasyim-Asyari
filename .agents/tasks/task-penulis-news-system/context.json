@@ -1,0 +1,28 @@
+{
+  "project_type": "Next.js 16 App Router (Turbopack) + React 19 + Supabase (anon-key client) + TipTap rich text. Tidak ada backend terpisah; semua query Supabase dari client.",
+  "language": "TypeScript / TSX (React 19)",
+  "build_system": "npm + next (Turbopack default di v16). `npm run build` = `next build` (Turbopack). Tidak ada webpack config. Path alias `@/` -> `src/` (lihat tsconfig). Tailwind v4 via postcss.",
+  "test_framework": "Tidak ada test framework. Verifikasi = `npm run build` (exit 0). Tidak ada perintah test.",
+  "build_command": "npm run build",
+  "test_command": "npm run build",
+  "verification_instructions": "1) `npm run build` di root project (d:\\web rayon hasyim asyari\\rayonhasyimasyari) harus exit code 0 tanpa error TypeScript/lint/Next. 2) Build TIDAK memerlukan tabel DB ada (query runtime). 3) Migration DB diterapkan manual via Supabase Dashboard SQL Editor (REST tidak bisa DDL). 4) Setelah migration, verifikasi runtime via REST read-only: GET https://ajlsffxxlvnzukevlcna.supabase.co/rest/v1/penulis?select=id&limit=1 dgn header apikey=anon -> harus 200 (bukan 404/PGRST205). Anon key ada di src/lib/supabase.ts.",
+  "snapshot_or_generated_files": "`.next/` (build output, di-gitignore). Tidak ada file generated yang di-check-in. `next-env.d.ts` ada (jangan edit manual).",
+  "environment_constraints": "Windows + pwsh. Workspace root = d:\\web rayon hasyim asyari\\rayonhasyimasyari (ini BUKAN worktree terpisah; kerja langsung di repo). Jalankan perintah dengan cwd = root project. Supabase MCP tools TIDAK tersedia (butuh SUPABASE_ACCESS_TOKEN yang belum dikonfigurasi -> error 'Unauthorized'). Service-role key ada tapi hanya untuk PostgREST (tidak bisa DDL). Tidak ada DB password / .env di repo. Jangan restart dev server. Jangan commit.",
+  "contribution_requirements": "AGENTS.md: ini Next.js 16 MODIFIED — baca docs di node_modules/next/dist/docs/ sebelum sentuh API Next. Pola yang sudah dipakai di kode (dan HARUS ditiru): `params`/`searchParams` adalah Promise (await dulu, lihat src/app/news/[slug]/page.tsx); layout client pakai 'use client' + useRouter untuk redirect (lihat src/app/admin/layout.tsx); dynamic import RichTextEditor dgn {ssr:false}; `next/image` utk logo. Tidak boleh tambah dependency baru. Auth pakai localStorage (sama pola admin). Style: bg-white, #1a1a1a, #6b6b6b, #e5e5e5.",
+  "key_patterns": "- Supabase client anon: `import { supabase } from '@/lib/supabase'` lalu `supabase.from('table').select/insert/update/delete`. Storage: `supabase.storage.from('kegiatan').upload(path, file, {upsert:true})` + `getPublicUrl(path)`. - Count: `.select('id', {count:'exact',head:true})`. - Form berita (admin/kegiatan/page.tsx): two-step insert (insert dgn foto_url:null -> upload foto -> update slug+foto_url); fungsi `generateSlug(judul,id)`. - Auth admin: query `.eq('username',u).eq('password_hash',pw).single()` lalu localStorage flag + router.push (lihat rayonerabarulogin/page.tsx & admin/layout.tsx). - Layout dashboard: sidebar+header+guard (admin/layout.tsx). - Icon pakai `material-symbols-outlined` span. - Rich text: komponen `@/components/RichTextEditor` (value/onChange/placeholder).",
+  "relevant_files": [
+    "src/lib/supabase.ts (URL https://ajlsffxxlvnzukevlcna.supabase.co + anon key; pakai ini utk semua query)",
+    "src/lib/migrations/001_apresiasi_komentar.sql (pola DDL+RLS utk ditiru)",
+    "src/lib/migrations/README.md (channel: Dashboard SQL Editor)",
+    "src/app/admin/kegiatan/page.tsx (SALIN generateSlug + pola form foto+insert+update; RichTextEditor dynamic import)",
+    "src/components/RichTextEditor.tsx (reuse apa adanya, props value/onChange/placeholder)",
+    "src/app/admin/layout.tsx (pola layout dashboard + guard utk ditiru di penulis/layout.tsx)",
+    "src/app/admin/page.tsx (pola stat cards + quick action utk ditiru di penulis/page.tsx)",
+    "src/app/rayonerabarulogin/page.tsx (pola login username+password+localStorage utk ditiru di login-penulis)",
+    "src/app/admin/pengaturan/page.tsx (ubah: tambah section Manajemen Penulis)",
+    "src/app/news/[slug]/page.tsx (ubah: author row tampilkan penulis_nama; params async; server component)",
+    "src/components/Footer.tsx (ubah: tambah link /daftar-penulis)",
+    "next.config.ts (images.remotePatterns sudah include ajlsffxxlvnzukevlcna.supabase.co)"
+  ],
+  "directory_structure": "src/app/<route>/page.tsx = App Router. src/app/admin/* = area admin (guard via localStorage di admin/layout.tsx). src/app/news/[slug]/page.tsx = detail berita (server component, select '*' dari tabel kegiatan). src/app/kegiatan redirect ke /news (next.config). src/components/* = komponen reusable (Navbar, Footer, RichTextEditor, dll). src/lib/supabase.ts = client Supabase anon. src/lib/migrations/*.sql = DDL (dijalankan manual di Dashboard). Akan dibuat: src/app/daftar-penulis/, src/app/login-penulis/, src/app/penulis/{,tulis,berita-saya}/, src/lib/penulis-auth.ts."
+}

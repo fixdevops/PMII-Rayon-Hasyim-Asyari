@@ -1,0 +1,7 @@
+{
+  "task_id": "task-penulis-news-system",
+  "task_description": "Sistem penulis berita: daftar akun publik, persetujuan admin, login penulis, dashboard tulis/kelola berita sendiri, tampil nama penulis di halaman news.",
+  "status": "pending",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}
