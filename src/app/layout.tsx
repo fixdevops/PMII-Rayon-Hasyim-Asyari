@@ -12,9 +12,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.pmiirayonhasyimasyari.my.id"),
   icons: {
-    icon: "/favicon-square.png",
-    shortcut: "/favicon-square.png",
-    apple: "/favicon-square.png",
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/favicon-32.png",
+    apple: "/favicon-192.png",
   },
   title: "PMII Rayon Hasyim Asyari - FST",
   description:
