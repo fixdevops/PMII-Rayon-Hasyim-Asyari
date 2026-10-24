@@ -77,59 +77,59 @@ export default function AdminKomentarPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
-          <h2 className="text-xl font-bold text-[#0a1628]">Manajemen Komentar</h2>
-          <p className="text-sm text-gray-500 mt-0.5">Kelola komentar di halaman berita</p>
+          <h2 className="text-xl font-bold text-[#1a1a1a]">Manajemen Komentar</h2>
+          <p className="text-sm text-[#6b6b6b] mt-0.5">Kelola komentar di halaman berita</p>
         </div>
-        <div className="bg-white border border-gray-100 rounded-2xl px-4 py-2 text-sm text-[#0a1628]">
+        <div className="bg-white border border-[#e5e5e5] rounded-2xl px-4 py-2 text-sm text-[#1a1a1a]">
           Total: <span className="font-bold">{list.length}</span> komentar
         </div>
       </div>
 
       {/* Search */}
       <div className="relative max-w-sm">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-400 text-[18px]">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#6b6b6b] text-[18px]">
           search
         </span>
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Cari komentar..."
-          className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20"
+          className="w-full pl-9 pr-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20"
         />
       </div>
 
       {/* List */}
       {loading ? (
-        <div className="flex items-center justify-center h-40 text-gray-400">
+        <div className="flex items-center justify-center h-40 text-[#6b6b6b]">
           <span className="material-symbols-outlined text-[32px] animate-spin">
             progress_activity
           </span>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-40 text-gray-400 gap-2 bg-white rounded-2xl border border-gray-100">
+        <div className="flex flex-col items-center justify-center h-40 text-[#6b6b6b] gap-2 bg-white rounded-2xl border border-[#e5e5e5]">
           <span className="material-symbols-outlined text-[40px]">comment</span>
           <p className="text-sm">Belum ada komentar</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-[#e5e5e5] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50 text-left">
-                  <th className="px-4 py-3 font-semibold text-[#0a1628] w-32">Nama</th>
-                  <th className="px-4 py-3 font-semibold text-[#0a1628]">Komentar</th>
-                  <th className="px-4 py-3 font-semibold text-[#0a1628] w-40 hidden md:table-cell">
+                <tr className="border-b border-[#e5e5e5] bg-[#f9f9f9] text-left">
+                  <th className="px-4 py-3 font-semibold text-[#1a1a1a] w-32">Nama</th>
+                  <th className="px-4 py-3 font-semibold text-[#1a1a1a]">Komentar</th>
+                  <th className="px-4 py-3 font-semibold text-[#1a1a1a] w-40 hidden md:table-cell">
                     Berita
                   </th>
-                  <th className="px-4 py-3 font-semibold text-[#0a1628] w-36 hidden sm:table-cell">
+                  <th className="px-4 py-3 font-semibold text-[#1a1a1a] w-36 hidden sm:table-cell">
                     Waktu
                   </th>
-                  <th className="px-4 py-3 font-semibold text-[#0a1628] w-20">Aksi</th>
+                  <th className="px-4 py-3 font-semibold text-[#1a1a1a] w-20">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#f2f2f2]">
                 {filtered.map((k) => (
-                  <tr key={k.id} className="hover:bg-gray-50/50 transition">
+                  <tr key={k.id} className="hover:bg-[#f9f9f9]/50 transition">
                     {/* Nama */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
@@ -138,7 +138,7 @@ export default function AdminKomentarPage() {
                             {k.nama.charAt(0).toUpperCase()}
                           </span>
                         </div>
-                        <span className="font-medium text-[#0a1628] truncate max-w-[80px]">
+                        <span className="font-medium text-[#1a1a1a] truncate max-w-[80px]">
                           {k.nama}
                         </span>
                       </div>
@@ -146,7 +146,7 @@ export default function AdminKomentarPage() {
 
                     {/* Isi */}
                     <td className="px-4 py-3">
-                      <p className="text-gray-700 leading-relaxed line-clamp-2 max-w-[300px]">
+                      <p className="text-[#6b6b6b] leading-relaxed line-clamp-2 max-w-[300px]">
                         {k.isi.length > 100 ? k.isi.slice(0, 100) + '...' : k.isi}
                       </p>
                       {k.parent_id && (
@@ -172,7 +172,7 @@ export default function AdminKomentarPage() {
                     </td>
 
                     {/* Waktu */}
-                    <td className="px-4 py-3 hidden sm:table-cell text-gray-400 text-xs whitespace-nowrap">
+                    <td className="px-4 py-3 hidden sm:table-cell text-[#6b6b6b] text-xs whitespace-nowrap">
                       {timeAgo(k.created_at)}
                     </td>
 
