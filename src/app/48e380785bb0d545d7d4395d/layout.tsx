@@ -6,14 +6,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const navItems = [
-  { href: '/admin', label: 'Dashboard', icon: 'dashboard' },
-  { href: '/admin/anggota', label: 'Anggota', icon: 'diversity_3' },
-  { href: '/admin/kegiatan', label: 'Kegiatan', icon: 'event' },
-  { href: '/admin/galeri', label: 'Galeri', icon: 'photo_library' },
-  { href: '/admin/belajar', label: 'Belajar', icon: 'school' },
-  { href: '/admin/aspirasi', label: 'Aspirasi', icon: 'forum' },
-  { href: '/admin/komentar', label: 'Komentar', icon: 'comment' },
-  { href: '/admin/pengaturan', label: 'Pengaturan', icon: 'settings' },
+  { href: '/48e380785bb0d545d7d4395d', label: 'Dashboard', icon: 'dashboard' },
+  { href: '/48e380785bb0d545d7d4395d/anggota', label: 'Anggota', icon: 'diversity_3' },
+  { href: '/48e380785bb0d545d7d4395d/kegiatan', label: 'Kegiatan', icon: 'event' },
+  { href: '/48e380785bb0d545d7d4395d/galeri', label: 'Galeri', icon: 'photo_library' },
+  { href: '/48e380785bb0d545d7d4395d/belajar', label: 'Belajar', icon: 'school' },
+  { href: '/48e380785bb0d545d7d4395d/aspirasi', label: 'Aspirasi', icon: 'forum' },
+  { href: '/48e380785bb0d545d7d4395d/komentar', label: 'Komentar', icon: 'comment' },
+  { href: '/48e380785bb0d545d7d4395d/pengaturan', label: 'Pengaturan', icon: 'settings' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     const loggedIn = localStorage.getItem('admin_logged_in')
     if (!loggedIn) {
-      router.replace('/rayonerabarulogin')
+      router.replace('/604b372a5fea5412409e90b8')
       return
     }
     setUsername(localStorage.getItem('admin_username') || 'Admin')
@@ -35,7 +35,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     localStorage.removeItem('admin_logged_in')
     localStorage.removeItem('admin_username')
     localStorage.removeItem('admin_session_token')
-    router.push('/rayonerabarulogin')
+    router.push('/604b372a5fea5412409e90b8')
   }
 
   return (

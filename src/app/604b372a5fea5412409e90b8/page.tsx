@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
       .update({ session_token: sessionToken })
       .eq('id', data.id)
 
-    router.push('/admin')
+    router.push('/48e380785bb0d545d7d4395d')
   }
 
   return (

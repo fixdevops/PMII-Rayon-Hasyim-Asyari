@@ -43,11 +43,11 @@ export default function AdminDashboard() {
   }, [])
 
   const cards = [
-    { label: 'Anggota', value: stats.anggota, icon: 'diversity_3', href: '/admin/anggota' },
-    { label: 'Kegiatan', value: stats.kegiatan, icon: 'event', href: '/admin/kegiatan' },
-    { label: 'Galeri', value: stats.galeri, icon: 'photo_library', href: '/admin/galeri' },
-    { label: 'Aspirasi', value: stats.aspirasi, icon: 'forum', href: '/admin/aspirasi', badge: stats.aspirasiBaru },
-    { label: 'Komentar', value: stats.komentar, icon: 'comment', href: '/admin/komentar' },
+    { label: 'Anggota', value: stats.anggota, icon: 'diversity_3', href: '/48e380785bb0d545d7d4395d/anggota' },
+    { label: 'Kegiatan', value: stats.kegiatan, icon: 'event', href: '/48e380785bb0d545d7d4395d/kegiatan' },
+    { label: 'Galeri', value: stats.galeri, icon: 'photo_library', href: '/48e380785bb0d545d7d4395d/galeri' },
+    { label: 'Aspirasi', value: stats.aspirasi, icon: 'forum', href: '/48e380785bb0d545d7d4395d/aspirasi', badge: stats.aspirasiBaru },
+    { label: 'Komentar', value: stats.komentar, icon: 'comment', href: '/48e380785bb0d545d7d4395d/komentar' },
   ]
 
   return (
@@ -88,11 +88,11 @@ export default function AdminDashboard() {
         <h3 className="font-bold text-[#1a1a1a] mb-4">Aksi Cepat</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {[
-            { label: 'Tambah Anggota', icon: 'person_add', href: '/admin/anggota?action=tambah' },
-            { label: 'Tambah Kegiatan', icon: 'event_available', href: '/admin/kegiatan?action=tambah' },
-            { label: 'Upload Galeri', icon: 'add_photo_alternate', href: '/admin/galeri?action=tambah' },
-            { label: 'Tambah Kursus', icon: 'add_circle', href: '/admin/belajar' },
-            { label: 'Lihat Aspirasi', icon: 'mark_chat_read', href: '/admin/aspirasi' },
+            { label: 'Tambah Anggota', icon: 'person_add', href: '/48e380785bb0d545d7d4395d/anggota?action=tambah' },
+            { label: 'Tambah Kegiatan', icon: 'event_available', href: '/48e380785bb0d545d7d4395d/kegiatan?action=tambah' },
+            { label: 'Upload Galeri', icon: 'add_photo_alternate', href: '/48e380785bb0d545d7d4395d/galeri?action=tambah' },
+            { label: 'Tambah Kursus', icon: 'add_circle', href: '/48e380785bb0d545d7d4395d/belajar' },
+            { label: 'Lihat Aspirasi', icon: 'mark_chat_read', href: '/48e380785bb0d545d7d4395d/aspirasi' },
           ].map(item => (
             <Link key={item.label} href={item.href}
               className="flex flex-col items-center gap-2 p-4 rounded-xl border border-[#e5e5e5] hover:border-[#d5d5d5] hover:bg-[#f9f9f9] transition text-center">

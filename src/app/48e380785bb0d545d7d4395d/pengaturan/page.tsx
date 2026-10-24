@@ -324,7 +324,7 @@ export default function AdminPengaturanPage() {
           </div>
           <div className="flex justify-between">
             <span className="text-[#6b6b6b]">URL Login Admin</span>
-            <code className="text-xs bg-[#f2f2f2] px-2 py-1 rounded font-mono">/rayonerabarulogin</code>
+            <code className="text-xs bg-[#f2f2f2] px-2 py-1 rounded font-mono">/604b372a5fea5412409e90b8</code>
           </div>
         </div>
       </div>
