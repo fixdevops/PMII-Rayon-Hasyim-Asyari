@@ -2,6 +2,9 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
+import dynamic from 'next/dynamic'
+
+const ImageCropper = dynamic(() => import('@/components/ImageCropper'), { ssr: false })
 
 interface Anggota {
   id: string
@@ -41,6 +44,10 @@ export default function AdminAnggotaPage() {
   const [fotoPreview, setFotoPreview] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Crop state
+  const [cropSrc, setCropSrc] = useState<string | null>(null)
+  const [croppedBlob, setCroppedBlob] = useState<Blob | null>(null)
 
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState<string | null>(null)
@@ -118,6 +125,8 @@ export default function AdminAnggotaPage() {
     setCurrentFotoUrl(null)
     setFotoFile(null)
     setFotoPreview(null)
+    setCropSrc(null)
+    setCroppedBlob(null)
     setShowModal(true)
   }
 
@@ -130,31 +139,50 @@ export default function AdminAnggotaPage() {
     setCurrentFotoUrl(a.foto_url)
     setFotoFile(null)
     setFotoPreview(a.foto_url)
+    setCropSrc(null)
+    setCroppedBlob(null)
     setShowModal(true)
   }
 
   function handleFotoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    setFotoFile(file)
-    setFotoPreview(URL.createObjectURL(file))
+    // Buka cropper dulu — jangan langsung set preview
+    const reader = new FileReader()
+    reader.onload = () => setCropSrc(reader.result as string)
+    reader.readAsDataURL(file)
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  function handleCropSave(blob: Blob) {
+    setCroppedBlob(blob)
+    setFotoPreview(URL.createObjectURL(blob))
+    setCropSrc(null)
+  }
+
+  function handleCropCancel() {
+    setCropSrc(null)
+    if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
   function removeFoto() {
     setFotoFile(null)
     setFotoPreview(null)
     setCurrentFotoUrl(null)
+    setCroppedBlob(null)
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
   async function uploadFoto(id: string): Promise<string | null> {
-    if (!fotoFile) return currentFotoUrl
+    // Prioritas: croppedBlob (sudah di-crop), lalu fotoFile biasa
+    const uploadSource = croppedBlob ?? fotoFile
+    if (!uploadSource) return currentFotoUrl
     setUploading(true)
-    const ext = fotoFile.name.split('.').pop()
+    const ext = croppedBlob ? 'png' : (fotoFile?.name.split('.').pop() ?? 'jpg')
     const path = `${id}.${ext}`
     const { error } = await supabase.storage
       .from('anggota')
-      .upload(path, fotoFile, { upsert: true })
+      .upload(path, uploadSource, { upsert: true })
     setUploading(false)
     if (error) return currentFotoUrl
     const { data } = supabase.storage.from('anggota').getPublicUrl(path)
@@ -219,6 +247,14 @@ export default function AdminAnggotaPage() {
 
   return (
     <div className="space-y-5">
+      {/* Cropper modal */}
+      {cropSrc && (
+        <ImageCropper
+          imageSrc={cropSrc}
+          onSave={handleCropSave}
+          onCancel={handleCropCancel}
+        />
+      )}
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
