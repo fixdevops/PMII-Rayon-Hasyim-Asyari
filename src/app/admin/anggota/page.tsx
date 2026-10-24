@@ -417,13 +417,14 @@ export default function AdminAnggotaPage() {
               <div>
                 <label className="block text-sm font-semibold text-[#0a1628] mb-2">Foto</label>
                 <div className="flex items-center gap-4">
-                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-[#eef5ff] flex-shrink-0 border border-gray-100">
+                  {/* Preview lingkaran */}
+                  <div className="w-20 h-20 rounded-full overflow-hidden bg-[#f2f2f2] flex-shrink-0 border-2 border-[#e5e5e5]">
                     {fotoPreview ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={fotoPreview} alt="preview" className="w-full h-full object-cover object-top" />
+                      <img src={fotoPreview} alt="preview" className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#0059bb]/30 text-[36px]">person</span>
+                        <span className="material-symbols-outlined text-[#6b6b6b]/40 text-[36px]">person</span>
                       </div>
                     )}
                   </div>
@@ -437,10 +438,32 @@ export default function AdminAnggotaPage() {
                       id="foto-upload"
                     />
                     <label htmlFor="foto-upload"
-                      className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-[#0059bb]/30 text-[#0059bb] rounded-xl text-sm font-semibold cursor-pointer hover:border-[#0059bb] hover:bg-[#eef5ff] transition">
+                      className="flex items-center justify-center gap-2 px-4 py-2 border border-[#e5e5e5] text-[#1a1a1a] rounded-xl text-sm font-semibold cursor-pointer hover:bg-[#f2f2f2] transition">
                       <span className="material-symbols-outlined text-[18px]">upload</span>
                       {fotoPreview ? 'Ganti Foto' : 'Upload Foto'}
                     </label>
+                    {/* Tombol crop ulang — tampil jika ada foto */}
+                    {fotoPreview && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          // Fetch foto existing ke dataURL supaya bisa di-crop
+                          try {
+                            const res = await fetch(fotoPreview)
+                            const blob = await res.blob()
+                            const reader = new FileReader()
+                            reader.onload = () => setCropSrc(reader.result as string)
+                            reader.readAsDataURL(blob)
+                          } catch {
+                            // Kalau CORS block, minta user upload ulang
+                            if (fileInputRef.current) fileInputRef.current.click()
+                          }
+                        }}
+                        className="flex items-center justify-center gap-1.5 px-4 py-2 border border-[#e5e5e5] text-[#1a1a1a] rounded-xl text-sm font-semibold hover:bg-[#f2f2f2] transition">
+                        <span className="material-symbols-outlined text-[16px]">crop</span>
+                        Crop Ulang
+                      </button>
+                    )}
                     {fotoPreview && (
                       <button onClick={removeFoto}
                         className="flex items-center justify-center gap-1.5 text-xs text-red-500 hover:text-red-700 transition">
