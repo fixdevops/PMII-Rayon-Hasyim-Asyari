@@ -37,13 +37,15 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <Image
-              src="/logorayon.png"
-              alt="Logo PMII Rayon Hasyim Asy'ari"
-              width={32}
-              height={32}
-              className="rounded-full object-contain"
-            />
+            <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-white">
+              <Image
+                src="/logorayon.png"
+                alt="Logo PMII Rayon Hasyim Asy'ari"
+                width={32}
+                height={32}
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
             <div className="flex flex-col leading-tight">
               <span className="text-[13px] font-bold text-[#1a1a1a]">PMII</span>
               <span className="text-[9px] font-medium tracking-widest uppercase text-[#6b6b6b]">
