@@ -12,7 +12,7 @@ export default function MobileHeader({ crumbs }: MobileHeaderProps) {
         <Image
           src="/logorayon.png"
           alt="Logo PMII Rayon Hasyim Asy'ari"
-          width={28}
+          width={36}
           height={28}
           className="rounded-full object-contain"
         />

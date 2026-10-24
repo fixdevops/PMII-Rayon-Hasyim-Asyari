@@ -36,19 +36,19 @@ export default function Navbar() {
         <div className="mx-auto max-w-6xl flex items-center justify-between h-[60px]">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-white">
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
               <Image
                 src="/logorayon.png"
                 alt="Logo PMII Rayon Hasyim Asy'ari"
-                width={32}
-                height={32}
+                width={40}
+                height={40}
                 className="w-full h-full object-cover object-center"
               />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-[13px] font-bold text-[#1a1a1a]">PMII</span>
-              <span className="text-[9px] font-medium tracking-widest uppercase text-[#6b6b6b]">
+              <span className="text-[14px] font-bold text-[#1a1a1a]">PMII</span>
+              <span className="text-[10px] font-medium tracking-widest uppercase text-[#6b6b6b]">
                 Rayon Hasyim Asy&apos;ari
               </span>
             </div>
