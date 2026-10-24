@@ -61,52 +61,52 @@ export default function AdminPengaturanPage() {
   return (
     <div className="space-y-6 max-w-lg">
       <div>
-        <h2 className="text-xl font-bold text-[#0a1628]">Pengaturan</h2>
-        <p className="text-sm text-gray-500 mt-0.5">Kelola akun dan konfigurasi admin</p>
+        <h2 className="text-xl font-bold text-[#1a1a1a]">Pengaturan</h2>
+        <p className="text-sm text-[#6b6b6b] mt-0.5">Kelola akun dan konfigurasi admin</p>
       </div>
 
       {/* Info akun */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-        <h3 className="font-bold text-[#0a1628] mb-4 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[20px] text-[#0059bb]">manage_accounts</span>
+      <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+        <h3 className="font-bold text-[#1a1a1a] mb-4 flex items-center gap-2">
+          <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">manage_accounts</span>
           Info Akun
         </h3>
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-[#eef5ff] flex items-center justify-center">
-            <span className="material-symbols-outlined text-[#0059bb] text-[28px]">person</span>
+          <div className="w-14 h-14 rounded-full bg-[#f2f2f2] flex items-center justify-center">
+            <span className="material-symbols-outlined text-[#1a1a1a] text-[28px]">person</span>
           </div>
           <div>
-            <p className="font-bold text-[#0a1628]">{username || 'admin'}</p>
-            <p className="text-sm text-gray-500">Administrator</p>
+            <p className="font-bold text-[#1a1a1a]">{username || 'admin'}</p>
+            <p className="text-sm text-[#6b6b6b]">Administrator</p>
           </div>
         </div>
       </div>
 
       {/* Ganti password */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-        <h3 className="font-bold text-[#0a1628] mb-4 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[20px] text-[#0059bb]">lock_reset</span>
+      <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+        <h3 className="font-bold text-[#1a1a1a] mb-4 flex items-center gap-2">
+          <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">lock_reset</span>
           Ganti Password
         </h3>
 
         <form onSubmit={handleChangePass} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Password Lama</label>
+            <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Password Lama</label>
             <input type="password" value={oldPass} onChange={e => setOldPass(e.target.value)}
               required placeholder="Password saat ini"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+              className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Password Baru</label>
+            <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Password Baru</label>
             <input type="password" value={newPass} onChange={e => setNewPass(e.target.value)}
               required placeholder="Minimal 6 karakter"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+              className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Konfirmasi Password Baru</label>
+            <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Konfirmasi Password Baru</label>
             <input type="password" value={confirmPass} onChange={e => setConfirmPass(e.target.value)}
               required placeholder="Ulangi password baru"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+              className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
           </div>
 
           {msg && (
@@ -119,7 +119,7 @@ export default function AdminPengaturanPage() {
           )}
 
           <button type="submit" disabled={saving}
-            className="w-full bg-[#0059bb] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition disabled:opacity-60 flex items-center justify-center gap-2">
+            className="w-full bg-[#1a1a1a] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#333] transition disabled:opacity-60 flex items-center justify-center gap-2">
             {saving && <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>}
             Simpan Password Baru
           </button>
@@ -127,23 +127,23 @@ export default function AdminPengaturanPage() {
       </div>
 
       {/* Info website */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-        <h3 className="font-bold text-[#0a1628] mb-4 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[20px] text-[#0059bb]">info</span>
+      <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+        <h3 className="font-bold text-[#1a1a1a] mb-4 flex items-center gap-2">
+          <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">info</span>
           Informasi Sistem
         </h3>
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-500">Database</span>
-            <span className="font-semibold text-[#0a1628]">Supabase</span>
+            <span className="text-[#6b6b6b]">Database</span>
+            <span className="font-semibold text-[#1a1a1a]">Supabase</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Framework</span>
-            <span className="font-semibold text-[#0a1628]">Next.js 16</span>
+            <span className="text-[#6b6b6b]">Framework</span>
+            <span className="font-semibold text-[#1a1a1a]">Next.js 16</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">URL Login Admin</span>
-            <code className="text-xs bg-gray-100 px-2 py-1 rounded font-mono">/rayonerabarulogin</code>
+            <span className="text-[#6b6b6b]">URL Login Admin</span>
+            <code className="text-xs bg-[#f2f2f2] px-2 py-1 rounded font-mono">/rayonerabarulogin</code>
           </div>
         </div>
       </div>

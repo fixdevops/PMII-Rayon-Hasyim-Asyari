@@ -276,11 +276,11 @@ export default function AdminGaleriPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
-          <h2 className="text-xl font-bold text-[#0a1628]">Manajemen Galeri</h2>
-          <p className="text-sm text-gray-500 mt-0.5">Kelola album foto dokumentasi kegiatan</p>
+          <h2 className="text-xl font-bold text-[#1a1a1a]">Manajemen Galeri</h2>
+          <p className="text-sm text-[#6b6b6b] mt-0.5">Kelola album foto dokumentasi kegiatan</p>
         </div>
         <button onClick={openTambah}
-          className="flex items-center gap-2 bg-[#0059bb] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition">
+          className="flex items-center gap-2 bg-[#1a1a1a] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[#333] transition">
           <span className="material-symbols-outlined text-[18px]">add_photo_alternate</span>
           Tambah Album
         </button>
@@ -289,30 +289,30 @@ export default function AdminGaleriPage() {
       {/* Search */}
       <div className="flex items-center gap-3">
         <div className="relative max-w-sm flex-1">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-400 text-[18px]">search</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#6b6b6b] text-[18px]">search</span>
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Cari album..."
-            className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+            className="w-full pl-9 pr-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
         </div>
-        <span className="text-sm text-gray-400">{filtered.length} album</span>
+        <span className="text-sm text-[#6b6b6b]">{filtered.length} album</span>
       </div>
 
       {/* Grid album */}
       {loading ? (
-        <div className="flex items-center justify-center h-40 text-gray-400">
+        <div className="flex items-center justify-center h-40 text-[#6b6b6b]">
           <span className="material-symbols-outlined text-[32px] animate-spin">progress_activity</span>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-40 text-gray-400 gap-2 bg-white rounded-2xl border border-gray-100">
+        <div className="flex flex-col items-center justify-center h-40 text-[#6b6b6b] gap-2 bg-white rounded-2xl border border-[#e5e5e5]">
           <span className="material-symbols-outlined text-[40px]">photo_library</span>
           <p className="text-sm">Belum ada album</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.map(g => (
-            <div key={g.id} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition">
+            <div key={g.id} className="group bg-white rounded-2xl border border-[#e5e5e5] overflow-hidden hover:shadow-md transition">
               {/* Cover */}
-              <div className="relative aspect-video overflow-hidden bg-gray-50 cursor-pointer"
+              <div className="relative aspect-video overflow-hidden bg-[#f2f2f2] cursor-pointer"
                 onClick={() => openLightbox(g)}>
                 {g.foto_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -320,12 +320,12 @@ export default function AdminGaleriPage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <span className="material-symbols-outlined text-gray-200 text-[48px]">photo_library</span>
+                    <span className="material-symbols-outlined text-[#6b6b6b]/40 text-[48px]">photo_library</span>
                   </div>
                 )}
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition flex items-center justify-center">
-                  <div className="flex items-center gap-2 bg-white/90 text-[#0059bb] px-3 py-1.5 rounded-full text-xs font-bold opacity-0 group-hover:opacity-100 transition">
+                  <div className="flex items-center gap-2 bg-white/90 text-[#1a1a1a] px-3 py-1.5 rounded-full text-xs font-bold opacity-0 group-hover:opacity-100 transition">
                     <span className="material-symbols-outlined text-[15px]">collections</span>
                     Lihat Foto
                   </div>
@@ -333,18 +333,18 @@ export default function AdminGaleriPage() {
               </div>
 
               <div className="p-4">
-                <p className="text-xs font-semibold text-[#0a1628] line-clamp-1">{g.judul}</p>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs font-semibold text-[#1a1a1a] line-clamp-1">{g.judul}</p>
+                <p className="text-xs text-[#6b6b6b] mt-0.5">
                   {new Date(g.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </p>
-                {g.keterangan && <p className="text-xs text-gray-500 mt-1 line-clamp-1">{g.keterangan}</p>}
+                {g.keterangan && <p className="text-xs text-[#6b6b6b] mt-1 line-clamp-1">{g.keterangan}</p>}
                 <div className="flex gap-2 mt-3">
                   <button onClick={() => openEdit(g)}
-                    className="flex-1 flex items-center justify-center gap-1 py-1.5 border border-blue-200 text-blue-600 rounded-lg text-xs font-semibold hover:bg-blue-50 transition">
+                    className="flex-1 flex items-center justify-center gap-1 py-1.5 border border-[#e5e5e5] text-[#6b6b6b] rounded-xl text-xs font-semibold hover:bg-[#f2f2f2] transition">
                     <span className="material-symbols-outlined text-[13px]">edit</span>Edit
                   </button>
                   <button onClick={() => handleDelete(g.id)} disabled={deleting === g.id}
-                    className="flex-1 flex items-center justify-center gap-1 py-1.5 border border-red-200 text-red-500 rounded-lg text-xs font-semibold hover:bg-red-50 transition disabled:opacity-50">
+                    className="flex-1 flex items-center justify-center gap-1 py-1.5 border border-red-200 text-red-500 rounded-xl text-xs font-semibold hover:bg-red-50 transition disabled:opacity-50">
                     <span className="material-symbols-outlined text-[13px]">
                       {deleting === g.id ? 'progress_activity' : 'delete'}
                     </span>Hapus
@@ -423,9 +423,9 @@ export default function AdminGaleriPage() {
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 sticky top-0 bg-white z-10">
-              <h3 className="font-bold text-[#0a1628]">{editId ? 'Edit Album' : 'Tambah Album Baru'}</h3>
-              <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-gray-100 transition">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#e5e5e5] sticky top-0 bg-white z-10">
+              <h3 className="font-bold text-[#1a1a1a]">{editId ? 'Edit Album' : 'Tambah Album Baru'}</h3>
+              <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-[#f2f2f2] transition">
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
@@ -435,37 +435,37 @@ export default function AdminGaleriPage() {
               {/* Info album */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">
                     Judul Album <span className="text-red-500">*</span>
                   </label>
                   <input value={form.judul} onChange={e => setForm({ ...form, judul: e.target.value })}
                     placeholder="Nama album / agenda"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Tanggal</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Tanggal</label>
                   <input type="date" value={form.tanggal} onChange={e => setForm({ ...form, tanggal: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]" />
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Keterangan</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Keterangan</label>
                   <textarea value={form.keterangan} onChange={e => setForm({ ...form, keterangan: e.target.value })}
                     rows={2} placeholder="Keterangan album (opsional)"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] resize-none" />
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a] resize-none" />
                 </div>
               </div>
 
               {/* Foto-foto */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-semibold text-[#0a1628]">
+                  <label className="block text-sm font-semibold text-[#1a1a1a]">
                     Foto <span className="text-red-500">*</span>
-                    <span className="ml-1 font-normal text-gray-400 text-xs">
+                    <span className="ml-1 font-normal text-[#6b6b6b] text-xs">
                       ({existingFotos.length + fotoFiles.length} foto)
                     </span>
                   </label>
                   <label htmlFor="galeri-multi-upload"
-                    className="flex items-center gap-1.5 text-xs font-semibold text-[#0059bb] cursor-pointer hover:underline">
+                    className="flex items-center gap-1.5 text-xs font-semibold text-[#1a1a1a] cursor-pointer hover:underline">
                     <span className="material-symbols-outlined text-[15px]">add_photo_alternate</span>
                     Tambah Foto
                   </label>
@@ -485,11 +485,11 @@ export default function AdminGaleriPage() {
                   <div className="grid grid-cols-3 gap-2">
                     {/* Foto existing (sudah tersimpan) */}
                     {existingFotos.map((f, i) => (
-                      <div key={f.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-100 group">
+                      <div key={f.id} className="relative aspect-square rounded-xl overflow-hidden border border-[#e5e5e5] group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={f.foto_url} alt="" className="w-full h-full object-cover" />
                         {i === 0 && (
-                          <span className="absolute top-1 left-1 bg-[#0059bb] text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Cover</span>
+                          <span className="absolute top-1 left-1 bg-[#1a1a1a] text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Cover</span>
                         )}
                         <button onClick={() => removeExistingFoto(f)}
                           className="absolute top-1 right-1 w-6 h-6 bg-black/60 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-xs">
@@ -499,7 +499,7 @@ export default function AdminGaleriPage() {
                     ))}
                     {/* Foto baru (belum diupload) */}
                     {fotoPreviews.map((url, i) => (
-                      <div key={url} className="relative aspect-square rounded-xl overflow-hidden border border-dashed border-[#0059bb]/40 group">
+                      <div key={url} className="relative aspect-square rounded-xl overflow-hidden border border-dashed border-[#1a1a1a]/20 group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={url} alt="" className="w-full h-full object-cover" />
                         <span className="absolute top-1 left-1 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Baru</span>
@@ -511,19 +511,19 @@ export default function AdminGaleriPage() {
                     ))}
                     {/* Tombol tambah di grid */}
                     <label htmlFor="galeri-multi-upload"
-                      className="aspect-square rounded-xl border-2 border-dashed border-[#0059bb]/30 flex flex-col items-center justify-center cursor-pointer hover:border-[#0059bb] hover:bg-[#eef5ff] transition">
-                      <span className="material-symbols-outlined text-[28px] text-[#0059bb]/40">add</span>
-                      <span className="text-[10px] text-[#0059bb]/60 font-semibold mt-0.5">Tambah</span>
+                      className="aspect-square rounded-xl border-2 border-dashed border-[#e5e5e5] flex flex-col items-center justify-center cursor-pointer hover:border-[#1a1a1a] hover:bg-[#f9f9f9] transition">
+                      <span className="material-symbols-outlined text-[28px] text-[#6b6b6b]">add</span>
+                      <span className="text-[10px] text-[#6b6b6b] font-semibold mt-0.5">Tambah</span>
                     </label>
                   </div>
                 ) : (
                   /* Empty upload area */
                   <label htmlFor="galeri-multi-upload"
-                    className="flex flex-col items-center justify-center gap-3 w-full h-36 border-2 border-dashed border-[#0059bb]/30 rounded-xl cursor-pointer hover:border-[#0059bb] hover:bg-[#eef5ff] transition">
-                    <span className="material-symbols-outlined text-[36px] text-[#0059bb]/40">add_photo_alternate</span>
+                    className="flex flex-col items-center justify-center gap-3 w-full h-36 border-2 border-dashed border-[#e5e5e5] rounded-xl cursor-pointer hover:border-[#1a1a1a] hover:bg-[#f9f9f9] transition">
+                    <span className="material-symbols-outlined text-[36px] text-[#6b6b6b]/40">add_photo_alternate</span>
                     <div className="text-center">
-                      <p className="text-sm font-semibold text-[#0059bb]">Klik untuk upload foto</p>
-                      <p className="text-xs text-gray-400 mt-0.5">Bisa pilih banyak sekaligus · JPG, PNG, WebP</p>
+                      <p className="text-sm font-semibold text-[#1a1a1a]">Klik untuk upload foto</p>
+                      <p className="text-xs text-[#6b6b6b] mt-0.5">Bisa pilih banyak sekaligus · JPG, PNG, WebP</p>
                     </div>
                   </label>
                 )}
@@ -533,12 +533,12 @@ export default function AdminGaleriPage() {
 
             <div className="flex gap-3 px-6 pb-6">
               <button onClick={() => setShowModal(false)}
-                className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50 transition">
+                className="flex-1 py-2.5 border border-[#e5e5e5] rounded-xl text-sm font-semibold hover:bg-[#f2f2f2] transition">
                 Batal
               </button>
               <button onClick={handleSave}
                 disabled={isBusy || !form.judul || (existingFotos.length + fotoFiles.length === 0)}
-                className="flex-1 bg-[#0059bb] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition disabled:opacity-60 flex items-center justify-center gap-2">
+                className="flex-1 bg-[#1a1a1a] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#333] transition disabled:opacity-60 flex items-center justify-center gap-2">
                 {isBusy && <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>}
                 {uploading ? 'Mengupload...' : saving ? 'Menyimpan...' : editId ? 'Simpan Perubahan' : 'Buat Album'}
               </button>

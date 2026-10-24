@@ -94,7 +94,7 @@ export default function AdminKomentarPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Cari komentar..."
-          className="w-full pl-9 pr-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20"
+          className="w-full pl-9 pr-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]"
         />
       </div>
 
@@ -133,8 +133,8 @@ export default function AdminKomentarPage() {
                     {/* Nama */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-[#eef5ff] flex items-center justify-center flex-shrink-0">
-                          <span className="text-xs font-bold text-[#0059bb]">
+                        <div className="w-7 h-7 rounded-full bg-[#f2f2f2] flex items-center justify-center flex-shrink-0">
+                          <span className="text-xs font-bold text-[#1a1a1a]">
                             {k.nama.charAt(0).toUpperCase()}
                           </span>
                         </div>
@@ -150,7 +150,7 @@ export default function AdminKomentarPage() {
                         {k.isi.length > 100 ? k.isi.slice(0, 100) + '...' : k.isi}
                       </p>
                       {k.parent_id && (
-                        <span className="inline-flex items-center gap-1 text-xs text-blue-500 mt-1">
+                        <span className="inline-flex items-center gap-1 text-xs text-[#6b6b6b] mt-1">
                           <span className="material-symbols-outlined text-[12px]">reply</span>
                           Balasan
                         </span>
@@ -162,7 +162,7 @@ export default function AdminKomentarPage() {
                       <Link
                         href={`/news/${k.kegiatan_id}`}
                         target="_blank"
-                        className="text-[#0059bb] hover:underline text-xs truncate block max-w-[140px]"
+                        className="text-[#1a1a1a] underline underline-offset-2 hover:text-[#333] text-xs truncate block max-w-[140px]"
                         title={k.kegiatan_id}
                       >
                         {k.kegiatan_id.length > 20

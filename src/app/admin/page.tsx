@@ -43,11 +43,11 @@ export default function AdminDashboard() {
   }, [])
 
   const cards = [
-    { label: 'Anggota', value: stats.anggota, icon: 'diversity_3', color: '#0059bb', href: '/admin/anggota' },
-    { label: 'Kegiatan', value: stats.kegiatan, icon: 'event', color: '#059669', href: '/admin/kegiatan' },
-    { label: 'Galeri', value: stats.galeri, icon: 'photo_library', color: '#7c3aed', href: '/admin/galeri' },
-    { label: 'Aspirasi', value: stats.aspirasi, icon: 'forum', color: '#d97706', href: '/admin/aspirasi', badge: stats.aspirasiBaru },
-    { label: 'Komentar', value: stats.komentar, icon: 'comment', color: '#0891b2', href: '/admin/komentar' },
+    { label: 'Anggota', value: stats.anggota, icon: 'diversity_3', href: '/admin/anggota' },
+    { label: 'Kegiatan', value: stats.kegiatan, icon: 'event', href: '/admin/kegiatan' },
+    { label: 'Galeri', value: stats.galeri, icon: 'photo_library', href: '/admin/galeri' },
+    { label: 'Aspirasi', value: stats.aspirasi, icon: 'forum', href: '/admin/aspirasi', badge: stats.aspirasiBaru },
+    { label: 'Komentar', value: stats.komentar, icon: 'comment', href: '/admin/komentar' },
   ]
 
   return (
@@ -63,10 +63,9 @@ export default function AdminDashboard() {
           <Link key={card.label} href={card.href}
             className="bg-white rounded-2xl p-5 border border-[#e5e5e5] hover:shadow-sm transition group">
             <div className="flex items-start justify-between mb-3">
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center"
-                style={{background: card.color + '18'}}>
-                <span className="material-symbols-outlined text-[22px]"
-                  style={{color: card.color, fontVariationSettings: "'FILL' 1"}}>
+              <div className="w-11 h-11 rounded-xl bg-[#f2f2f2] flex items-center justify-center">
+                <span className="material-symbols-outlined text-[22px] text-[#1a1a1a]"
+                  style={{fontVariationSettings: "'FILL' 1"}}>
                   {card.icon}
                 </span>
               </div>
@@ -89,16 +88,16 @@ export default function AdminDashboard() {
         <h3 className="font-bold text-[#1a1a1a] mb-4">Aksi Cepat</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {[
-            { label: 'Tambah Anggota', icon: 'person_add', href: '/admin/anggota?action=tambah', color: '#0059bb' },
-            { label: 'Tambah Kegiatan', icon: 'event_available', href: '/admin/kegiatan?action=tambah', color: '#059669' },
-            { label: 'Upload Galeri', icon: 'add_photo_alternate', href: '/admin/galeri?action=tambah', color: '#7c3aed' },
-            { label: 'Tambah Kursus', icon: 'add_circle', href: '/admin/belajar', color: '#0099cc' },
-            { label: 'Lihat Aspirasi', icon: 'mark_chat_read', href: '/admin/aspirasi', color: '#d97706' },
+            { label: 'Tambah Anggota', icon: 'person_add', href: '/admin/anggota?action=tambah' },
+            { label: 'Tambah Kegiatan', icon: 'event_available', href: '/admin/kegiatan?action=tambah' },
+            { label: 'Upload Galeri', icon: 'add_photo_alternate', href: '/admin/galeri?action=tambah' },
+            { label: 'Tambah Kursus', icon: 'add_circle', href: '/admin/belajar' },
+            { label: 'Lihat Aspirasi', icon: 'mark_chat_read', href: '/admin/aspirasi' },
           ].map(item => (
             <Link key={item.label} href={item.href}
               className="flex flex-col items-center gap-2 p-4 rounded-xl border border-[#e5e5e5] hover:border-[#d5d5d5] hover:bg-[#f9f9f9] transition text-center">
-              <span className="material-symbols-outlined text-[24px]"
-                style={{color: item.color, fontVariationSettings: "'FILL' 1"}}>
+              <span className="material-symbols-outlined text-[24px] text-[#1a1a1a]"
+                style={{fontVariationSettings: "'FILL' 1"}}>
                 {item.icon}
               </span>
               <span className="text-xs font-semibold text-[#1a1a1a]">{item.label}</span>

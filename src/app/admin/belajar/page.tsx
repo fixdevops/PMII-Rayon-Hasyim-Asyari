@@ -168,11 +168,11 @@ export default function AdminBelajarPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
-          <h2 className="text-xl font-bold text-[#0a1628]">Manajemen Kursus Belajar</h2>
-          <p className="text-sm text-gray-500 mt-0.5">Kelola daftar kursus dan materi belajar kader</p>
+          <h2 className="text-xl font-bold text-[#1a1a1a]">Manajemen Kursus Belajar</h2>
+          <p className="text-sm text-[#6b6b6b] mt-0.5">Kelola daftar kursus dan materi belajar kader</p>
         </div>
         <button onClick={openTambah}
-          className="flex items-center gap-2 bg-[#0059bb] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition">
+          className="flex items-center gap-2 bg-[#1a1a1a] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[#333] transition">
           <span className="material-symbols-outlined text-[18px]">add_circle</span>
           Tambah Kursus
         </button>
@@ -180,19 +180,19 @@ export default function AdminBelajarPage() {
 
       {/* Search */}
       <div className="relative max-w-sm">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-400 text-[18px]">search</span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#6b6b6b] text-[18px]">search</span>
         <input value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Cari kursus..."
-          className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+          className="w-full pl-9 pr-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
       </div>
 
       {/* Grid */}
       {loading ? (
-        <div className="flex items-center justify-center h-40 text-gray-400">
+        <div className="flex items-center justify-center h-40 text-[#6b6b6b]">
           <span className="material-symbols-outlined text-[32px] animate-spin">progress_activity</span>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-40 text-gray-400 gap-2 bg-white rounded-2xl border border-gray-100">
+        <div className="flex flex-col items-center justify-center h-40 text-[#6b6b6b] gap-2 bg-white rounded-2xl border border-[#e5e5e5]">
           <span className="material-symbols-outlined text-[40px]">school</span>
           <p className="text-sm">Belum ada kursus</p>
         </div>
@@ -200,20 +200,20 @@ export default function AdminBelajarPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.map(k => (
             <div key={k.id}
-              className={`bg-white rounded-2xl border shadow-sm overflow-hidden transition ${k.aktif ? 'border-gray-100' : 'border-gray-200 opacity-60'}`}>
+              className={`bg-white rounded-2xl border shadow-sm overflow-hidden transition ${k.aktif ? 'border-[#e5e5e5]' : 'border-[#e5e5e5] opacity-60'}`}>
               {/* Thumbnail */}
-              <div className="aspect-video bg-gray-50 overflow-hidden relative">
+              <div className="aspect-video bg-[#f2f2f2] overflow-hidden relative">
                 {k.thumbnail_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={k.thumbnail_url} alt={k.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center gap-1">
-                    <span className="material-symbols-outlined text-gray-200 text-[40px]">image</span>
-                    <p className="text-xs text-gray-300">Belum ada thumbnail</p>
+                    <span className="material-symbols-outlined text-[#6b6b6b]/30 text-[40px]">image</span>
+                    <p className="text-xs text-[#6b6b6b]/40">Belum ada thumbnail</p>
                   </div>
                 )}
                 <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
-                  <span className="text-[10px] font-bold text-[#0a1628]">{k.no}</span>
+                  <span className="text-[10px] font-bold text-[#1a1a1a]">{k.no}</span>
                 </div>
                 {!k.aktif && (
                   <div className="absolute top-2 right-2 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
@@ -227,27 +227,27 @@ export default function AdminBelajarPage() {
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${levelColor[k.level] ?? 'bg-gray-100 text-gray-600'}`}>
                     {k.level}
                   </span>
-                  <span className="text-[10px] bg-[#eef5ff] text-[#0059bb] font-semibold px-2 py-0.5 rounded-full capitalize">
+                  <span className="text-[10px] bg-[#f2f2f2] text-[#1a1a1a] font-semibold px-2 py-0.5 rounded-full capitalize">
                     {k.category}
                   </span>
-                  <span className="text-[11px] text-gray-400 ml-auto flex items-center gap-0.5">
+                  <span className="text-[11px] text-[#6b6b6b] ml-auto flex items-center gap-0.5">
                     <span className="material-symbols-outlined text-[12px]">layers</span>{k.materi}
                   </span>
-                  <span className="text-[11px] text-gray-400 flex items-center gap-0.5">
+                  <span className="text-[11px] text-[#6b6b6b] flex items-center gap-0.5">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>{k.durasi}
                   </span>
                 </div>
-                <h3 className="font-bold text-[#0a1628] text-sm mb-3 line-clamp-2">{k.title}</h3>
+                <h3 className="font-bold text-[#1a1a1a] text-sm mb-3 line-clamp-2">{k.title}</h3>
                 <div className="flex gap-2">
                   <button onClick={() => toggleAktif(k.id, k.aktif)}
                     className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border transition ${
-                      k.aktif ? 'border-gray-200 text-gray-500 hover:bg-gray-50' : 'border-green-200 text-green-600 hover:bg-green-50'
+                      k.aktif ? 'border-[#e5e5e5] text-[#6b6b6b] hover:bg-[#f2f2f2]' : 'border-green-200 text-green-600 hover:bg-green-50'
                     }`}>
                     <span className="material-symbols-outlined text-[14px]">{k.aktif ? 'visibility_off' : 'visibility'}</span>
                     {k.aktif ? 'Nonaktifkan' : 'Aktifkan'}
                   </button>
                   <button onClick={() => openEdit(k)}
-                    className="p-2 rounded-xl border border-blue-200 text-blue-600 hover:bg-blue-50 transition">
+                    className="p-2 rounded-xl border border-[#e5e5e5] text-[#6b6b6b] hover:bg-[#f2f2f2] transition">
                     <span className="material-symbols-outlined text-[16px]">edit</span>
                   </button>
                   <button onClick={() => handleDelete(k.id, k.thumbnail_url)} disabled={deleting === k.id}
@@ -267,9 +267,9 @@ export default function AdminBelajarPage() {
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 sticky top-0 bg-white z-10">
-              <h3 className="font-bold text-[#0a1628]">{editId ? 'Edit Kursus' : 'Tambah Kursus'}</h3>
-              <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-gray-100 transition">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#e5e5e5] sticky top-0 bg-white z-10">
+              <h3 className="font-bold text-[#1a1a1a]">{editId ? 'Edit Kursus' : 'Tambah Kursus'}</h3>
+              <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-[#f2f2f2] transition">
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
@@ -278,9 +278,9 @@ export default function AdminBelajarPage() {
 
               {/* Upload thumbnail */}
               <div>
-                <label className="block text-sm font-semibold text-[#0a1628] mb-2">Thumbnail Kursus</label>
+                <label className="block text-sm font-semibold text-[#1a1a1a] mb-2">Thumbnail Kursus</label>
                 {thumbPreview ? (
-                  <div className="relative rounded-xl overflow-hidden border border-gray-100">
+                  <div className="relative rounded-xl overflow-hidden border border-[#e5e5e5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={thumbPreview} alt="preview" className="w-full max-h-48 object-cover" />
                     <button onClick={removeThumb}
@@ -288,17 +288,17 @@ export default function AdminBelajarPage() {
                       <span className="material-symbols-outlined text-[16px]">close</span>
                     </button>
                     <label htmlFor="kursus-upload"
-                      className="absolute bottom-2 right-2 flex items-center gap-1.5 bg-black/60 hover:bg-[#0059bb] text-white text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer transition">
+                      className="absolute bottom-2 right-2 flex items-center gap-1.5 bg-black/60 hover:bg-[#333] text-white text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer transition">
                       <span className="material-symbols-outlined text-[14px]">upload</span>Ganti
                     </label>
                   </div>
                 ) : (
                   <label htmlFor="kursus-upload"
-                    className="flex flex-col items-center justify-center gap-3 w-full h-36 border-2 border-dashed border-[#0059bb]/30 rounded-xl cursor-pointer hover:border-[#0059bb] hover:bg-[#eef5ff] transition">
-                    <span className="material-symbols-outlined text-[36px] text-[#0059bb]/40">add_photo_alternate</span>
+                    className="flex flex-col items-center justify-center gap-3 w-full h-36 border-2 border-dashed border-[#e5e5e5] rounded-xl cursor-pointer hover:border-[#1a1a1a] hover:bg-[#f9f9f9] transition">
+                    <span className="material-symbols-outlined text-[36px] text-[#6b6b6b]/40">add_photo_alternate</span>
                     <div className="text-center">
-                      <p className="text-sm font-semibold text-[#0059bb]">Klik untuk upload thumbnail</p>
-                      <p className="text-xs text-gray-400 mt-0.5">JPG, PNG, WebP · Maks 10 MB</p>
+                      <p className="text-sm font-semibold text-[#1a1a1a]">Klik untuk upload thumbnail</p>
+                      <p className="text-xs text-[#6b6b6b] mt-0.5">JPG, PNG, WebP · Maks 10 MB</p>
                     </div>
                   </label>
                 )}
@@ -308,69 +308,69 @@ export default function AdminBelajarPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Nomor urut</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Nomor urut</label>
                   <input type="number" value={form.no} onChange={e => setForm({ ...form, no: Number(e.target.value) })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]" />
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Level</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Level</label>
                   <select value={form.level} onChange={e => setForm({ ...form, level: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]">
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]">
                     {LEVEL_OPTIONS.map(l => <option key={l} value={l}>{l}</option>)}
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Judul <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Judul <span className="text-red-500">*</span></label>
                 <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })}
                   placeholder="Judul kursus"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+                  className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Deskripsi</label>
+                <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Deskripsi</label>
                 <textarea value={form.deskripsi} onChange={e => setForm({ ...form, deskripsi: e.target.value })}
                   rows={3} placeholder="Deskripsi singkat kursus..."
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] resize-none" />
+                  className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a] resize-none" />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Kategori</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Kategori</label>
                   <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]">
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]">
                     {CATEGORY_OPTIONS.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Jumlah Materi</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Jumlah Materi</label>
                   <input type="number" value={form.materi} onChange={e => setForm({ ...form, materi: Number(e.target.value) })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]" />
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Durasi</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Durasi</label>
                   <input value={form.durasi} onChange={e => setForm({ ...form, durasi: e.target.value })}
                     placeholder="contoh: 2 jam"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]" />
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Link Kursus</label>
+                  <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">Link Kursus</label>
                   <input value={form.href} onChange={e => setForm({ ...form, href: e.target.value })}
                     placeholder="https://... atau #"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]" />
+                    className="w-full px-4 py-2.5 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a]" />
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
                 <button type="button" onClick={() => setForm({ ...form, aktif: !form.aktif })}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${form.aktif ? 'bg-[#0059bb]' : 'bg-gray-300'}`}>
+                  className={`relative w-11 h-6 rounded-full transition-colors ${form.aktif ? 'bg-[#1a1a1a]' : 'bg-gray-300'}`}>
                   <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${form.aktif ? 'translate-x-5' : 'translate-x-0'}`} />
                 </button>
-                <label className="text-sm font-semibold text-[#0a1628]">
+                <label className="text-sm font-semibold text-[#1a1a1a]">
                   {form.aktif ? 'Aktif — tampil di halaman belajar' : 'Nonaktif — tersembunyi dari publik'}
                 </label>
               </div>
@@ -378,11 +378,11 @@ export default function AdminBelajarPage() {
 
             <div className="flex gap-3 px-6 pb-6">
               <button onClick={() => setShowModal(false)}
-                className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50 transition">
+                className="flex-1 py-2.5 border border-[#e5e5e5] rounded-xl text-sm font-semibold hover:bg-[#f2f2f2] transition">
                 Batal
               </button>
               <button onClick={handleSave} disabled={isBusy || !form.title}
-                className="flex-1 bg-[#0059bb] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition disabled:opacity-60 flex items-center justify-center gap-2">
+                className="flex-1 bg-[#1a1a1a] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#333] transition disabled:opacity-60 flex items-center justify-center gap-2">
                 {isBusy && <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>}
                 {uploading ? 'Mengupload...' : saving ? 'Menyimpan...' : editId ? 'Simpan Perubahan' : 'Tambahkan'}
               </button>
