@@ -40,6 +40,7 @@ export default function Footer() {
                   { href: "/kegiatan", label: "News" },
                   { href: "/galeri", label: "Galeri" },
                   { href: "/anggota", label: "Anggota" },
+                  { href: "/daftar-penulis", label: "Daftar Penulis" },
                 ].map((l) => (
                   <li key={l.href}>
                     <Link

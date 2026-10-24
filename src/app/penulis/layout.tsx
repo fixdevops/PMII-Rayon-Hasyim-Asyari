@@ -1,0 +1,141 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import Link from 'next/link'
+import Image from 'next/image'
+
+const navItems = [
+  { href: '/penulis', label: 'Dashboard', icon: 'dashboard' },
+  { href: '/penulis/tulis', label: 'Tulis Berita', icon: 'edit_note' },
+  { href: '/penulis/berita-saya', label: 'Berita Saya', icon: 'article' },
+]
+
+export default function PenulisLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const [nama, setNama] = useState('')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('penulis_logged_in')
+    if (!loggedIn) {
+      router.replace('/login-penulis')
+      return
+    }
+    setNama(localStorage.getItem('penulis_nama') || 'Penulis')
+  }, [router])
+
+  function handleLogout() {
+    localStorage.removeItem('penulis_logged_in')
+    localStorage.removeItem('penulis_id')
+    localStorage.removeItem('penulis_nama')
+    localStorage.removeItem('penulis_username')
+    router.push('/login-penulis')
+  }
+
+  return (
+    <div className="min-h-screen bg-[#f5f5f5] flex">
+      {/* Sidebar Overlay Mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-20 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed top-0 left-0 h-full w-64 bg-white border-r border-[#e5e5e5] z-30 flex flex-col
+        transition-transform duration-300
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-shrink-0
+      `}>
+        {/* Logo */}
+        <div className="flex items-center gap-3 px-6 py-5 border-b border-[#e5e5e5]">
+          <Image src="/logorayon.png" alt="Logo" width={36} height={36} className="object-contain" />
+          <div>
+            <p className="font-bold text-sm leading-tight text-[#1a1a1a]">Penulis Berita</p>
+            <p className="text-[#6b6b6b] text-xs">Rayon Hasyim Asy&apos;ari</p>
+          </div>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-hidden">
+          {navItems.map(item => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setSidebarOpen(false)}
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition
+                  ${isActive
+                    ? 'bg-[#f2f2f2] text-[#1a1a1a] font-semibold'
+                    : 'text-[#6b6b6b] hover:bg-[#f7f7f7] hover:text-[#1a1a1a]'
+                  }`}
+              >
+                <span
+                  className="material-symbols-outlined text-[20px]"
+                  style={{fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0"}}
+                >
+                  {item.icon}
+                </span>
+                {item.label}
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* User info + logout */}
+        <div className="px-4 py-4 border-t border-[#e5e5e5]">
+          <div className="flex items-center gap-3 px-2 mb-3">
+            <div className="w-8 h-8 bg-[#f2f2f2] rounded-full flex items-center justify-center">
+              <span className="material-symbols-outlined text-[18px] text-[#6b6b6b]">person</span>
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-[#1a1a1a] truncate">{nama}</p>
+              <p className="text-[#6b6b6b] text-xs">Penulis</p>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-[#6b6b6b] hover:bg-red-50 hover:text-red-500 transition"
+          >
+            <span className="material-symbols-outlined text-[18px]">logout</span>
+            Keluar
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-auto">
+        {/* Top bar */}
+        <header className="bg-white border-b border-[#e5e5e5] px-4 lg:px-6 py-4 flex items-center gap-4">
+          <button
+            className="lg:hidden p-2 rounded-xl hover:bg-[#f2f2f2] transition"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <span className="material-symbols-outlined text-[22px] text-[#6b6b6b]">menu</span>
+          </button>
+          <h1 className="font-bold text-[#1a1a1a] text-lg flex-1">
+            {navItems.find(n => n.href === pathname)?.label ?? 'Penulis Berita'}
+          </h1>
+          <Link
+            href="/"
+            target="_blank"
+            className="text-sm text-[#6b6b6b] hover:text-[#1a1a1a] flex items-center gap-1 transition"
+          >
+            <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+            Lihat Website
+          </Link>
+        </header>
+
+        {/* Page content */}
+        <main className="flex-1 p-4 lg:p-6 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  )
+}

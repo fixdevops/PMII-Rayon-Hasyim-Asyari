@@ -21,6 +21,8 @@ interface Kegiatan {
   tanggal: string
   lokasi: string | null
   foto_url: string | null
+  penulis_id?: string | null
+  penulis_nama?: string | null
 }
 
 async function getBySlug(slug: string): Promise<Kegiatan | null> {
@@ -152,7 +154,7 @@ export default async function NewsDetailPage(
                 className="w-10 h-10 rounded-full object-cover flex-shrink-0"
               />
               <div>
-                <p className="font-medium text-sm text-[#1a1a1a]">Redaksi Rayon Hasyim Asy&apos;ari</p>
+                <p className="font-medium text-sm text-[#1a1a1a]">{kegiatan.penulis_nama ? kegiatan.penulis_nama : "Redaksi Rayon Hasyim Asy'ari"}</p>
                 <p className="text-[#6b6b6b] text-sm">
                   {tanggalFormatted}
                   <span className="mx-1.5">·</span>
