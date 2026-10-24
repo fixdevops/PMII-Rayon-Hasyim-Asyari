@@ -60,6 +60,18 @@ export default function PenulisTulisPage() {
       return
     }
 
+    // Verifikasi identitas ke server sebelum insert
+    const penulisUsername = localStorage.getItem('penulis_username') || ''
+    const verifyRes = await fetch(
+      `/api/penulis/verify?penulis_id=${encodeURIComponent(penulisId)}&username=${encodeURIComponent(penulisUsername)}`
+    )
+    const verifyJson = await verifyRes.json()
+    if (!verifyJson.valid) {
+      setError('Sesi tidak valid. Silakan login ulang.')
+      setSaving(false)
+      return
+    }
+
     // Step 1: insert kegiatan dengan foto_url null
     const { data: inserted, error: insertError } = await supabase.from('kegiatan').insert({
       judul: form.judul,

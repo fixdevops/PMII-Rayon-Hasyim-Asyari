@@ -3,12 +3,24 @@ import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
+const ALLOWED_FOTO_HOSTS = ['ajlsffxxlvnzukevlcna.supabase.co', 'lh3.googleusercontent.com']
+
+function isSafeFotoUrl(url: string): boolean {
+  try {
+    const u = new URL(url)
+    // Hanya izinkan https
+    if (u.protocol !== 'https:') return false
+    return ALLOWED_FOTO_HOSTS.some(h => u.hostname === h || u.hostname.endsWith('.' + h))
+  } catch { return false }
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
 
   const judul = searchParams.get('judul') ?? 'PMII Rayon Hasyim Asy\'ari'
   const deskripsi = searchParams.get('deskripsi') ?? 'Berita dan kegiatan terkini'
-  const foto = searchParams.get('foto') ?? ''
+  const rawFoto = searchParams.get('foto') ?? ''
+  const foto = rawFoto && isSafeFotoUrl(rawFoto) ? rawFoto : ''
 
   return new ImageResponse(
     (

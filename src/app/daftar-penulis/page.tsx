@@ -76,7 +76,7 @@ export default function DaftarPenulisPage() {
         <div className="bg-white border border-[#e5e5e5] rounded-2xl shadow-sm p-8">
           <h2 className="text-[#1a1a1a] font-bold text-xl mb-6 text-center">Buat Akun Penulis</h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
             {/* Nama */}
             <div>
               <label className="block text-sm font-semibold text-[#1a1a1a] mb-1.5">
@@ -92,6 +92,7 @@ export default function DaftarPenulisPage() {
                   onChange={e => setForm({ ...form, nama: e.target.value })}
                   placeholder="Nama lengkap"
                   required
+                  autoComplete="name"
                   className="w-full pl-10 pr-4 py-3 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a] focus:ring-2 focus:ring-[#1a1a1a]/10 transition"
                 />
               </div>
@@ -112,6 +113,7 @@ export default function DaftarPenulisPage() {
                   onChange={e => setForm({ ...form, username: e.target.value })}
                   placeholder="Username untuk login"
                   required
+                  autoComplete="username"
                   className="w-full pl-10 pr-4 py-3 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a] focus:ring-2 focus:ring-[#1a1a1a]/10 transition"
                 />
               </div>
@@ -131,6 +133,7 @@ export default function DaftarPenulisPage() {
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
                   placeholder="email@contoh.com"
+                  autoComplete="email"
                   className="w-full pl-10 pr-4 py-3 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a] focus:ring-2 focus:ring-[#1a1a1a]/10 transition"
                 />
               </div>
@@ -151,6 +154,7 @@ export default function DaftarPenulisPage() {
                   onChange={e => setForm({ ...form, password: e.target.value })}
                   placeholder="Password"
                   required
+                  autoComplete="new-password"
                   className="w-full pl-10 pr-10 py-3 border border-[#e5e5e5] rounded-xl text-sm focus:outline-none focus:border-[#1a1a1a] focus:ring-2 focus:ring-[#1a1a1a]/10 transition"
                 />
                 <button

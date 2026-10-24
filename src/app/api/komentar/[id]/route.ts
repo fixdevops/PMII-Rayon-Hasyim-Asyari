@@ -5,15 +5,27 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const secret = process.env.ADMIN_DELETE_SECRET ?? 'rayon-admin-2025'
   const authHeader = request.headers.get('Authorization')
+  if (!authHeader?.startsWith('Bearer ')) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  const sessionToken = authHeader.slice(7)
+  if (!sessionToken || sessionToken.length < 16) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
-  if (authHeader !== `Bearer ${secret}`) {
+  // Verifikasi session token ke database
+  const { data: adminData, error: authError } = await supabase
+    .from('admin_users')
+    .select('id')
+    .eq('session_token', sessionToken)
+    .single()
+
+  if (authError || !adminData) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const { id } = await params
-
   const { error } = await supabase
     .from('komentar')
     .delete()

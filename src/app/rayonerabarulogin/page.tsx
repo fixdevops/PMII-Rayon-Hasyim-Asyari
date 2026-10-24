@@ -32,9 +32,22 @@ export default function AdminLoginPage() {
       return
     }
 
-    // Simpan session sederhana
+    // Generate session token acak 32-karakter hex
+    const sessionToken = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('')
+
+    // Simpan session ke localStorage
     localStorage.setItem('admin_logged_in', 'true')
     localStorage.setItem('admin_username', data.username)
+    localStorage.setItem('admin_session_token', sessionToken)
+
+    // Update session token ke database
+    await supabase
+      .from('admin_users')
+      .update({ session_token: sessionToken })
+      .eq('id', data.id)
+
     router.push('/admin')
   }
 

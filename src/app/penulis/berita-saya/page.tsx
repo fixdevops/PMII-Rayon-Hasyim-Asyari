@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
 const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), { ssr: false })
@@ -33,6 +34,7 @@ interface BeritaSaya {
 const emptyForm = { judul: '', deskripsi: '', konten: '', tanggal: '', lokasi: '' }
 
 export default function PenulisBeritaSayaPage() {
+  const router = useRouter()
   const [penulisId, setPenulisId] = useState<string | null>(null)
   const [list, setList] = useState<BeritaSaya[]>([])
   const [loading, setLoading] = useState(true)
@@ -60,11 +62,31 @@ export default function PenulisBeritaSayaPage() {
   }, [])
 
   useEffect(() => {
-    const id = localStorage.getItem('penulis_id')
-    setPenulisId(id)
-    if (!id) { setLoading(false); return }
-    load(id)
-  }, [load])
+    async function init() {
+      const id = localStorage.getItem('penulis_id')
+      setPenulisId(id)
+      if (!id) { setLoading(false); return }
+
+      // Verifikasi identitas sebelum load data
+      const username = localStorage.getItem('penulis_username') || ''
+      const res = await fetch(
+        `/api/penulis/verify?penulis_id=${encodeURIComponent(id)}&username=${encodeURIComponent(username)}`
+      )
+      const json = await res.json()
+      if (!json.valid) {
+        // Hapus semua data sesi dan redirect ke login
+        localStorage.removeItem('penulis_logged_in')
+        localStorage.removeItem('penulis_id')
+        localStorage.removeItem('penulis_nama')
+        localStorage.removeItem('penulis_username')
+        router.replace('/login-penulis')
+        return
+      }
+
+      load(id)
+    }
+    init()
+  }, [load, router])
 
   function openEdit(k: BeritaSaya) {
     setEditId(k.id)

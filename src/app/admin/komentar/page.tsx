@@ -39,7 +39,7 @@ export default function AdminKomentarPage() {
     try {
       await fetch(`/api/komentar/${id}`, {
         method: 'DELETE',
-        headers: { Authorization: 'Bearer rayon-admin-2025' },
+        headers: { Authorization: `Bearer ${localStorage.getItem('admin_session_token') ?? ''}` },
       })
       setList((prev) => prev.filter((k) => k.id !== id))
     } catch {

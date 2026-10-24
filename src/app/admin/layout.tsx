@@ -34,6 +34,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   function handleLogout() {
     localStorage.removeItem('admin_logged_in')
     localStorage.removeItem('admin_username')
+    localStorage.removeItem('admin_session_token')
     router.push('/rayonerabarulogin')
   }
 
