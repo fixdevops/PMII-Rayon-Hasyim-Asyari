@@ -426,14 +426,28 @@ export default function AdminAnggotaPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Jabatan <span className="text-red-500">*</span></label>
-                <input value={form.jabatan} onChange={e => setForm({ ...form, jabatan: e.target.value })}
-                  placeholder="Contoh: Ketua Rayon"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+                {form.departemen === 'BPH Pengurus Rayon' ? (
+                  <input value={form.jabatan} onChange={e => setForm({ ...form, jabatan: e.target.value })}
+                    placeholder="Contoh: Ketua Rayon, Sekretaris Umum..."
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20" />
+                ) : (
+                  <select value={form.jabatan} onChange={e => setForm({ ...form, jabatan: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]">
+                    <option value="">-- Pilih Jabatan --</option>
+                    <option value="Koordinator">Koordinator</option>
+                    <option value="Anggota">Anggota</option>
+                  </select>
+                )}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Biro</label>
-                <select value={form.departemen} onChange={e => setForm({ ...form, departemen: e.target.value })}
+                <select value={form.departemen} onChange={e => {
+                  const dept = e.target.value
+                  // Reset jabatan saat ganti biro
+                  const resetJabatan = dept === 'BPH Pengurus Rayon' ? form.jabatan : ''
+                  setForm({ ...form, departemen: dept, jabatan: resetJabatan })
+                }}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#0059bb]">
                   {DEPARTEMEN_OPTIONS.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
