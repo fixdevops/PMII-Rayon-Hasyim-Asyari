@@ -417,8 +417,8 @@ export default function AdminAnggotaPage() {
               <div>
                 <label className="block text-sm font-semibold text-[#0a1628] mb-2">Foto</label>
                 <div className="flex items-center gap-4">
-                  {/* Preview lingkaran */}
-                  <div className="w-20 h-20 rounded-full overflow-hidden bg-[#f2f2f2] flex-shrink-0 border-2 border-[#e5e5e5]">
+                  {/* Preview 3:4 sesuai halaman anggota */}
+                  <div className="w-16 rounded overflow-hidden bg-[#f2f2f2] flex-shrink-0 border border-[#e5e5e5]" style={{ aspectRatio: '3/4' }}>
                     {fotoPreview ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={fotoPreview} alt="preview" className="w-full h-full object-cover" />

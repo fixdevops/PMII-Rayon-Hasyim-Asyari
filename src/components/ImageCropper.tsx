@@ -20,17 +20,10 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<Blob> {
   })
 
   const canvas = document.createElement('canvas')
-  const size = Math.min(pixelCrop.width, pixelCrop.height)
-  canvas.width = size
-  canvas.height = size
+  canvas.width = pixelCrop.width
+  canvas.height = pixelCrop.height
 
   const ctx = canvas.getContext('2d')!
-
-  // Gambar lingkaran sebagai clip path
-  ctx.beginPath()
-  ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2)
-  ctx.closePath()
-  ctx.clip()
 
   ctx.drawImage(
     image,
@@ -40,15 +33,15 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<Blob> {
     pixelCrop.height,
     0,
     0,
-    size,
-    size
+    pixelCrop.width,
+    pixelCrop.height
   )
 
   return new Promise((resolve, reject) => {
     canvas.toBlob(blob => {
       if (blob) resolve(blob)
       else reject(new Error('Canvas is empty'))
-    }, 'image/png')
+    }, 'image/jpeg', 0.92)
   })
 }
 
@@ -88,14 +81,13 @@ export default function ImageCropper({ imageSrc, onSave, onCancel }: Props) {
           </button>
         </div>
 
-        {/* Crop area */}
-        <div className="relative w-full bg-[#1a1a1a]" style={{ height: '320px' }}>
+        {/* Crop area — aspect 3:4 sesuai tampilan anggota */}
+        <div className="relative w-full bg-[#1a1a1a]" style={{ height: '360px' }}>
           <Cropper
             image={imageSrc}
             crop={crop}
             zoom={zoom}
-            aspect={1}
-            cropShape="round"
+            aspect={3 / 4}
             showGrid={false}
             onCropChange={setCrop}
             onZoomChange={setZoom}
