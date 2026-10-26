@@ -7,7 +7,7 @@ import MobileHeader from "@/components/MobileHeader";
 import Footer from "@/components/Footer";
 import AspirasiButton from "@/components/AspirasiButton";
 import ShareButtons from "@/components/ShareButtons";
-import NewsInteraction, { KomentarSection } from "./NewsInteraction";
+import { KomentarSection } from "./NewsInteraction";
 import { supabase } from "@/lib/supabase";
 
 export const dynamic = 'force-dynamic'
@@ -146,53 +146,41 @@ export default async function NewsDetailPage(
             </h1>
 
             {/* Author info row */}
-            <div className="flex items-center gap-3 mb-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/logorayon.png"
-                alt="Redaksi"
-                className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-              />
-              <div>
-                <p className="font-medium text-sm text-[#1a1a1a]">{kegiatan.penulis_nama ? kegiatan.penulis_nama : "Redaksi Rayon Hasyim Asy'ari"}</p>
-                <p className="text-[#6b6b6b] text-sm">
-                  {tanggalFormatted}
-                  <span className="mx-1.5">·</span>
-                  {readTime} menit baca
-                </p>
+            <div className="flex items-center justify-between gap-3 mb-6">
+              <div className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logorayon.png"
+                  alt="Redaksi"
+                  className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                />
+                <div>
+                  <p className="font-medium text-sm text-[#1a1a1a]">{kegiatan.penulis_nama ? kegiatan.penulis_nama : "Redaksi Rayon Hasyim Asy'ari"}</p>
+                  <p className="text-[#6b6b6b] text-sm">
+                    {tanggalFormatted}
+                    <span className="mx-1.5">·</span>
+                    {readTime} menit baca
+                  </p>
+                </div>
               </div>
+
+              {/* Share sejajar author */}
+              <ShareButtons
+                judul={kegiatan.judul}
+                deskripsi={kegiatan.deskripsi}
+                url={`https://www.pmiirayonhasyimasyari.my.id/news/${kegiatan.slug}`}
+              />
             </div>
 
             {/* Divider */}
-            <div className="border-t border-[#e5e5e5] my-4" />
-
-            {/* Action row */}
-            <div className="flex items-center justify-between gap-3 mb-8">
-              <div className="flex items-center gap-4">
-                <NewsInteraction
-                  kegiatanId={kegiatan.id}
-                  judul={kegiatan.judul}
-                  deskripsi={kegiatan.deskripsi}
-                  url={`https://www.pmiirayonhasyimasyari.my.id/news/${kegiatan.slug ?? kegiatan.id}`}
-                />
-              </div>
-
-              <div className="flex items-center gap-3">
-                {/* Share — 1 tombol cerdas */}
-                <ShareButtons
-                  judul={kegiatan.judul}
-                  deskripsi={kegiatan.deskripsi}
-                  url={`https://www.pmiirayonhasyimasyari.my.id/news/${kegiatan.slug}`}
-                />
-              </div>
-            </div>
+            <div className="border-t border-[#e5e5e5] mb-8" />
           </article>
         </div>
 
         {/* Hero image — sedikit lebih lebar dari kolom artikel */}
         {kegiatan.foto_url ? (
           <>
-            <div className="max-w-[800px] mx-auto px-6 mb-6">
+            <div className="max-w-[680px] mx-auto px-6 mb-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={kegiatan.foto_url}
@@ -253,26 +241,6 @@ export default async function NewsDetailPage(
               <span className="w-1.5 h-1.5 rounded-full bg-[#b3b3b3]" />
             </div>
 
-            {/* Author bio card */}
-            <div className="bg-[#f9f9f9] rounded-2xl p-6 mb-10">
-              <div className="flex items-start gap-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logorayon.png"
-                  alt="Redaksi"
-                  className="w-16 h-16 rounded-full object-cover flex-shrink-0"
-                />
-                <div className="flex-1">
-                  <p className="font-bold text-lg text-[#1a1a1a] mb-1">Redaksi Rayon Hasyim Asy&apos;ari</p>
-                  <p className="text-sm text-[#6b6b6b] leading-relaxed mb-4">
-                    Redaksi resmi PMII Rayon Hasyim Asy&apos;ari FST UNUGIRI Bojonegoro. Menyajikan informasi kegiatan, kajian, dan perkembangan organisasi.
-                  </p>
-                  <button className="border border-[#1a1a1a] text-[#1a1a1a] rounded-full px-5 py-2 text-sm font-medium hover:bg-[#1a1a1a] hover:text-white transition">
-                    Follow
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Komentar */}

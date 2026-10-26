@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import FadeInUp from "@/components/FadeInUp";
 import ProfileCardAzam from "@/components/ProfileCardAzam";
 import GaleriSlider from "@/components/GaleriSlider";
+import BeritaTerbaru from "@/components/BeritaTerbaru";
 import AspirasiButton from "@/components/AspirasiButton";
 
 const ndpValues = [
@@ -205,6 +206,9 @@ export default function BerandaPage() {
           </div>
         </div>
       </section>
+
+      {/* ── BERITA TERBARU ── */}
+      <BeritaTerbaru />
 
       {/* ── GALERI ── */}
       <GaleriSlider />

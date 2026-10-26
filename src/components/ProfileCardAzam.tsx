@@ -1,12 +1,49 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { supabase } from "@/lib/supabase";
+
+// URL foto Firzan selalu di path ini di bucket 'anggota'
+const FIRZAN_STORAGE_PATH = "_firzan_profile"
+
+function getFirzanUrl() {
+  // Coba semua ekstensi umum — kita simpan versi terbaru dengan cache-bust
+  const { data } = supabase.storage.from("anggota").getPublicUrl(FIRZAN_STORAGE_PATH)
+  return data.publicUrl
+}
 
 export default function ProfileCardAzam() {
   const cardRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
+  const [fotoUrl, setFotoUrl] = useState<string>("/yon azam.webp");
+  const [imgError, setImgError] = useState(false);
+
+  // Fetch foto — ambil dari storage bucket anggota
+  useEffect(() => {
+    async function loadFoto() {
+      const { data: files } = await supabase.storage
+        .from("anggota")
+        .list("", { search: "_firzan_profile" })
+
+      if (files && files.length > 0) {
+        // Sort by updated_at descending — ambil yang paling baru
+        const sorted = [...files].sort((a, b) => {
+          const ta = a.updated_at ? new Date(a.updated_at).getTime() : 0
+          const tb = b.updated_at ? new Date(b.updated_at).getTime() : 0
+          return tb - ta
+        })
+        const latest = sorted[0]
+        const { data } = supabase.storage
+          .from("anggota")
+          .getPublicUrl(latest.name)
+        // Tambah cache-bust agar browser tidak pakai cache lama
+        setFotoUrl(data.publicUrl + "?v=" + new Date(latest.updated_at ?? "").getTime())
+      }
+    }
+    loadFoto()
+  }, []);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -33,17 +70,11 @@ export default function ProfileCardAzam() {
     setHovered(true);
   }
 
-  function onTouchEnd() {
-    mouseX.set(0);
-    mouseY.set(0);
-    setHovered(false);
-  }
+  function onTouchEnd() { mouseX.set(0); mouseY.set(0); setHovered(false); }
+  function onLeave() { mouseX.set(0); mouseY.set(0); setHovered(false); }
 
-  function onLeave() {
-    mouseX.set(0);
-    mouseY.set(0);
-    setHovered(false);
-  }
+  const isExternal = fotoUrl.startsWith("http");
+  const displayUrl = imgError ? "/yon azam.webp" : fotoUrl;
 
   return (
     <div style={{ perspective: 1000 }} className="select-none">
@@ -76,9 +107,7 @@ export default function ProfileCardAzam() {
         <div
           className="relative overflow-hidden"
           style={{
-            width: 300,
-            height: 420,
-            borderRadius: 28,
+            width: 300, height: 420, borderRadius: 28,
             background: "linear-gradient(145deg, #0d1f3c 0%, #001e40 40%, #003070 100%)",
             boxShadow: hovered
               ? "0 40px 80px rgba(0,20,60,0.6), 0 0 0 1px rgba(96,200,255,0.15)"
@@ -96,10 +125,8 @@ export default function ProfileCardAzam() {
           />
 
           {/* Top shimmer line */}
-          <div
-            className="absolute top-0 left-[10%] right-[10%] h-px z-20"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(96,200,255,0.6), transparent)" }}
-          />
+          <div className="absolute top-0 left-[10%] right-[10%] h-px z-20"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(96,200,255,0.6), transparent)" }} />
 
           {/* Decorative orbs */}
           <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 pointer-events-none"
@@ -114,22 +141,31 @@ export default function ProfileCardAzam() {
               animate={{ scale: hovered ? 1.06 : 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <Image
-                src="/yon azam.webp"
-                alt="Sahabat Azam"
-                fill
-                className="object-cover object-top"
-                sizes="300px"
-                priority
-              />
+              {isExternal ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={displayUrl}
+                  alt="Sahabat Firzan"
+                  className="w-full h-full object-cover object-top"
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                <Image
+                  src={displayUrl}
+                  alt="Sahabat Firzan"
+                  fill
+                  className="object-cover object-top"
+                  sizes="300px"
+                  priority
+                />
+              )}
             </motion.div>
-            {/* Photo → info gradient */}
+            {/* Gradient overlay */}
             <div className="absolute inset-0"
-              style={{ background: "linear-gradient(to bottom, rgba(0,30,64,0.05) 0%, rgba(0,20,50,0) 30%, rgba(0,20,50,0.75) 75%, rgba(0,20,50,1) 100%)" }}
-            />
+              style={{ background: "linear-gradient(to bottom, rgba(0,30,64,0.05) 0%, rgba(0,20,50,0) 30%, rgba(0,20,50,0.75) 75%, rgba(0,20,50,1) 100%)" }} />
           </div>
 
-          {/* Top badge PMII only */}
+          {/* PMII badge */}
           <div className="absolute top-4 left-4 z-30">
             <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md border border-white/15 rounded-full pl-1.5 pr-3 py-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -146,23 +182,24 @@ export default function ProfileCardAzam() {
               animate={{ y: hovered ? -2 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              Sahabat Azam
+              Sahabat Firzan
             </motion.h3>
-
             <p className="text-[11px] font-bold text-[#60c8ff] tracking-[0.15em] uppercase mb-4">
               Ketua Rayon Hasyim Asy&apos;ari
             </p>
-
             <div className="h-px mb-4"
-              style={{ background: "linear-gradient(90deg, rgba(96,200,255,0.4), rgba(255,255,255,0.1), transparent)" }}
-            />
-
+              style={{ background: "linear-gradient(90deg, rgba(96,200,255,0.4), rgba(255,255,255,0.1), transparent)" }} />
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#60c8ff]/40 flex-shrink-0">
-                <Image src="/yon azam.webp" alt="mini" width={32} height={32} className="object-cover object-top w-full h-full" />
+                {isExternal ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={displayUrl} alt="mini" className="object-cover object-top w-full h-full" />
+                ) : (
+                  <Image src={displayUrl} alt="mini" width={32} height={32} className="object-cover object-top w-full h-full" />
+                )}
               </div>
               <div>
-                <p className="text-[11px] font-bold text-white/90 leading-none">@sahabatazam</p>
+                <p className="text-[11px] font-bold text-white/90 leading-none">@sahabatfirzan</p>
                 <p className="text-[10px] text-white/40 leading-none mt-0.5">Rayon FST</p>
               </div>
             </div>

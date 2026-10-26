@@ -39,29 +39,18 @@ function initials(name: string): string {
 
 // ─── Heart/Like icon ───────────────────────────────────────────────────────
 
-function HeartIcon({ filled }: { filled?: boolean }) {
-  return (
-    <svg className="w-5 h-5" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'}
-      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-  )
-}
-
-// ─── Bookmark SVG icon ─────────────────────────────────────────────────────
-
-function BookmarkIcon({ filled }: { filled: boolean }) {
+function HeartIcon({ filled, animating }: { filled?: boolean; animating?: boolean }) {
   return (
     <svg
-      className="w-5 h-5"
+      className={`w-6 h-6 transition-all duration-150 ${animating ? 'scale-150' : 'scale-100'}`}
       viewBox="0 0 24 24"
-      fill={filled ? 'currentColor' : 'none'}
-      stroke="currentColor"
+      fill={filled ? '#e8223e' : 'none'}
+      stroke={filled ? '#e8223e' : 'currentColor'}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M5 3h14a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" />
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
   )
 }
@@ -223,30 +212,43 @@ function KomentarItem({
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Default export: Action bar (Apresiasi + Bookmark)
+// Default export: Action bar (Like)
 // ═══════════════════════════════════════════════════════════════════════════
 
 export default function NewsInteraction({ kegiatanId }: Props) {
-  const [count, setCount] = useState(0)
-  const [clapped, setClapped] = useState(false)
+  const [count, setCount] = useState<number | null>(null) // null = belum ter-fetch
+  const [liked, setLiked] = useState(false)
   const [animating, setAnimating] = useState(false)
-  const [fav, setFav] = useState(false)
+  const [isPosting, setIsPosting] = useState(false)
 
-  // Init from localStorage & fetch count
+  // Init: cek localStorage & ambil count dari Supabase
   useEffect(() => {
-    setClapped(localStorage.getItem(`clapped_${kegiatanId}`) === 'true')
-    setFav(localStorage.getItem(`fav_${kegiatanId}`) === 'true')
+    const alreadyLiked = localStorage.getItem(`liked_${kegiatanId}`) === 'true'
+    setLiked(alreadyLiked)
 
     fetch(`/api/apresiasi?kegiatan_id=${encodeURIComponent(kegiatanId)}`)
       .then((r) => r.ok ? r.json() : Promise.resolve({ count: 0 }))
       .then((d) => { if (typeof d.count === 'number') setCount(d.count) })
-      .catch(() => {})
+      .catch(() => setCount(0))
   }, [kegiatanId])
 
-  async function handleClap() {
-    if (clapped) return
+  async function handleLike() {
+    // Sudah like atau sedang posting → block
+    if (liked || isPosting) return
+
+    // Animasi bounce
     setAnimating(true)
-    setTimeout(() => setAnimating(false), 600)
+    setTimeout(() => setAnimating(false), 400)
+
+    // Tandai sudah like di localStorage sebelum request
+    setLiked(true)
+    localStorage.setItem(`liked_${kegiatanId}`, 'true')
+
+    // Update count optimistis
+    setCount((c) => (c ?? 0) + 1)
+
+    // Kirim ke Supabase
+    setIsPosting(true)
     try {
       const res = await fetch('/api/apresiasi', {
         method: 'POST',
@@ -256,52 +258,28 @@ export default function NewsInteraction({ kegiatanId }: Props) {
       const d = await res.json()
       if (typeof d.count === 'number') setCount(d.count)
     } catch {
-      setCount((c) => c + 1)
-    }
-    setClapped(true)
-    localStorage.setItem(`clapped_${kegiatanId}`, 'true')
-  }
-
-  function handleFav() {
-    const next = !fav
-    setFav(next)
-    if (next) {
-      localStorage.setItem(`fav_${kegiatanId}`, 'true')
-    } else {
-      localStorage.removeItem(`fav_${kegiatanId}`)
+      // count sudah diupdate optimistis, biarkan
+    } finally {
+      setIsPosting(false)
     }
   }
 
   return (
     <div className="flex items-center gap-6">
-      {/* Apresiasi */}
+      {/* Like button — sekali per perangkat */}
       <button
-        onClick={handleClap}
-        disabled={clapped}
-        aria-label="Apresiasi"
-        className={`flex flex-col items-center gap-0.5 transition-transform ${
+        onClick={handleLike}
+        disabled={liked}
+        aria-label={liked ? 'Sudah disukai' : 'Suka artikel ini'}
+        className={`relative flex flex-col items-center gap-0.5 focus:outline-none transition-transform ${
           animating ? 'scale-125' : 'scale-100'
-        } ${
-          clapped
-            ? 'text-[#1a1a1a] cursor-not-allowed opacity-70'
-            : 'text-[#6b6b6b] hover:text-[#1a1a1a]'
-        }`}
-        style={{ transition: 'transform 0.2s ease, color 0.15s' }}
+        } ${liked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        style={{ transition: 'transform 0.2s ease' }}
       >
-        <HeartIcon filled={clapped} />
-        <span className="text-[11px] font-medium tabular-nums">{count}</span>
-      </button>
-
-      {/* Favorit */}
-      <button
-        onClick={handleFav}
-        aria-label={fav ? 'Hapus dari favorit' : 'Simpan ke favorit'}
-        className={`flex flex-col items-center gap-0.5 transition ${
-          fav ? 'text-[#1a1a1a]' : 'text-[#6b6b6b] hover:text-[#1a1a1a]'
-        }`}
-      >
-        <BookmarkIcon filled={fav} />
-        <span className="text-[11px] font-medium tabular-nums">{fav ? '1' : '0'}</span>
+        <HeartIcon filled={liked} animating={animating} />
+        <span className={`text-[11px] font-medium tabular-nums ${liked ? 'text-[#e8223e]' : 'text-[#6b6b6b]'}`}>
+          {count === null ? '—' : count}
+        </span>
       </button>
     </div>
   )

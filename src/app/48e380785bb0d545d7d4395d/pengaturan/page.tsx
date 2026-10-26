@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 
 type Penulis = {
@@ -23,6 +23,151 @@ function badgeStatus(status: Penulis['status']) {
   if (status === 'aktif')
     return <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold border bg-green-50 text-green-700 border-green-200">Aktif</span>
   return <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold border bg-gray-100 text-[#6b6b6b] border-[#e5e5e5]">Nonaktif</span>
+}
+
+// ─── Komponen ganti foto Firzan ──────────────────────────────────────────────
+
+function FirzanFotoSection() {
+  const [currentFoto, setCurrentFoto] = useState<string>('/yon azam.webp')
+  const [fotoFile, setFotoFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [msg, setMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    async function loadFoto() {
+      const { data: files } = await supabase.storage
+        .from('anggota')
+        .list('', { search: '_firzan_profile' })
+      if (files && files.length > 0) {
+        const sorted = [...files].sort((a, b) => {
+          const ta = a.updated_at ? new Date(a.updated_at).getTime() : 0
+          const tb = b.updated_at ? new Date(b.updated_at).getTime() : 0
+          return tb - ta
+        })
+        const latest = sorted[0]
+        const { data } = supabase.storage.from('anggota').getPublicUrl(latest.name)
+        setCurrentFoto(data.publicUrl + '?v=' + new Date(latest.updated_at ?? '').getTime())
+      }
+    }
+    loadFoto()
+  }, [])
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setFotoFile(file)
+    setPreview(URL.createObjectURL(file))
+    setMsg(null)
+  }
+
+  async function handleUpload() {
+    if (!fotoFile) return
+    setUploading(true)
+    setMsg(null)
+
+    try {
+      // Hapus semua file _firzan_profile.* yang lama dulu
+      const { data: oldFiles } = await supabase.storage
+        .from('anggota')
+        .list('', { search: '_firzan_profile' })
+      if (oldFiles && oldFiles.length > 0) {
+        await supabase.storage
+          .from('anggota')
+          .remove(oldFiles.map(f => f.name))
+      }
+
+      // Upload file baru
+      const ext = fotoFile.name.split('.').pop()
+      const path = `_firzan_profile.${ext}`
+      const { error: uploadError } = await supabase.storage
+        .from('anggota')
+        .upload(path, fotoFile, { upsert: true })
+
+      if (uploadError) throw uploadError
+
+      const { data: urlData } = supabase.storage.from('anggota').getPublicUrl(path)
+      const publicUrl = urlData.publicUrl + '?t=' + Date.now()
+
+      setCurrentFoto(publicUrl)
+      setFotoFile(null)
+      setPreview(null)
+      if (fileRef.current) fileRef.current.value = ''
+      setMsg({ type: 'success', text: 'Foto Sahabat Firzan berhasil diperbarui!' })
+    } catch {
+      setMsg({ type: 'error', text: 'Gagal upload foto. Coba lagi.' })
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+      <h3 className="font-bold text-[#1a1a1a] mb-1 flex items-center gap-2">
+        <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">portrait</span>
+        Foto Sahabat Firzan
+      </h3>
+      <p className="text-sm text-[#6b6b6b] mb-5">Ganti foto yang tampil di kartu profil halaman beranda.</p>
+
+      <div className="flex flex-col sm:flex-row items-start gap-5">
+        {/* Preview foto */}
+        <div className="flex-shrink-0">
+          <p className="text-xs font-semibold text-[#6b6b6b] mb-2">Foto saat ini</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={preview ?? currentFoto}
+            alt="Foto Firzan"
+            className="w-24 h-32 object-cover object-top rounded-2xl border border-[#e5e5e5]"
+          />
+          {preview && (
+            <p className="text-[11px] text-amber-600 mt-1">Preview — belum disimpan</p>
+          )}
+        </div>
+
+        {/* Upload */}
+        <div className="flex-1 space-y-3 w-full">
+          <div
+            className="border-2 border-dashed border-[#e5e5e5] rounded-2xl p-5 text-center cursor-pointer hover:border-[#1a1a1a] transition"
+            onClick={() => fileRef.current?.click()}
+          >
+            <span className="material-symbols-outlined text-[32px] text-[#6b6b6b]">add_photo_alternate</span>
+            <p className="text-sm text-[#6b6b6b] mt-1">
+              {fotoFile ? fotoFile.name : 'Klik untuk pilih foto'}
+            </p>
+            <p className="text-xs text-[#b3b3b3] mt-0.5">JPG, PNG, WEBP · Maks 5MB</p>
+          </div>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+
+          {msg && (
+            <div className={`flex items-center gap-2 text-sm px-4 py-3 rounded-xl border ${
+              msg.type === 'success' ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'
+            }`}>
+              <span className="material-symbols-outlined text-[18px]">
+                {msg.type === 'success' ? 'check_circle' : 'error'}
+              </span>
+              {msg.text}
+            </div>
+          )}
+
+          <button
+            onClick={handleUpload}
+            disabled={!fotoFile || uploading}
+            className="w-full bg-[#1a1a1a] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#333] transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {uploading && <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>}
+            {uploading ? 'Mengupload...' : 'Simpan Foto'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function AdminPengaturanPage() {
@@ -306,6 +451,9 @@ export default function AdminPengaturanPage() {
           </div>
         )}
       </div>
+
+      {/* Ganti Foto Sahabat Firzan */}
+      <FirzanFotoSection />
 
       {/* Info website */}
       <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
