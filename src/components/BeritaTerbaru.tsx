@@ -143,9 +143,14 @@ export default async function BeritaTerbaru() {
                     <p className="text-[11px] text-[#6b6b6b] mb-1">
                       {formatTanggal(item.tanggal)}
                     </p>
-                    <h4 className="font-semibold text-[13px] text-[#0a1628] leading-snug line-clamp-3 group-hover:text-[#0059bb] transition-colors">
+                    <h4 className="font-semibold text-[13px] text-[#0a1628] leading-snug line-clamp-2 group-hover:text-[#0059bb] transition-colors">
                       {item.judul}
                     </h4>
+                    {item.deskripsi && (
+                      <p className="text-[11px] text-[#6b6b6b] leading-relaxed line-clamp-2 mt-1">
+                        {item.deskripsi}
+                      </p>
+                    )}
                   </div>
                 </Link>
               ))}
