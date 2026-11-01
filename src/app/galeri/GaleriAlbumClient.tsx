@@ -76,7 +76,7 @@ export default function GaleriAlbumClient({ item }: Props) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4">
             <h4 className="text-white text-[14px] font-bold leading-snug line-clamp-1">{item.judul}</h4>
-            {item.keterangan && <p className="text-white/70 text-[12px] mt-0.5">{item.keterangan}</p>}
+            <p className="text-white/70 text-[12px] mt-0.5">{item.keterangan ?? ''}</p>
           </div>
         </div>
       </div>
