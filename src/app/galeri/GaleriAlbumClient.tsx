@@ -41,6 +41,7 @@ export default function GaleriAlbumClient({ item }: Props) {
   const prev = useCallback(() => setIdx(i => (i - 1 + fotos.length) % fotos.length), [fotos.length])
   const next = useCallback(() => setIdx(i => (i + 1) % fotos.length), [fotos.length])
 
+  // Keyboard
   useEffect(() => {
     if (!open) return
     const handler = (e: KeyboardEvent) => {
@@ -52,6 +53,7 @@ export default function GaleriAlbumClient({ item }: Props) {
     return () => window.removeEventListener('keydown', handler)
   }, [open, prev, next])
 
+  // Lock scroll
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -79,11 +81,11 @@ export default function GaleriAlbumClient({ item }: Props) {
         </div>
       </div>
 
-      {/* ── Lightbox full screen ── */}
+      {/* ── Lightbox ── */}
       {open && (
         <div className="fixed inset-0 z-[999] bg-black flex flex-col">
 
-          {/* Header tipis di atas */}
+          {/* Header */}
           <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-4 pt-4 pb-8
             bg-gradient-to-b from-black/70 to-transparent pointer-events-none">
             <div className="pointer-events-auto">
@@ -94,15 +96,16 @@ export default function GaleriAlbumClient({ item }: Props) {
             </div>
             <button
               onClick={close}
-              className="pointer-events-auto w-10 h-10 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/15 rounded-full transition"
+              className="pointer-events-auto w-10 h-10 flex items-center justify-center
+                text-white/80 hover:text-white hover:bg-white/15 rounded-full transition"
             >
               <span className="material-symbols-outlined text-[26px]">close</span>
             </button>
           </div>
 
-          {/* Foto — full screen, object-contain */}
+          {/* Foto — slider CSS translate, SEMUA foto di-render agar cache */}
           <div
-            className="flex-1 flex items-center justify-center relative"
+            className="flex-1 relative overflow-hidden"
             onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
             onTouchEnd={e => {
               const diff = touchStartX.current - e.changedTouches[0].clientX
@@ -110,44 +113,69 @@ export default function GaleriAlbumClient({ item }: Props) {
             }}
           >
             {loading ? (
-              <span className="material-symbols-outlined text-white text-[48px] animate-spin">progress_activity</span>
-            ) : fotos.length > 0 && (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                key={fotos[idx]?.id}
-                src={fotos[idx]?.foto_url}
-                alt={`Foto ${idx + 1}`}
-                className="w-full h-full object-contain select-none"
-                style={{ maxHeight: '100dvh' }}
-              />
-            )}
-
-            {/* Tombol prev / next — transparan, di tepi kiri-kanan */}
-            {!loading && fotos.length > 1 && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="material-symbols-outlined text-white text-[48px] animate-spin">progress_activity</span>
+              </div>
+            ) : (
               <>
-                <button
-                  onClick={prev}
-                  className="absolute left-0 top-0 bottom-0 w-16 flex items-center justify-start pl-2
-                    text-white/0 hover:text-white/80 hover:bg-gradient-to-r hover:from-black/30 hover:to-transparent transition-all"
+                {/* Track: geser dengan translate */}
+                <div
+                  className="absolute inset-0 flex"
+                  style={{
+                    transform: `translateX(-${idx * 100}%)`,
+                    transition: 'transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)',
+                    willChange: 'transform',
+                    width: `${fotos.length * 100}%`,
+                  }}
                 >
-                  <span className="material-symbols-outlined text-[36px] drop-shadow">chevron_left</span>
-                </button>
-                <button
-                  onClick={next}
-                  className="absolute right-0 top-0 bottom-0 w-16 flex items-center justify-end pr-2
-                    text-white/0 hover:text-white/80 hover:bg-gradient-to-l hover:from-black/30 hover:to-transparent transition-all"
-                >
-                  <span className="material-symbols-outlined text-[36px] drop-shadow">chevron_right</span>
-                </button>
+                  {fotos.map((f) => (
+                    <div
+                      key={f.id}
+                      className="flex items-center justify-center"
+                      style={{ width: `${100 / fotos.length}%`, height: '100%' }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={f.foto_url}
+                        alt=""
+                        className="max-w-full max-h-full object-contain select-none"
+                        style={{ maxHeight: '100dvh' }}
+                        draggable={false}
+                        loading="eager"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Tombol prev / next */}
+                {fotos.length > 1 && (
+                  <>
+                    <button
+                      onClick={prev}
+                      className="absolute left-0 top-0 bottom-0 w-16 flex items-center justify-start pl-2
+                        text-transparent hover:text-white/80
+                        hover:bg-gradient-to-r hover:from-black/30 hover:to-transparent transition-all"
+                    >
+                      <span className="material-symbols-outlined text-[36px] drop-shadow">chevron_left</span>
+                    </button>
+                    <button
+                      onClick={next}
+                      className="absolute right-0 top-0 bottom-0 w-16 flex items-center justify-end pr-2
+                        text-transparent hover:text-white/80
+                        hover:bg-gradient-to-l hover:from-black/30 hover:to-transparent transition-all"
+                    >
+                      <span className="material-symbols-outlined text-[36px] drop-shadow">chevron_right</span>
+                    </button>
+                  </>
+                )}
               </>
             )}
           </div>
 
-          {/* Dot + thumbnail bar bawah */}
+          {/* Bar bawah: dot + thumbnail */}
           {!loading && fotos.length > 1 && (
             <div className="absolute bottom-0 left-0 right-0 z-10
               bg-gradient-to-t from-black/70 to-transparent flex flex-col items-center pb-4 pt-8 gap-2">
-
               {/* Dots */}
               <div className="flex gap-1.5">
                 {fotos.map((_, i) => (
@@ -160,8 +188,7 @@ export default function GaleriAlbumClient({ item }: Props) {
                   />
                 ))}
               </div>
-
-              {/* Thumbnail strip geser */}
+              {/* Thumbnails */}
               <div
                 className="flex gap-2 overflow-x-auto px-4 w-full justify-center"
                 style={{ scrollbarWidth: 'none' }}
@@ -175,7 +202,7 @@ export default function GaleriAlbumClient({ item }: Props) {
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={f.foto_url} alt="" className="w-full h-full object-cover" />
+                    <img src={f.foto_url} alt="" className="w-full h-full object-cover" loading="eager" />
                   </button>
                 ))}
               </div>
