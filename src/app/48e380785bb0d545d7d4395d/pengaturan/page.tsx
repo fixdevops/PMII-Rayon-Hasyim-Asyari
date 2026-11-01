@@ -103,7 +103,7 @@ function FirzanFotoSection() {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+    <div className="bg-white border border-[#e5e5e5] shadow-sm p-6">
       <h3 className="font-bold text-[#1a1a1a] mb-1 flex items-center gap-2">
         <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">portrait</span>
         Foto Sahabat Firzan
@@ -268,14 +268,14 @@ export default function AdminPengaturanPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-lg">
+    <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-[#1a1a1a]">Pengaturan</h2>
         <p className="text-sm text-[#6b6b6b] mt-0.5">Kelola akun dan konfigurasi admin</p>
       </div>
 
       {/* Info akun */}
-      <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+      <div className="bg-white border border-[#e5e5e5] shadow-sm p-6">
         <h3 className="font-bold text-[#1a1a1a] mb-4 flex items-center gap-2">
           <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">manage_accounts</span>
           Info Akun
@@ -292,7 +292,7 @@ export default function AdminPengaturanPage() {
       </div>
 
       {/* Ganti password */}
-      <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+      <div className="bg-white border border-[#e5e5e5] shadow-sm p-6">
         <h3 className="font-bold text-[#1a1a1a] mb-4 flex items-center gap-2">
           <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">lock_reset</span>
           Ganti Password
@@ -336,7 +336,7 @@ export default function AdminPengaturanPage() {
       </div>
 
       {/* Manajemen Penulis */}
-      <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+      <div className="bg-white border border-[#e5e5e5] shadow-sm p-6">
         <h3 className="font-bold text-[#1a1a1a] mb-1 flex items-center gap-2">
           <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">group</span>
           Manajemen Penulis
@@ -456,7 +456,7 @@ export default function AdminPengaturanPage() {
       <FirzanFotoSection />
 
       {/* Info website */}
-      <div className="bg-white rounded-2xl border border-[#e5e5e5] shadow-sm p-6">
+      <div className="bg-white border border-[#e5e5e5] shadow-sm p-6">
         <h3 className="font-bold text-[#1a1a1a] mb-4 flex items-center gap-2">
           <span className="material-symbols-outlined text-[20px] text-[#1a1a1a]">info</span>
           Informasi Sistem
