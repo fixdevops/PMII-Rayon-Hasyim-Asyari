@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { GaleriItem } from './page'
 
@@ -19,6 +19,7 @@ export default function GaleriAlbumClient({ item }: Props) {
   const [fotos, setFotos] = useState<GaleriFoto[]>([])
   const [idx, setIdx] = useState(0)
   const [loading, setLoading] = useState(false)
+  const touchStartX = useRef(0)
 
   const openAlbum = async () => {
     setOpen(true)
@@ -40,7 +41,6 @@ export default function GaleriAlbumClient({ item }: Props) {
   const prev = useCallback(() => setIdx(i => (i - 1 + fotos.length) % fotos.length), [fotos.length])
   const next = useCallback(() => setIdx(i => (i + 1) % fotos.length), [fotos.length])
 
-  // Keyboard
   useEffect(() => {
     if (!open) return
     const handler = (e: KeyboardEvent) => {
@@ -52,21 +52,10 @@ export default function GaleriAlbumClient({ item }: Props) {
     return () => window.removeEventListener('keydown', handler)
   }, [open, prev, next])
 
-  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
-
-  // Touch/swipe support
-  const touchStartX = useState<number>(0)
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX[1](e.touches[0].clientX)
-  }
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diff = touchStartX[0] - e.changedTouches[0].clientX
-    if (Math.abs(diff) > 50) diff > 0 ? next() : prev()
-  }
 
   return (
     <>
@@ -86,106 +75,113 @@ export default function GaleriAlbumClient({ item }: Props) {
           <div className="absolute bottom-0 left-0 right-0 p-4">
             <h4 className="text-white text-[14px] font-bold leading-snug line-clamp-1">{item.judul}</h4>
             {item.keterangan && <p className="text-white/70 text-[12px] mt-0.5">{item.keterangan}</p>}
-            <span className="flex items-center gap-1 text-white/60 text-[11px] mt-1.5">
-              <span className="material-symbols-outlined text-[13px]">collections</span>
-              Klik untuk lihat foto
-            </span>
           </div>
         </div>
       </div>
 
-      {/* ── Lightbox Slider ── */}
+      {/* ── Lightbox full screen ── */}
       {open && (
-        <div
-          className="fixed inset-0 z-[999] flex flex-col bg-black/95"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 flex-shrink-0">
-            <div>
-              <p className="text-white font-bold text-[15px]">{item.judul}</p>
-              <p className="text-white/50 text-[13px]">
-                {loading ? 'Memuat...' : `${idx + 1} / ${fotos.length} foto`}
+        <div className="fixed inset-0 z-[999] bg-black flex flex-col">
+
+          {/* Header tipis di atas */}
+          <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-4 pt-4 pb-8
+            bg-gradient-to-b from-black/70 to-transparent pointer-events-none">
+            <div className="pointer-events-auto">
+              <p className="text-white font-semibold text-[14px] leading-tight">{item.judul}</p>
+              <p className="text-white/50 text-[12px]">
+                {loading ? 'Memuat...' : `${idx + 1} / ${fotos.length}`}
               </p>
             </div>
             <button
               onClick={close}
-              className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition"
+              className="pointer-events-auto w-10 h-10 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/15 rounded-full transition"
             >
               <span className="material-symbols-outlined text-[26px]">close</span>
             </button>
           </div>
 
-          {/* Foto Utama */}
-          <div className="flex-1 flex items-center justify-center relative overflow-hidden px-14">
+          {/* Foto — full screen, object-contain */}
+          <div
+            className="flex-1 flex items-center justify-center relative"
+            onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+            onTouchEnd={e => {
+              const diff = touchStartX.current - e.changedTouches[0].clientX
+              if (Math.abs(diff) > 40) diff > 0 ? next() : prev()
+            }}
+          >
             {loading ? (
               <span className="material-symbols-outlined text-white text-[48px] animate-spin">progress_activity</span>
-            ) : fotos.length > 0 ? (
+            ) : fotos.length > 0 && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                key={fotos[idx]?.id}
+                src={fotos[idx]?.foto_url}
+                alt={`Foto ${idx + 1}`}
+                className="w-full h-full object-contain select-none"
+                style={{ maxHeight: '100dvh' }}
+              />
+            )}
+
+            {/* Tombol prev / next — transparan, di tepi kiri-kanan */}
+            {!loading && fotos.length > 1 && (
               <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  key={fotos[idx]?.id}
-                  src={fotos[idx]?.foto_url}
-                  alt={`Foto ${idx + 1}`}
-                  className="max-h-full max-w-full object-contain rounded-xl select-none"
-                  style={{ maxHeight: 'calc(100vh - 200px)' }}
-                />
-                {fotos.length > 1 && (
-                  <>
-                    <button
-                      onClick={prev}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/25 text-white rounded-full flex items-center justify-center transition"
-                    >
-                      <span className="material-symbols-outlined text-[28px]">chevron_left</span>
-                    </button>
-                    <button
-                      onClick={next}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/25 text-white rounded-full flex items-center justify-center transition"
-                    >
-                      <span className="material-symbols-outlined text-[28px]">chevron_right</span>
-                    </button>
-                  </>
-                )}
+                <button
+                  onClick={prev}
+                  className="absolute left-0 top-0 bottom-0 w-16 flex items-center justify-start pl-2
+                    text-white/0 hover:text-white/80 hover:bg-gradient-to-r hover:from-black/30 hover:to-transparent transition-all"
+                >
+                  <span className="material-symbols-outlined text-[36px] drop-shadow">chevron_left</span>
+                </button>
+                <button
+                  onClick={next}
+                  className="absolute right-0 top-0 bottom-0 w-16 flex items-center justify-end pr-2
+                    text-white/0 hover:text-white/80 hover:bg-gradient-to-l hover:from-black/30 hover:to-transparent transition-all"
+                >
+                  <span className="material-symbols-outlined text-[36px] drop-shadow">chevron_right</span>
+                </button>
               </>
-            ) : null}
+            )}
           </div>
 
-          {/* Thumbnail strip */}
-          {fotos.length > 1 && (
-            <div
-              className="flex-shrink-0 flex gap-2 overflow-x-auto px-5 py-3 justify-center"
-              style={{ scrollbarWidth: 'none' }}
-            >
-              {fotos.map((f, i) => (
-                <button
-                  key={f.id}
-                  onClick={() => setIdx(i)}
-                  className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${
-                    i === idx ? 'border-white scale-110' : 'border-transparent opacity-50 hover:opacity-80'
-                  }`}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={f.foto_url} alt="" className="w-full h-full object-cover" />
-                </button>
-              ))}
+          {/* Dot + thumbnail bar bawah */}
+          {!loading && fotos.length > 1 && (
+            <div className="absolute bottom-0 left-0 right-0 z-10
+              bg-gradient-to-t from-black/70 to-transparent flex flex-col items-center pb-4 pt-8 gap-2">
+
+              {/* Dots */}
+              <div className="flex gap-1.5">
+                {fotos.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setIdx(i)}
+                    className={`rounded-full transition-all duration-200 ${
+                      i === idx ? 'w-5 h-2 bg-white' : 'w-2 h-2 bg-white/40'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Thumbnail strip geser */}
+              <div
+                className="flex gap-2 overflow-x-auto px-4 w-full justify-center"
+                style={{ scrollbarWidth: 'none' }}
+              >
+                {fotos.map((f, i) => (
+                  <button
+                    key={f.id}
+                    onClick={() => setIdx(i)}
+                    className={`flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${
+                      i === idx ? 'border-white scale-110' : 'border-transparent opacity-40 hover:opacity-70'
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={f.foto_url} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* Dot indicator (kalau foto sedikit) */}
-          {fotos.length > 1 && fotos.length <= 10 && (
-            <div className="flex justify-center gap-1.5 pb-4">
-              {fotos.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setIdx(i)}
-                  className={`rounded-full transition-all ${
-                    i === idx ? 'w-5 h-2 bg-white' : 'w-2 h-2 bg-white/30'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       )}
     </>
