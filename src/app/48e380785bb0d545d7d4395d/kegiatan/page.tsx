@@ -48,6 +48,7 @@ export default function AdminKegiatanPage() {
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -64,6 +65,7 @@ export default function AdminKegiatanPage() {
     setCurrentFotoUrl(null)
     setFotoFile(null)
     setFotoPreview(null)
+    setIsFullscreen(false)
     setShowModal(true)
   }
 
@@ -77,6 +79,7 @@ export default function AdminKegiatanPage() {
     setCurrentFotoUrl(k.foto_url)
     setFotoFile(null)
     setFotoPreview(k.foto_url)
+    setIsFullscreen(false)
     setShowModal(true)
   }
 
@@ -244,14 +247,35 @@ export default function AdminKegiatanPage() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 sticky top-0 bg-white z-10">
+          <div className={`bg-white shadow-2xl flex flex-col transition-all duration-300 ${
+            isFullscreen
+              ? 'fixed inset-0 rounded-none w-full h-full'
+              : 'rounded-2xl w-full max-w-2xl max-h-[90vh]'
+          }`}>
+            {/* Header sticky */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
               <h3 className="font-bold text-[#0a1628]">{editId ? 'Edit Kegiatan' : 'Tambah Kegiatan'}</h3>
-              <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-gray-100 transition">
-                <span className="material-symbols-outlined text-[20px]">close</span>
-              </button>
+              <div className="flex items-center gap-1">
+                {/* Tombol Minimize / Maximize */}
+                <button
+                  onClick={() => setIsFullscreen(v => !v)}
+                  title={isFullscreen ? 'Perkecil' : 'Perbesar'}
+                  className="p-1.5 rounded-lg hover:bg-gray-100 transition"
+                >
+                  <span className="material-symbols-outlined text-[20px] text-gray-500">
+                    {isFullscreen ? 'close_fullscreen' : 'open_in_full'}
+                  </span>
+                </button>
+                {/* Tombol Tutup */}
+                <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-gray-100 transition">
+                  <span className="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
             </div>
-            <div className="p-6 space-y-4">
+
+            {/* Scrollable content */}
+            <div className={`overflow-y-auto flex-1 ${isFullscreen ? 'px-8 py-6' : 'p-6'}`}>
+              <div className={`space-y-4 ${isFullscreen ? 'max-w-4xl mx-auto' : ''}`}>
 
               {/* Upload foto */}
               <div>
@@ -324,18 +348,22 @@ export default function AdminKegiatanPage() {
                   placeholder="Tulis isi berita/kegiatan lengkap di sini..."
                 />
               </div>
+              </div>
             </div>
 
-            <div className="flex gap-3 px-6 pb-6">
-              <button onClick={() => setShowModal(false)}
-                className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50 transition">
-                Batal
-              </button>
-              <button onClick={handleSave} disabled={isBusy || !form.judul || !form.tanggal}
-                className="flex-1 bg-[#0059bb] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition disabled:opacity-60 flex items-center justify-center gap-2">
-                {isBusy && <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>}
-                {uploading ? 'Mengupload...' : saving ? 'Menyimpan...' : editId ? 'Simpan Perubahan' : 'Tambahkan'}
-              </button>
+            {/* Footer sticky */}
+            <div className={`flex gap-3 px-6 pb-6 pt-4 border-t border-gray-100 flex-shrink-0 ${isFullscreen ? 'px-8 pb-6' : ''}`}>
+              <div className={`flex gap-3 w-full ${isFullscreen ? 'max-w-4xl mx-auto' : ''}`}>
+                <button onClick={() => setShowModal(false)}
+                  className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50 transition">
+                  Batal
+                </button>
+                <button onClick={handleSave} disabled={isBusy || !form.judul || !form.tanggal}
+                  className="flex-1 bg-[#0059bb] text-white py-2.5 rounded-xl text-sm font-bold hover:bg-[#0047a0] transition disabled:opacity-60 flex items-center justify-center gap-2">
+                  {isBusy && <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>}
+                  {uploading ? 'Mengupload...' : saving ? 'Menyimpan...' : editId ? 'Simpan Perubahan' : 'Tambahkan'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
